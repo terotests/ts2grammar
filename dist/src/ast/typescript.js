@@ -1,20 +1,25 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // SimpleArrowFunctionExpression |
+var TernaryOperator = /** @class */ (function () {
+    function TernaryOperator() {
+        this.start = ' ? ';
+        this.separator = ' : ';
+        this.precedence = 4;
+    }
+    return TernaryOperator;
+}());
+exports.TernaryOperator = TernaryOperator;
 var TypeDefinition = /** @class */ (function () {
     function TypeDefinition() {
-        this.spaceBefore = ' ';
-        this.start = ':';
-        this.spaceAfter = ' ';
+        this.start = ' : ';
     }
     return TypeDefinition;
 }());
 exports.TypeDefinition = TypeDefinition;
 var ParamInitializer = /** @class */ (function () {
     function ParamInitializer() {
-        this.spaceBefore = ' ';
-        this.start = '=';
-        this.spaceAfter = ' ';
+        this.start = ' = ';
         this.precedence = 3;
     }
     return ParamInitializer;
@@ -22,17 +27,15 @@ var ParamInitializer = /** @class */ (function () {
 exports.ParamInitializer = ParamInitializer;
 var ParameterListItemTail = /** @class */ (function () {
     function ParameterListItemTail() {
-        this.start = ',';
+        this.start = ' , ';
     }
     return ParameterListItemTail;
 }());
 exports.ParameterListItemTail = ParameterListItemTail;
 var ParameterList = /** @class */ (function () {
     function ParameterList() {
-        this.spaceBefore = ' ';
-        this.start = '(';
-        this.end = ')';
-        this.spaceAfter = ' ';
+        this.start = ' ( ';
+        this.end = ' ) ';
         this.precedence = 20;
     }
     return ParameterList;
@@ -47,8 +50,8 @@ var CallParameterListTail = /** @class */ (function () {
 exports.CallParameterListTail = CallParameterListTail;
 var CallParameterList = /** @class */ (function () {
     function CallParameterList() {
-        this.start = '(';
-        this.end = ')';
+        this.start = ' ( ';
+        this.end = ' ) ';
         this.precedence = 20;
     }
     return CallParameterList;
@@ -56,9 +59,7 @@ var CallParameterList = /** @class */ (function () {
 exports.CallParameterList = CallParameterList;
 var NewExpressionWithArgs = /** @class */ (function () {
     function NewExpressionWithArgs() {
-        this.spaceBeforeNew = ' ';
-        this.start = 'new';
-        this.spaceBefore = ' ';
+        this.start = ' new ';
         this.precedence = 19;
     }
     return NewExpressionWithArgs;
@@ -66,9 +67,7 @@ var NewExpressionWithArgs = /** @class */ (function () {
 exports.NewExpressionWithArgs = NewExpressionWithArgs;
 var NewExpressionWithoutArgs = /** @class */ (function () {
     function NewExpressionWithoutArgs() {
-        this.spaceBeforeNew = ' ';
-        this.start = 'new';
-        this.spaceBefore = ' ';
+        this.start = ' new ';
         this.precedence = 18;
     }
     return NewExpressionWithoutArgs;
@@ -76,9 +75,9 @@ var NewExpressionWithoutArgs = /** @class */ (function () {
 exports.NewExpressionWithoutArgs = NewExpressionWithoutArgs;
 var FunctionExpression = /** @class */ (function () {
     function FunctionExpression() {
-        this.start = 'function';
-        this.startBlock = '{';
-        this.endBlock = '}';
+        this.start = ' function ';
+        this.startBlock = ' { ';
+        this.endBlock = ' } ';
     }
     return FunctionExpression;
 }());
@@ -132,29 +131,24 @@ var ObjectLiteralTail = /** @class */ (function () {
     return ObjectLiteralTail;
 }());
 exports.ObjectLiteralTail = ObjectLiteralTail;
-var ArrayLiteralEntry = /** @class */ (function () {
-    function ArrayLiteralEntry() {
-        this.spaceFill = ' ';
-    }
-    return ArrayLiteralEntry;
-}());
-exports.ArrayLiteralEntry = ArrayLiteralEntry;
-var ArrayLiteralTail = /** @class */ (function () {
-    function ArrayLiteralTail() {
-        this.spaceFill = ' ';
-        this.start = ',';
-    }
-    return ArrayLiteralTail;
-}());
-exports.ArrayLiteralTail = ArrayLiteralTail;
 var ArrayLiteral = /** @class */ (function () {
     function ArrayLiteral() {
         this.begin = '[';
+        this.spaceFill = ' ';
         this.end = ']';
     }
     return ArrayLiteral;
 }());
 exports.ArrayLiteral = ArrayLiteral;
+var ArrayLiteralTail = /** @class */ (function () {
+    function ArrayLiteralTail() {
+        this.spaceFill = ' ';
+        this.start = ',';
+        this.spaceFillBeforeValue = ' ';
+    }
+    return ArrayLiteralTail;
+}());
+exports.ArrayLiteralTail = ArrayLiteralTail;
 var ConstDeclaration = /** @class */ (function () {
     function ConstDeclaration() {
         this.constKeyword = 'const';
@@ -167,6 +161,20 @@ var ConstDeclaration = /** @class */ (function () {
     return ConstDeclaration;
 }());
 exports.ConstDeclaration = ConstDeclaration;
+/*
+export class TrueLiteral  {
+  spaceBefore? = ' '
+  tag = 'true'
+  spaceAfter? = ' '
+}
+*/
+/*
+export class FalseLiteral  {
+  spaceBefore? = ' '
+  tag = 'false'
+  spaceAfter? = ' '
+}
+*/
 var TNumber = /** @class */ (function () {
     function TNumber() {
         this.spaceBefore = ' ';
@@ -177,8 +185,6 @@ var TNumber = /** @class */ (function () {
 exports.TNumber = TNumber;
 var Token = /** @class */ (function () {
     function Token() {
-        this.spaceBefore = ' ';
-        this.spaceAfter = ' ';
     }
     return Token;
 }());
@@ -220,9 +226,7 @@ var PlusExpression = /** @class */ (function () {
 exports.PlusExpression = PlusExpression;
 var MultiplyExpression = /** @class */ (function () {
     function MultiplyExpression() {
-        this.spaceBefore = ' ';
-        this.op = '*';
-        this.spaceAfter = ' ';
+        this.op = ' * ';
         this.precedence = 14;
     }
     return MultiplyExpression;
@@ -230,8 +234,8 @@ var MultiplyExpression = /** @class */ (function () {
 exports.MultiplyExpression = MultiplyExpression;
 var ParenExpression = /** @class */ (function () {
     function ParenExpression() {
-        this.leftParen = '(';
-        this.rightParen = ')';
+        this.leftParen = ' ( ';
+        this.rightParen = ' ) ';
     }
     return ParenExpression;
 }());

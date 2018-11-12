@@ -1,17 +1,21 @@
 export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithArgs | NewExpressionWithoutArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression;
-export declare class TypeDefinition {
-    spaceBefore?: string;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithArgs | NewExpressionWithoutArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator;
+export declare class TernaryOperator {
+    condition: ExpressionType;
     start: string;
-    spaceAfter?: string;
+    whentrue?: ExpressionType;
+    separator: string;
+    whenfalse?: ExpressionType;
+    precedence: number;
+}
+export declare class TypeDefinition {
+    start: string;
     value: Token;
 }
 export declare class ParamInitializer {
-    spaceBefore?: string;
     start: string;
-    spaceAfter?: string;
     value: ExpressionType;
     precedence: number;
 }
@@ -23,14 +27,12 @@ export declare class ParameterListItemTail {
     tail?: ParameterListItemTail;
 }
 export declare class ParameterList {
-    spaceBefore?: string;
     start: string;
     head?: Token;
     typedef?: TypeDefinition;
     initializer?: ParamInitializer;
     tail?: ParameterListItemTail;
     end: string;
-    spaceAfter?: string;
     precedence: number;
 }
 export declare class CallParameterListTail {
@@ -46,17 +48,13 @@ export declare class CallParameterList {
     precedence: number;
 }
 export declare class NewExpressionWithArgs {
-    spaceBeforeNew?: string;
     start: string;
-    spaceBefore?: string;
     className: Token;
     params: CallParameterList;
     precedence: number;
 }
 export declare class NewExpressionWithoutArgs {
-    spaceBeforeNew?: string;
     start: string;
-    spaceBefore?: string;
     className: Token;
     precedence: number;
 }
@@ -106,21 +104,19 @@ export declare class ObjectLiteralTail {
     head: ObjectLiteralEntry;
     tail?: ObjectLiteralTail;
 }
-export declare class ArrayLiteralEntry {
+export declare class ArrayLiteral {
+    begin: string;
     spaceFill?: string;
-    value: ExpressionType;
+    head?: ExpressionType;
+    tail?: ArrayLiteralTail;
+    end: string;
 }
 export declare class ArrayLiteralTail {
     spaceFill?: string;
     start: string;
-    head: ArrayLiteralEntry;
+    spaceFillBeforeValue?: string;
+    value: ExpressionType;
     tail?: ArrayLiteralTail;
-}
-export declare class ArrayLiteral {
-    begin: string;
-    head?: ArrayLiteralEntry;
-    tail?: ArrayLiteralTail;
-    end: string;
 }
 export declare class ConstDeclaration {
     constKeyword: string;
@@ -139,9 +135,7 @@ export declare class TNumber {
     spaceAfter?: string;
 }
 export declare class Token {
-    spaceBefore?: string;
     name: string;
-    spaceAfter?: string;
 }
 export declare class TNumberToken {
     prefix?: string;
@@ -170,9 +164,7 @@ export declare class PlusExpression {
 }
 export declare class MultiplyExpression {
     left: BinaryExpressionPart;
-    spaceBefore?: string;
     op: string;
-    spaceAfter?: string;
     right: BinaryExpressionPart;
     precedence: number;
 }

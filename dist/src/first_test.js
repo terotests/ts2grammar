@@ -324,10 +324,14 @@ function HelloWorld() {
     //cc.str = '{cnt:1, obj: new foobar(), name:"Seppo", someFn : x => ( x + 2 ) , what:x=>(x+2),jaa:x=>(x+y+u) }'
     // cc.str = '{cnt:function jaa(){}, obj: new foobar(), name:"Seppo", someFn : x => ( x + 2 ) , what:x=>(x+2),jaa:x=>(x+y+u) }'
     // cc.str = '{m: y*z+x, fn: async (x:number) => x + 1, arr: [1,new foo.bar]}'
-    cc.str = '[new foo.bar, new foo().bar]';
+    // cc.str = '[new foo.bar, new foo().bar]'
     // cc.str = 'const myFn = x => (x + y);'
+    /// cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )'
+    cc.str = "\nfunction hello( message:string ) {\n\n}  \n  ";
     cc.index = 0;
+    console.time('compiletime');
     activeOp = PNew.WalkNode(cc).node;
+    console.timeEnd('compiletime');
     console.log(JSON.stringify(activeOp, null, 2));
     return 'Hello World!';
 }

@@ -15,26 +15,34 @@ export type ExpressionType =  SimpleArrowFunctionExpression
   | ObjectLiteral
   | ArrayLiteral
   | FunctionExpression
+  | TernaryOperator
+
   
 // SimpleArrowFunctionExpression |
 
+
+export class TernaryOperator {
+  condition:ExpressionType
+  start = ' ? '
+  whentrue?: ExpressionType
+  separator = ' : '
+  whenfalse?: ExpressionType
+  precedence = 4
+}
+
 export class TypeDefinition {
-  spaceBefore? = ' '
-  start = ':'
-  spaceAfter? = ' '
+  start = ' : '
   value: Token
 }
 
 export class ParamInitializer {
-  spaceBefore? = ' '
-  start = '='
-  spaceAfter? = ' '
+  start = ' = '
   value: ExpressionType
   precedence = 3
 }
 
 export class ParameterListItemTail {
-  start = ','
+  start = ' , '
   head: Token
   typedef?:TypeDefinition
   initializer?:ParamInitializer
@@ -42,14 +50,12 @@ export class ParameterListItemTail {
 }
 
 export class ParameterList {
-  spaceBefore? = ' '
-  start = '('
+  start = ' ( '
   head?:Token
   typedef?:TypeDefinition
   initializer?:ParamInitializer
   tail?:ParameterListItemTail
-  end = ')'
-  spaceAfter? = ' '
+  end = ' ) '
   precedence = 20
 }
 
@@ -60,36 +66,32 @@ export class CallParameterListTail {
 }
 
 export class CallParameterList {
-  start = '('
+  start = ' ( '
   head?:ExpressionType
   tail?:CallParameterListTail
-  end = ')'
+  end = ' ) '
   precedence = 20
 }
 
 export class NewExpressionWithArgs {
-  spaceBeforeNew? = ' '
-  start = 'new'
-  spaceBefore? = ' '
+  start = ' new '
   className: Token
   params:CallParameterList
   precedence = 19
 }
 
 export class NewExpressionWithoutArgs {
-  spaceBeforeNew? = ' '
-  start = 'new'
-  spaceBefore? = ' '
+  start = ' new '
   className: Token
   precedence = 18
 }
 
 export class FunctionExpression {
-  start = 'function'
+  start = ' function '
   name:Token
   params:ParameterList
-  startBlock = '{'
-  endBlock = '}'
+  startBlock = ' { '
+  endBlock = ' } '
 }
 
 export class SimpleArrowFunctionExpression {
@@ -136,24 +138,23 @@ export class ObjectLiteralTail {
   tail?:ObjectLiteralTail
 }
 
-export class ArrayLiteralEntry {
+export class ArrayLiteral {
+  begin = '['
   spaceFill? = ' '
-  value: ExpressionType
+  head?: ExpressionType
+  tail?: ArrayLiteralTail
+  end = ']'
 }
 
 export class ArrayLiteralTail {
   spaceFill? = ' '
   start = ','  
-  head: ArrayLiteralEntry
+  spaceFillBeforeValue? = ' '
+  value: ExpressionType
   tail?: ArrayLiteralTail
 }
 
-export class ArrayLiteral {
-  begin = '['
-  head?: ArrayLiteralEntry
-  tail?: ArrayLiteralTail
-  end = ']'
-}
+
 
 export class ConstDeclaration {
   constKeyword = 'const'
@@ -167,6 +168,23 @@ export class ConstDeclaration {
   statementEnd? = ';'
 }
 
+/*
+export class TrueLiteral  {
+  spaceBefore? = ' '
+  tag = 'true'  
+  spaceAfter? = ' '
+}
+*/
+/*
+export class FalseLiteral  {
+  spaceBefore? = ' '
+  tag = 'false'  
+  spaceAfter? = ' '
+}
+*/
+
+
+
 export class TNumber  {
   spaceBefore? = ' '
   value:number  
@@ -174,9 +192,7 @@ export class TNumber  {
 }
 
 export class Token  {
-  spaceBefore? = ' '
   name:string  
-  spaceAfter? = ' '
 }
 
 export class TNumberToken  {
@@ -210,15 +226,13 @@ export class PlusExpression {
 
 export class MultiplyExpression {
   left: BinaryExpressionPart
-  spaceBefore? = ' '
-  op = '*'
-  spaceAfter? = ' '
+  op = ' * '
   right: BinaryExpressionPart  
   precedence = 14
 }
 
 export class ParenExpression {
-  leftParen = '('
+  leftParen = ' ( '
   expr:ExpressionType  
-  rightParen = ')'
+  rightParen = ' ) '
 }

@@ -179,6 +179,11 @@ function createProject(settings) {
                                 meta.indent(-1)
                                 meta.out(`}`, true)
                                 */
+                                methods.out("constructor() {", true);
+                                methods.indent(1);
+                                var constr_1 = methods.fork();
+                                methods.indent(-1);
+                                methods.out("}", true);
                                 methods.out("consume(code:CodeToConsume) : " + c.getName() + " | null {", true);
                                 methods.indent(1);
                                 // methods.out(`console.log('Testing ${c.getName()}', this)`, true)
@@ -200,7 +205,9 @@ function createProject(settings) {
                                 */
                                 var hadPred_1 = false;
                                 var freeVariables_1 = [];
+                                var trimOpts_1 = {};
                                 c.getProperties().forEach(function (p) {
+                                    trimOpts_1[p.getName()] = { left: false, right: false };
                                     if (p.getName() === 'precedence') {
                                         body_1.out(p.print(), true);
                                         hadPred_1 = true;
@@ -226,17 +233,50 @@ function createProject(settings) {
                                         console.log(p.getInitializer().print());
                                         // console.log( p.getInitializer().getType() )
                                         var initVal = p.getInitializer().print();
-                                        if (isNaN(parseFloat(initVal)) && !usedKeywords[initVal]) {
-                                            keywordList.out(initVal + " : true,", true);
-                                            usedKeywords[initVal] = true;
+                                        var apparentType = init.getApparentType();
+                                        var keywordValue = initVal;
+                                        if (apparentType) {
+                                            var s = apparentType.getSymbol();
+                                            if (s) {
+                                                if (s.getEscapedName() == 'String') {
+                                                    if (initVal.length > 3) {
+                                                        console.log('LEN ', initVal.length);
+                                                        var hasSpace = false;
+                                                        if (initVal.charAt(1) == ' ') {
+                                                            trimOpts_1[p.getName()].left = true;
+                                                            console.log('BEGINS with space');
+                                                            hasSpace = true;
+                                                        }
+                                                        if (initVal.charAt(initVal.length - 2) == ' ') {
+                                                            trimOpts_1[p.getName()].right = true;
+                                                            console.log('ENDS with space');
+                                                            hasSpace = true;
+                                                        }
+                                                        if (hasSpace) {
+                                                            constr_1.out("this." + p.getName() + " = this." + p.getName() + ".trim()", true);
+                                                        }
+                                                    }
+                                                }
+                                                // console.log('Apparent Type: ', s.getEscapedName())
+                                            }
+                                        }
+                                        if (isNaN(parseFloat(keywordValue)) && !usedKeywords[keywordValue]) {
+                                            keywordList.out("[" + keywordValue + ".trim()] : true,", true);
+                                            usedKeywords[keywordValue] = true;
                                         }
                                         consumer_1.out("if(typeof(this." + p.getName() + ") === 'string') {", true);
                                         consumer_1.indent(1);
+                                        if (trimOpts_1[p.getName()].left) {
+                                            consumer_1.out("start.removeSpace()", true);
+                                        }
                                         if (p.hasQuestionToken()) {
                                             consumer_1.out("if(!start.consume(this." + p.getName() + ")) this." + p.getName() + " = '' ", true);
                                         }
                                         else {
                                             consumer_1.out("if( !start.consume(this." + p.getName() + ") ) return null", true);
+                                        }
+                                        if (trimOpts_1[p.getName()].right) {
+                                            consumer_1.out("start.removeSpace()", true);
                                         }
                                         consumer_1.indent(-1);
                                         consumer_1.out("}", true);
@@ -401,94 +441,11 @@ function createProject(settings) {
                                 body_1.indent(-1);
                                 body_1.out("}", true);
                             }
-                            /*
-                            if(c.getName() === 'PlusExpression') {
-                              c.getImplements().forEach( imp => {
-                                console.log(imp.getExpression().getText())
-                                // console.log(imp.getExpression())
-                                // console.log(imp.getTypeArguments())
-                              })
-                            }
-                      
-                            if( c.getJsDocs().filter(
-                              doc =>doc.getTags().filter( tag => tag.getTagName() === 'ast' ).length > 0
-                            ).length > 0 ) {
-                      
-                              c.getImplements().forEach( imp => {
-                                console.log(imp.getExpression().getText())
-                                // console.log(imp.getTypeArguments())
-                              })
-                            }
-                            */
                         });
-                        end.raw("\nexport function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : ParsedContext | null {\n\n  const cc = orig.copy()\n  let activeOp:IASTNode = null\n  let cnt = 0\n  let lastCnt = -1\n  \n  while( cnt !== lastCnt ) {\n    lastCnt = cnt\n    for( let op of opList ) {\n      const opInstance = op.create()\n      if(activeOp === null) {\n        const test = opInstance.consume( cc )\n        if( test ) {\n          activeOp = test\n          cnt++\n          break\n        }\n      } else {\n        if( opInstance.getFreeCount() < 2) {\n          continue\n        }\n        if( opInstance.getFreeCount() > 1) {\n          if( opInstance && (opInstance.precedence > activeOp.precedence )) {\n            opInstance.setFirst( activeOp.getLast() )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp.setLast( mRes )\n              cnt++\n              break\n            }  \n          } else {\n            opInstance.setFirst( activeOp )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp = opInstance\n              cnt++\n              break\n            }      \n          }        \n        }\n      }\n    }\n  }\n  if(activeOp === null) return null\n  return {\n    code: cc,\n    node: activeOp\n  }\n}      \n          ", true);
+                        end.raw("\nlet currDepth = 0\nexport function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : ParsedContext | null {\n  if(currDepth++ > 20) {\n    throw 'Max depth'\n  }\n  const cc = orig.copy()\n  let activeOp:IASTNode = null\n  let cnt = 0\n  let lastCnt = -1\n  \n  while( cnt !== lastCnt ) {\n    lastCnt = cnt\n    for( let op of opList ) {\n      const opInstance = op.create()\n      if(activeOp === null) {\n        const test = opInstance.consume( cc )\n        if( test ) {\n          activeOp = test\n          cnt++\n          break\n        }\n      } else {\n        if( opInstance.getFreeCount() < 2) {\n          continue\n        }\n        if( opInstance.getFreeCount() > 1) {\n          if( opInstance && (opInstance.precedence > activeOp.precedence )) {\n            opInstance.setFirst( activeOp.getLast() )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp.setLast( mRes )\n              cnt++\n              break\n            }  \n          } else {\n            opInstance.setFirst( activeOp )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp = opInstance\n              cnt++\n              break\n            }      \n          }        \n        }\n      }\n    }\n  }\n  currDepth--\n  if(activeOp === null) return null\n  return {\n    code: cc,\n    node: activeOp\n  }\n}      \n          ", true);
                     });
-                    /*
-                    Object.keys(dirReducers).forEach( dirName => {
-                      const list = dirReducers[dirName]
-                      const wr = RFs.getFile(dirName + reducerPath, 'index.ts').getWriter()
-                      createComment(wr, `
-                      Combined Reducers for main application
-                      Generated by ts2redux
-                            `)
-                  
-                      wr.out(`import * as redux from 'redux';`, true)
-                      list.forEach( m => {
-                        const [first, second] = [`${m.name}Reducer`, `I${m.name}`].sort().reverse()
-                        wr.out(`import { ${second}, ${first} } from './${m.name}';`, true)
-                      })
-                      wr.out(`export interface IState {`, true)
-                        wr.indent(1)
-                        list.forEach( m => {
-                          wr.out(`${m.name}: I${m.name}`, true)
-                        })
-                        wr.indent(-1)
-                      wr.out('}', true)
-                      wr.out(`export const reducers = redux.combineReducers<IState>({`, true)
-                        wr.indent(1)
-                        list.forEach( m => {
-                          wr.out(`${m.name}: ${m.name}Reducer,`, true)
-                        })
-                        wr.indent(-1)
-                      wr.out('})', true)
-                    })
-                    await RFs.saveTo('./', false );
-                    await project.save()
-                    */
                     return [4 /*yield*/, RFs.saveTo('./', false)];
                 case 1:
-                    /*
-                    Object.keys(dirReducers).forEach( dirName => {
-                      const list = dirReducers[dirName]
-                      const wr = RFs.getFile(dirName + reducerPath, 'index.ts').getWriter()
-                      createComment(wr, `
-                      Combined Reducers for main application
-                      Generated by ts2redux
-                            `)
-                  
-                      wr.out(`import * as redux from 'redux';`, true)
-                      list.forEach( m => {
-                        const [first, second] = [`${m.name}Reducer`, `I${m.name}`].sort().reverse()
-                        wr.out(`import { ${second}, ${first} } from './${m.name}';`, true)
-                      })
-                      wr.out(`export interface IState {`, true)
-                        wr.indent(1)
-                        list.forEach( m => {
-                          wr.out(`${m.name}: I${m.name}`, true)
-                        })
-                        wr.indent(-1)
-                      wr.out('}', true)
-                      wr.out(`export const reducers = redux.combineReducers<IState>({`, true)
-                        wr.indent(1)
-                        list.forEach( m => {
-                          wr.out(`${m.name}: ${m.name}Reducer,`, true)
-                        })
-                        wr.indent(-1)
-                      wr.out('})', true)
-                    })
-                    await RFs.saveTo('./', false );
-                    await project.save()
-                    */
                     _a.sent();
                     return [2 /*return*/];
             }

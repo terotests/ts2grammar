@@ -355,11 +355,18 @@ export function HelloWorld() {
 
   // cc.str = '{m: y*z+x, fn: async (x:number) => x + 1, arr: [1,new foo.bar]}'
 
-  cc.str = '[new foo.bar, new foo().bar]'
+  // cc.str = '[new foo.bar, new foo().bar]'
   // cc.str = 'const myFn = x => (x + y);'
-  cc.index = 0
+  /// cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )'
+  cc.str = `
+function hello( message:string ) {
 
+}  
+  `
+  cc.index = 0
+  console.time('compiletime')
   activeOp = PNew.WalkNode( cc ).node
+  console.timeEnd('compiletime')
   console.log(JSON.stringify( activeOp, null, 2))
   return 'Hello World!'
 }

@@ -13,6 +13,7 @@ export declare class CodeToConsume {
     from(cc: CodeToConsume): CodeToConsume;
     has(test: string): boolean;
     consume(test: string): boolean;
+    removeSpace(): void;
     consumeNumber(): string;
     consumeString(): string;
 }
@@ -41,12 +42,27 @@ export interface IASTNode {
 export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithArgs | NewExpressionWithoutArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithArgs | NewExpressionWithoutArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator;
+export declare class TernaryOperator implements IASTNode {
+    NodeType: string;
+    condition: ExpressionType;
+    start: string;
+    whentrue?: ExpressionType;
+    separator: string;
+    whenfalse?: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): TernaryOperator;
+    constructor();
+    consume(code: CodeToConsume): TernaryOperator | null;
+}
 export declare class TypeDefinition implements IASTNode {
     NodeType: string;
-    spaceBefore?: string;
     start: string;
-    spaceAfter?: string;
     value: Token;
     precedence?: number;
     getFreeCount(): number;
@@ -55,13 +71,12 @@ export declare class TypeDefinition implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): TypeDefinition;
+    constructor();
     consume(code: CodeToConsume): TypeDefinition | null;
 }
 export declare class ParamInitializer implements IASTNode {
     NodeType: string;
-    spaceBefore?: string;
     start: string;
-    spaceAfter?: string;
     value: ExpressionType;
     precedence: number;
     getFreeCount(): number;
@@ -70,6 +85,7 @@ export declare class ParamInitializer implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ParamInitializer;
+    constructor();
     consume(code: CodeToConsume): ParamInitializer | null;
 }
 export declare class ParameterListItemTail implements IASTNode {
@@ -86,18 +102,17 @@ export declare class ParameterListItemTail implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ParameterListItemTail;
+    constructor();
     consume(code: CodeToConsume): ParameterListItemTail | null;
 }
 export declare class ParameterList implements IASTNode {
     NodeType: string;
-    spaceBefore?: string;
     start: string;
     head?: Token;
     typedef?: TypeDefinition;
     initializer?: ParamInitializer;
     tail?: ParameterListItemTail;
     end: string;
-    spaceAfter?: string;
     precedence: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -105,6 +120,7 @@ export declare class ParameterList implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ParameterList;
+    constructor();
     consume(code: CodeToConsume): ParameterList | null;
 }
 export declare class CallParameterListTail implements IASTNode {
@@ -119,6 +135,7 @@ export declare class CallParameterListTail implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): CallParameterListTail;
+    constructor();
     consume(code: CodeToConsume): CallParameterListTail | null;
 }
 export declare class CallParameterList implements IASTNode {
@@ -134,13 +151,12 @@ export declare class CallParameterList implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): CallParameterList;
+    constructor();
     consume(code: CodeToConsume): CallParameterList | null;
 }
 export declare class NewExpressionWithArgs implements IASTNode {
     NodeType: string;
-    spaceBeforeNew?: string;
     start: string;
-    spaceBefore?: string;
     className: Token;
     params: CallParameterList;
     precedence: number;
@@ -150,13 +166,12 @@ export declare class NewExpressionWithArgs implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): NewExpressionWithArgs;
+    constructor();
     consume(code: CodeToConsume): NewExpressionWithArgs | null;
 }
 export declare class NewExpressionWithoutArgs implements IASTNode {
     NodeType: string;
-    spaceBeforeNew?: string;
     start: string;
-    spaceBefore?: string;
     className: Token;
     precedence: number;
     getFreeCount(): number;
@@ -165,6 +180,7 @@ export declare class NewExpressionWithoutArgs implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): NewExpressionWithoutArgs;
+    constructor();
     consume(code: CodeToConsume): NewExpressionWithoutArgs | null;
 }
 export declare class FunctionExpression implements IASTNode {
@@ -181,6 +197,7 @@ export declare class FunctionExpression implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): FunctionExpression;
+    constructor();
     consume(code: CodeToConsume): FunctionExpression | null;
 }
 export declare class SimpleArrowFunctionExpression implements IASTNode {
@@ -198,6 +215,7 @@ export declare class SimpleArrowFunctionExpression implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): SimpleArrowFunctionExpression;
+    constructor();
     consume(code: CodeToConsume): SimpleArrowFunctionExpression | null;
 }
 export declare class ArrowFunctionExpression implements IASTNode {
@@ -216,6 +234,7 @@ export declare class ArrowFunctionExpression implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ArrowFunctionExpression;
+    constructor();
     consume(code: CodeToConsume): ArrowFunctionExpression | null;
 }
 export declare class ObjectLiteral implements IASTNode {
@@ -233,6 +252,7 @@ export declare class ObjectLiteral implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ObjectLiteral;
+    constructor();
     consume(code: CodeToConsume): ObjectLiteral | null;
 }
 export declare class ObjectLiteralEntry implements IASTNode {
@@ -250,6 +270,7 @@ export declare class ObjectLiteralEntry implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ObjectLiteralEntry;
+    constructor();
     consume(code: CodeToConsume): ObjectLiteralEntry | null;
 }
 export declare class ObjectLiteralTail implements IASTNode {
@@ -265,40 +286,14 @@ export declare class ObjectLiteralTail implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ObjectLiteralTail;
+    constructor();
     consume(code: CodeToConsume): ObjectLiteralTail | null;
-}
-export declare class ArrayLiteralEntry implements IASTNode {
-    NodeType: string;
-    spaceFill?: string;
-    value: ExpressionType;
-    precedence?: number;
-    getFreeCount(): number;
-    setFirst(value: any): void;
-    getFirst(): any | null;
-    setLast(value: any): void;
-    getLast(): any | null;
-    create(): ArrayLiteralEntry;
-    consume(code: CodeToConsume): ArrayLiteralEntry | null;
-}
-export declare class ArrayLiteralTail implements IASTNode {
-    NodeType: string;
-    spaceFill?: string;
-    start: string;
-    head: ArrayLiteralEntry;
-    tail?: ArrayLiteralTail;
-    precedence?: number;
-    getFreeCount(): number;
-    setFirst(value: any): void;
-    getFirst(): any | null;
-    setLast(value: any): void;
-    getLast(): any | null;
-    create(): ArrayLiteralTail;
-    consume(code: CodeToConsume): ArrayLiteralTail | null;
 }
 export declare class ArrayLiteral implements IASTNode {
     NodeType: string;
     begin: string;
-    head?: ArrayLiteralEntry;
+    spaceFill?: string;
+    head?: ExpressionType;
     tail?: ArrayLiteralTail;
     end: string;
     precedence?: number;
@@ -308,7 +303,25 @@ export declare class ArrayLiteral implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ArrayLiteral;
+    constructor();
     consume(code: CodeToConsume): ArrayLiteral | null;
+}
+export declare class ArrayLiteralTail implements IASTNode {
+    NodeType: string;
+    spaceFill?: string;
+    start: string;
+    spaceFillBeforeValue?: string;
+    value: ExpressionType;
+    tail?: ArrayLiteralTail;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): ArrayLiteralTail;
+    constructor();
+    consume(code: CodeToConsume): ArrayLiteralTail | null;
 }
 export declare class ConstDeclaration implements IASTNode {
     NodeType: string;
@@ -328,6 +341,7 @@ export declare class ConstDeclaration implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ConstDeclaration;
+    constructor();
     consume(code: CodeToConsume): ConstDeclaration | null;
 }
 export declare class TNumber implements IASTNode {
@@ -342,13 +356,12 @@ export declare class TNumber implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): TNumber;
+    constructor();
     consume(code: CodeToConsume): TNumber | null;
 }
 export declare class Token implements IASTNode {
     NodeType: string;
-    spaceBefore?: string;
     name: string;
-    spaceAfter?: string;
     precedence?: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -356,6 +369,7 @@ export declare class Token implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): Token;
+    constructor();
     consume(code: CodeToConsume): Token | null;
 }
 export declare class TNumberToken implements IASTNode {
@@ -369,6 +383,7 @@ export declare class TNumberToken implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): TNumberToken;
+    constructor();
     consume(code: CodeToConsume): TNumberToken | null;
 }
 export declare class StringLiteral implements IASTNode {
@@ -383,6 +398,7 @@ export declare class StringLiteral implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): StringLiteral;
+    constructor();
     consume(code: CodeToConsume): StringLiteral | null;
 }
 export declare class MemberAccessOperator implements IASTNode {
@@ -399,6 +415,7 @@ export declare class MemberAccessOperator implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): MemberAccessOperator;
+    constructor();
     consume(code: CodeToConsume): MemberAccessOperator | null;
 }
 export declare class PlusExpression implements IASTNode {
@@ -415,14 +432,13 @@ export declare class PlusExpression implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): PlusExpression;
+    constructor();
     consume(code: CodeToConsume): PlusExpression | null;
 }
 export declare class MultiplyExpression implements IASTNode {
     NodeType: string;
     left: BinaryExpressionPart;
-    spaceBefore?: string;
     op: string;
-    spaceAfter?: string;
     right: BinaryExpressionPart;
     precedence: number;
     getFreeCount(): number;
@@ -431,6 +447,7 @@ export declare class MultiplyExpression implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): MultiplyExpression;
+    constructor();
     consume(code: CodeToConsume): MultiplyExpression | null;
 }
 export declare class ParenExpression implements IASTNode {
@@ -445,6 +462,7 @@ export declare class ParenExpression implements IASTNode {
     setLast(value: any): void;
     getLast(): any | null;
     create(): ParenExpression;
+    constructor();
     consume(code: CodeToConsume): ParenExpression | null;
 }
 export declare function WalkNode(orig: CodeToConsume, opList?: IASTNode[]): ParsedContext | null;

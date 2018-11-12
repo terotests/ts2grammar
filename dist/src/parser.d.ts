@@ -10,6 +10,10 @@ export interface ModelDefinition {
     iface: ClassDeclaration;
     file: SourceFile;
 }
+export interface TrimOptions {
+    left: boolean;
+    right: boolean;
+}
 export interface TargetFile {
     path: string;
     file: SourceFile;

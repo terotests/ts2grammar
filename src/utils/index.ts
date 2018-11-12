@@ -32,6 +32,18 @@ export class CodeToConsume {
     this.index += test.length
     return true
   }
+  removeSpace() {
+    let len = 0
+    for(let i=this.index; i < this.str.length ; i++) {
+      const c = this.str.charCodeAt(i)
+      if( c < 33 ) {
+        len++
+      } else {
+        break;
+      }
+    }  
+    this.index += len  
+  }
   consumeNumber( ) : string {
     let len = 0
     for(let i=this.index; i < this.str.length ; i++) {

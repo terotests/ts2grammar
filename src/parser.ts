@@ -21,6 +21,11 @@ export interface ModelDefinition {
   file:SourceFile,
 }
 
+export interface TrimOptions {
+  left: boolean,
+  right: boolean
+}
+
 export interface TargetFile { 
   path:string,
   file:SourceFile,
@@ -230,6 +235,12 @@ export interface IASTNode {
         meta.out(`}`, true)
         */
 
+        methods.out(`constructor() {`, true)
+          methods.indent(1)
+          const constr = methods.fork()
+          methods.indent(-1)
+        methods.out(`}`, true)
+
         methods.out(`consume(code:CodeToConsume) : ${c.getName()} | null {`, true)
           methods.indent(1)
           // methods.out(`console.log('Testing ${c.getName()}', this)`, true)
@@ -255,7 +266,9 @@ MetaData = {
 
         let hadPred = false
         const freeVariables:PropertyDeclaration[] = []
+        const trimOpts:{[key:string]:TrimOptions} = {}
         c.getProperties().forEach( p => {
+          trimOpts[p.getName()] = { left:false, right:false }
           if(p.getName() === 'precedence') {
             body.out(p.print(), true)
             hadPred = true
@@ -283,19 +296,54 @@ MetaData = {
             // console.log( p.getInitializer().getType() )
 
             const initVal = p.getInitializer().print()
+            const apparentType = init.getApparentType();
 
-            if(isNaN(parseFloat(initVal)) && !usedKeywords[initVal]) {
-              keywordList.out(`${initVal} : true,`, true)  
-              usedKeywords[initVal] = true            
+            let keywordValue = initVal
+            if( apparentType ) {
+              const s = apparentType.getSymbol()
+              if(s) {
+                if( s.getEscapedName() == 'String' ) {
+                  if( initVal.length > 3 ) {
+                    console.log('LEN ', initVal.length)
+                    let hasSpace = false
+                    if(initVal.charAt( 1 ) == ' ') {
+                      trimOpts[p.getName()].left = true
+                      console.log('BEGINS with space')
+                      hasSpace = true
+                    }
+                    if(initVal.charAt( initVal.length - 2 ) == ' ') {
+                      trimOpts[p.getName()].right = true
+                      console.log('ENDS with space')
+                      hasSpace = true
+                    }  
+                    if(hasSpace) {
+                      constr.out(`this.${p.getName()} = this.${p.getName()}.trim()`, true)
+                    }
+                  }
+                }
+                // console.log('Apparent Type: ', s.getEscapedName())
+              }
+            }
+            
+
+            if(isNaN(parseFloat(keywordValue)) && !usedKeywords[keywordValue]) {
+              keywordList.out(`[${keywordValue}.trim()] : true,`, true)  
+              usedKeywords[keywordValue] = true            
             }
 
             consumer.out(`if(typeof(this.${p.getName()}) === 'string') {`, true)
               consumer.indent(1)
+              if( trimOpts[p.getName()].left ) {
+                consumer.out(`start.removeSpace()`, true)                
+              }
               if( p.hasQuestionToken() ) {
                 consumer.out(`if(!start.consume(this.${p.getName()})) this.${p.getName()} = '' `, true)
               } else {
                 consumer.out(`if( !start.consume(this.${p.getName()}) ) return null`, true)
               }
+              if( trimOpts[p.getName()].right ) {
+                consumer.out(`start.removeSpace()`, true)                
+              }              
               consumer.indent(-1)
             consumer.out(`}`, true)
           } else {
@@ -467,30 +515,13 @@ MetaData = {
 
       }     
 
-
-      /*
-      if(c.getName() === 'PlusExpression') {
-        c.getImplements().forEach( imp => {
-          console.log(imp.getExpression().getText())
-          // console.log(imp.getExpression())
-          // console.log(imp.getTypeArguments())
-        })  
-      }
-
-      if( c.getJsDocs().filter(
-        doc =>doc.getTags().filter( tag => tag.getTagName() === 'ast' ).length > 0
-      ).length > 0 ) {      
-
-        c.getImplements().forEach( imp => {
-          console.log(imp.getExpression().getText())
-          // console.log(imp.getTypeArguments())
-        })
-      }
-      */
     })      
     end.raw(`
+let currDepth = 0
 export function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : ParsedContext | null {
-
+  if(currDepth++ > 20) {
+    throw 'Max depth'
+  }
   const cc = orig.copy()
   let activeOp:IASTNode = null
   let cnt = 0
@@ -533,6 +564,7 @@ export function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : 
       }
     }
   }
+  currDepth--
   if(activeOp === null) return null
   return {
     code: cc,
@@ -542,38 +574,5 @@ export function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : 
           `, true)     
     
   })  
-
-  /*
-  Object.keys(dirReducers).forEach( dirName => {
-    const list = dirReducers[dirName]
-    const wr = RFs.getFile(dirName + reducerPath, 'index.ts').getWriter()
-    createComment(wr, `
-    Combined Reducers for main application
-    Generated by ts2redux
-          `)
-
-    wr.out(`import * as redux from 'redux';`, true)
-    list.forEach( m => {
-      const [first, second] = [`${m.name}Reducer`, `I${m.name}`].sort().reverse()
-      wr.out(`import { ${second}, ${first} } from './${m.name}';`, true)
-    })
-    wr.out(`export interface IState {`, true)
-      wr.indent(1)
-      list.forEach( m => {
-        wr.out(`${m.name}: I${m.name}`, true)
-      })      
-      wr.indent(-1)
-    wr.out('}', true)
-    wr.out(`export const reducers = redux.combineReducers<IState>({`, true)
-      wr.indent(1)
-      list.forEach( m => {
-        wr.out(`${m.name}: ${m.name}Reducer,`, true)
-      })      
-      wr.indent(-1)
-    wr.out('})', true)
-  })
-  await RFs.saveTo('./', false );
-  await project.save()  
-  */
   await RFs.saveTo('./', false );
 }
