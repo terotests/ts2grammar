@@ -1,4 +1,4 @@
-// Allowed types for the binary expression...
+
 export type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator
 export type ArgType = Token | TNumberToken | StringLiteral
 export type NTypes = TNumberToken | StringLiteral
@@ -16,7 +16,6 @@ export type ExpressionType =  SimpleArrowFunctionExpression
   | ArrayLiteral
   | FunctionExpression
   
-
 // SimpleArrowFunctionExpression |
 
 export class TypeDefinition {

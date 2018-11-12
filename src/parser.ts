@@ -107,10 +107,11 @@ export async function createProject( settings:GenerationOptions) {
   // mapeservice classes to the properties
   project.getSourceFiles().forEach( sourceFile => {
 
-    if( sourceFile.getFilePath().indexOf('parser') > 0 ) return
+    if( sourceFile.getFilePath().indexOf(reducerPath) > 0 ) return
 
+    const fileName = path.basename( sourceFile.getFilePath() ) 
     const sourceDir = path.normalize( path.relative( process.cwd(), path.dirname( sourceFile.getFilePath() ) ) )
-    const fileNg = RFs.getFile(sourceDir + reducerPath,  'parser.ts' ).getWriter()
+    const fileNg = RFs.getFile(sourceDir + reducerPath,  fileName ).getWriter()
 
     const ng = fileNg.fork()
     const end = fileNg.fork()
@@ -119,6 +120,7 @@ export async function createProject( settings:GenerationOptions) {
 
     // do not process target files
     if( generatedFiles.filter( m => m.file.getFilePath() == sourceFile.getFilePath() ).length > 0 ) {
+      console.log('found one generated file')
       return;
     }
     createComment(ng, `

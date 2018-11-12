@@ -337,7 +337,7 @@ const opList:IASTNode[] = [
 ]
 
 
-import * as PNew from './ast/parsers/parser'
+import * as PNew from './ast/parsers/typescript'
 
 export function HelloWorld() {
 
@@ -353,8 +353,9 @@ export function HelloWorld() {
   //cc.str = '{cnt:1, obj: new foobar(), name:"Seppo", someFn : x => ( x + 2 ) , what:x=>(x+2),jaa:x=>(x+y+u) }'
   // cc.str = '{cnt:function jaa(){}, obj: new foobar(), name:"Seppo", someFn : x => ( x + 2 ) , what:x=>(x+2),jaa:x=>(x+y+u) }'
 
-  cc.str = '{m: y*z+x, fn: async (x) => x + 1, arr: [1,2] }'
+  // cc.str = '{m: y*z+x, fn: async (x:number) => x + 1, arr: [1,new foo.bar]}'
 
+  cc.str = '[new foo.bar, new foo().bar]'
   // cc.str = 'const myFn = x => (x + y);'
   cc.index = 0
 

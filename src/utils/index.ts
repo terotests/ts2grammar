@@ -2,7 +2,9 @@ import * as R from 'robowr'
 
 export const createConsumer = (wr:R.CodeWriter) => {
   wr.raw(`
-// automatically generated code consumer
+/**
+ * @generated true
+ */ 
 export class CodeToConsume {
   str:string
   index:number
@@ -50,7 +52,8 @@ export class CodeToConsume {
   consumeString( ) : string {
     let len = 0
     for(let i=this.index; i < this.str.length ; i++) {
-      if(this.str.charCodeAt(i) > 64) {
+      const c = this.str.charCodeAt(i)
+      if( ((c > 64) && (c <=90)) || ((c >= 97) && (c <= 122)) ) {
         len++
       } else {
         break;

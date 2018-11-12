@@ -312,7 +312,7 @@ var opList = [
     new PlusExpression(),
     new MulExpression()
 ];
-var PNew = require("./ast/parsers/parser");
+var PNew = require("./ast/parsers/typescript");
 function HelloWorld() {
     var activeOp = null;
     var cc = new PNew.CodeToConsume();
@@ -323,7 +323,8 @@ function HelloWorld() {
     // cc.str = 'const myFn = (x:number, y:number) => x + y;'
     //cc.str = '{cnt:1, obj: new foobar(), name:"Seppo", someFn : x => ( x + 2 ) , what:x=>(x+2),jaa:x=>(x+y+u) }'
     // cc.str = '{cnt:function jaa(){}, obj: new foobar(), name:"Seppo", someFn : x => ( x + 2 ) , what:x=>(x+2),jaa:x=>(x+y+u) }'
-    cc.str = '{m: y*z+x, fn: async (x) => x + 1, arr: [1,2] }';
+    // cc.str = '{m: y*z+x, fn: async (x:number) => x + 1, arr: [1,new foo.bar]}'
+    cc.str = '[new foo.bar, new foo().bar]';
     // cc.str = 'const myFn = x => (x + y);'
     cc.index = 0;
     activeOp = PNew.WalkNode(cc).node;

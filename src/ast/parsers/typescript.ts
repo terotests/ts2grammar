@@ -54,7 +54,8 @@ export class CodeToConsume {
   consumeString( ) : string {
     let len = 0
     for(let i=this.index; i < this.str.length ; i++) {
-      if(this.str.charCodeAt(i) > 64) {
+      const c = this.str.charCodeAt(i)
+      if( ((c > 64) && (c <=90)) || ((c >= 97) && (c <= 122)) ) {
         len++
       } else {
         break;
@@ -104,7 +105,6 @@ export interface IASTNode {
 // Type --> ParenExpression
 // Type --> TNumber
 // Type --> MemberAccessOperator
-// Allowed types for the binary expression...
 export type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 // Type : ArgType
 // UNION: - Token | TNumberToken | StringLiteral

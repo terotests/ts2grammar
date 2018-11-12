@@ -99,15 +99,17 @@ function createProject(settings) {
                     });
                     // mapeservice classes to the properties
                     project.getSourceFiles().forEach(function (sourceFile) {
-                        if (sourceFile.getFilePath().indexOf('parser') > 0)
+                        if (sourceFile.getFilePath().indexOf(reducerPath) > 0)
                             return;
+                        var fileName = path.basename(sourceFile.getFilePath());
                         var sourceDir = path.normalize(path.relative(process.cwd(), path.dirname(sourceFile.getFilePath())));
-                        var fileNg = RFs.getFile(sourceDir + reducerPath, 'parser.ts').getWriter();
+                        var fileNg = RFs.getFile(sourceDir + reducerPath, fileName).getWriter();
                         var ng = fileNg.fork();
                         var end = fileNg.fork();
                         var usedKeywords = {};
                         // do not process target files
                         if (generatedFiles.filter(function (m) { return m.file.getFilePath() == sourceFile.getFilePath(); }).length > 0) {
+                            console.log('found one generated file');
                             return;
                         }
                         createComment(ng, "\nAST Parsers, Automatically Generated \n          ");

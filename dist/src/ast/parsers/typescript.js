@@ -58,7 +58,8 @@ var CodeToConsume = /** @class */ (function () {
     CodeToConsume.prototype.consumeString = function () {
         var len = 0;
         for (var i = this.index; i < this.str.length; i++) {
-            if (this.str.charCodeAt(i) > 64) {
+            var c = this.str.charCodeAt(i);
+            if (((c > 64) && (c <= 90)) || ((c >= 97) && (c <= 122))) {
                 len++;
             }
             else {
@@ -1858,4 +1859,4 @@ function WalkNode(orig, opList) {
     };
 }
 exports.WalkNode = WalkNode;
-//# sourceMappingURL=parser.js.map
+//# sourceMappingURL=typescript.js.map
