@@ -326,8 +326,11 @@ function HelloWorld() {
     // cc.str = '{m: y*z+x, fn: async (x:number) => x + 1, arr: [1,new foo.bar]}'
     // cc.str = '[new foo.bar, new foo().bar]'
     // cc.str = 'const myFn = x => (x + y);'
-    /// cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )'
-    cc.str = "\nfunction hello( message:string ) {\n\n}  \n  ";
+    cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )';
+    // TODO: newline instead of ; 
+    cc.str = "function hello( message:string ) {\n    const a = 10;\n    if( (d + 500) < 29 ) {\n      return 300\n    } else {\n\n    };\n    const c = 30;\n    return \"foobar\"\n  }";
+    // cc.str = 'A * B'
+    // cc.str = `const a = 10`
     cc.index = 0;
     console.time('compiletime');
     activeOp = PNew.WalkNode(cc).node;

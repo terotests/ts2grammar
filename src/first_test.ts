@@ -357,12 +357,21 @@ export function HelloWorld() {
 
   // cc.str = '[new foo.bar, new foo().bar]'
   // cc.str = 'const myFn = x => (x + y);'
-  /// cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )'
-  cc.str = `
-function hello( message:string ) {
+  cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )'
+  
+  // TODO: newline instead of ; 
+  cc.str = `function hello( message:string ) {
+    const a = 10;
+    if( (d + 500) < 29 ) {
+      return 300
+    } else {
 
-}  
-  `
+    };
+    const c = 30;
+    return "foobar"
+  }`
+  // cc.str = 'A * B'
+  // cc.str = `const a = 10`
   cc.index = 0
   console.time('compiletime')
   activeOp = PNew.WalkNode( cc ).node

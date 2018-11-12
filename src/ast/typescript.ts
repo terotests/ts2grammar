@@ -16,19 +16,10 @@ export type ExpressionType =  SimpleArrowFunctionExpression
   | ArrayLiteral
   | FunctionExpression
   | TernaryOperator
+  | ConditionalExpression
 
   
 // SimpleArrowFunctionExpression |
-
-
-export class TernaryOperator {
-  condition:ExpressionType
-  start = ' ? '
-  whentrue?: ExpressionType
-  separator = ' : '
-  whenfalse?: ExpressionType
-  precedence = 4
-}
 
 export class TypeDefinition {
   start = ' : '
@@ -90,8 +81,7 @@ export class FunctionExpression {
   start = ' function '
   name:Token
   params:ParameterList
-  startBlock = ' { '
-  endBlock = ' } '
+  body: StatementBlock
 }
 
 export class SimpleArrowFunctionExpression {
@@ -155,18 +145,49 @@ export class ArrayLiteralTail {
 }
 
 
-
 export class ConstDeclaration {
-  constKeyword = 'const'
-  spaceBefore? = ' '
+  constKeyword = ' const '
   name:Token
   typedef?: TypeDefinition
-  spaceAfter? = ' '
-  assignOp = '='
-  spaceBeforeExpr? = ' '
+  assignOp = ' = '
   value: ExpressionType
-  statementEnd? = ';'
 }
+
+
+export class ReturnStatement {
+  returnKeyword = ' return '
+  value?: ExpressionType
+}
+
+export class ElseBlock {
+  elseKeyword = ' else '
+  elseBlock: StatementBlock
+}
+
+export class IfStatement {
+  ifKeyword = ' if '
+  leftParen = ' ( '
+  condition:ExpressionType  
+  rightParen = ' ) '
+  thenBlock: StatementBlock
+  elseBlock?: ElseBlock
+}
+
+export type Statement = ConstDeclaration | IfStatement | ReturnStatement
+
+export class NextStatement {
+  space = ' ; '
+  statement?: Statement
+  next?: NextStatement
+}
+
+export class StatementBlock {
+  start = '{ '    
+  statement?: Statement
+  next?: NextStatement  
+  end = ' }'
+}
+
 
 /*
 export class TrueLiteral  {
@@ -231,8 +252,25 @@ export class MultiplyExpression {
   precedence = 14
 }
 
+export class ConditionalExpression {
+  left: BinaryExpressionPart
+  op = ' < '
+  right: BinaryExpressionPart  
+  precedence = 11
+}
+
 export class ParenExpression {
   leftParen = ' ( '
   expr:ExpressionType  
   rightParen = ' ) '
 }
+
+export class TernaryOperator {
+  condition:ExpressionType
+  start = ' ? '
+  whentrue?: ExpressionType
+  separator = ' : '
+  whenfalse?: ExpressionType
+  precedence = 4
+}
+

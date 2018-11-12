@@ -243,7 +243,7 @@ export interface IASTNode {
 
         methods.out(`consume(code:CodeToConsume) : ${c.getName()} | null {`, true)
           methods.indent(1)
-          // methods.out(`console.log('Testing ${c.getName()}', this)`, true)
+          methods.out(`console.log('Testing ${c.getName()}')`, true)
           methods.out(`const start = code.copy()`, true)
           const consumer = methods.fork()
           // methods.out(`console.log('Matched ${c.getName()}')`, true)
@@ -519,9 +519,13 @@ MetaData = {
     end.raw(`
 let currDepth = 0
 export function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : ParsedContext | null {
-  if(currDepth++ > 20) {
+  if(currDepth++ > 90) {
     throw 'Max depth'
   }
+  if( orig.index >= orig.str.length) {
+    return null
+  }
+  console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))
   const cc = orig.copy()
   let activeOp:IASTNode = null
   let cnt = 0

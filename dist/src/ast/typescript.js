@@ -1,15 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // SimpleArrowFunctionExpression |
-var TernaryOperator = /** @class */ (function () {
-    function TernaryOperator() {
-        this.start = ' ? ';
-        this.separator = ' : ';
-        this.precedence = 4;
-    }
-    return TernaryOperator;
-}());
-exports.TernaryOperator = TernaryOperator;
 var TypeDefinition = /** @class */ (function () {
     function TypeDefinition() {
         this.start = ' : ';
@@ -76,8 +67,6 @@ exports.NewExpressionWithoutArgs = NewExpressionWithoutArgs;
 var FunctionExpression = /** @class */ (function () {
     function FunctionExpression() {
         this.start = ' function ';
-        this.startBlock = ' { ';
-        this.endBlock = ' } ';
     }
     return FunctionExpression;
 }());
@@ -151,16 +140,50 @@ var ArrayLiteralTail = /** @class */ (function () {
 exports.ArrayLiteralTail = ArrayLiteralTail;
 var ConstDeclaration = /** @class */ (function () {
     function ConstDeclaration() {
-        this.constKeyword = 'const';
-        this.spaceBefore = ' ';
-        this.spaceAfter = ' ';
-        this.assignOp = '=';
-        this.spaceBeforeExpr = ' ';
-        this.statementEnd = ';';
+        this.constKeyword = ' const ';
+        this.assignOp = ' = ';
     }
     return ConstDeclaration;
 }());
 exports.ConstDeclaration = ConstDeclaration;
+var ReturnStatement = /** @class */ (function () {
+    function ReturnStatement() {
+        this.returnKeyword = ' return ';
+    }
+    return ReturnStatement;
+}());
+exports.ReturnStatement = ReturnStatement;
+var ElseBlock = /** @class */ (function () {
+    function ElseBlock() {
+        this.elseKeyword = ' else ';
+    }
+    return ElseBlock;
+}());
+exports.ElseBlock = ElseBlock;
+var IfStatement = /** @class */ (function () {
+    function IfStatement() {
+        this.ifKeyword = ' if ';
+        this.leftParen = ' ( ';
+        this.rightParen = ' ) ';
+    }
+    return IfStatement;
+}());
+exports.IfStatement = IfStatement;
+var NextStatement = /** @class */ (function () {
+    function NextStatement() {
+        this.space = ' ; ';
+    }
+    return NextStatement;
+}());
+exports.NextStatement = NextStatement;
+var StatementBlock = /** @class */ (function () {
+    function StatementBlock() {
+        this.start = '{ ';
+        this.end = ' }';
+    }
+    return StatementBlock;
+}());
+exports.StatementBlock = StatementBlock;
 /*
 export class TrueLiteral  {
   spaceBefore? = ' '
@@ -232,6 +255,14 @@ var MultiplyExpression = /** @class */ (function () {
     return MultiplyExpression;
 }());
 exports.MultiplyExpression = MultiplyExpression;
+var ConditionalExpression = /** @class */ (function () {
+    function ConditionalExpression() {
+        this.op = ' < ';
+        this.precedence = 11;
+    }
+    return ConditionalExpression;
+}());
+exports.ConditionalExpression = ConditionalExpression;
 var ParenExpression = /** @class */ (function () {
     function ParenExpression() {
         this.leftParen = ' ( ';
@@ -240,4 +271,13 @@ var ParenExpression = /** @class */ (function () {
     return ParenExpression;
 }());
 exports.ParenExpression = ParenExpression;
+var TernaryOperator = /** @class */ (function () {
+    function TernaryOperator() {
+        this.start = ' ? ';
+        this.separator = ' : ';
+        this.precedence = 4;
+    }
+    return TernaryOperator;
+}());
+exports.TernaryOperator = TernaryOperator;
 //# sourceMappingURL=typescript.js.map

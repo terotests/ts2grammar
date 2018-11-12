@@ -1,15 +1,7 @@
 export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithArgs | NewExpressionWithoutArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator;
-export declare class TernaryOperator {
-    condition: ExpressionType;
-    start: string;
-    whentrue?: ExpressionType;
-    separator: string;
-    whenfalse?: ExpressionType;
-    precedence: number;
-}
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithArgs | NewExpressionWithoutArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression;
 export declare class TypeDefinition {
     start: string;
     value: Token;
@@ -62,8 +54,7 @@ export declare class FunctionExpression {
     start: string;
     name: Token;
     params: ParameterList;
-    startBlock: string;
-    endBlock: string;
+    body: StatementBlock;
 }
 export declare class SimpleArrowFunctionExpression {
     param: Token;
@@ -120,14 +111,38 @@ export declare class ArrayLiteralTail {
 }
 export declare class ConstDeclaration {
     constKeyword: string;
-    spaceBefore?: string;
     name: Token;
     typedef?: TypeDefinition;
-    spaceAfter?: string;
     assignOp: string;
-    spaceBeforeExpr?: string;
     value: ExpressionType;
-    statementEnd?: string;
+}
+export declare class ReturnStatement {
+    returnKeyword: string;
+    value?: ExpressionType;
+}
+export declare class ElseBlock {
+    elseKeyword: string;
+    elseBlock: StatementBlock;
+}
+export declare class IfStatement {
+    ifKeyword: string;
+    leftParen: string;
+    condition: ExpressionType;
+    rightParen: string;
+    thenBlock: StatementBlock;
+    elseBlock?: ElseBlock;
+}
+export declare type Statement = ConstDeclaration | IfStatement | ReturnStatement;
+export declare class NextStatement {
+    space: string;
+    statement?: Statement;
+    next?: NextStatement;
+}
+export declare class StatementBlock {
+    start: string;
+    statement?: Statement;
+    next?: NextStatement;
+    end: string;
 }
 export declare class TNumber {
     spaceBefore?: string;
@@ -168,8 +183,22 @@ export declare class MultiplyExpression {
     right: BinaryExpressionPart;
     precedence: number;
 }
+export declare class ConditionalExpression {
+    left: BinaryExpressionPart;
+    op: string;
+    right: BinaryExpressionPart;
+    precedence: number;
+}
 export declare class ParenExpression {
     leftParen: string;
     expr: ExpressionType;
     rightParen: string;
+}
+export declare class TernaryOperator {
+    condition: ExpressionType;
+    start: string;
+    whentrue?: ExpressionType;
+    separator: string;
+    whenfalse?: ExpressionType;
+    precedence: number;
 }
