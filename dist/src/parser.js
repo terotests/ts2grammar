@@ -114,7 +114,7 @@ function createProject(settings) {
                         }
                         createComment(ng, "\nAST Parsers, Automatically Generated \n          ");
                         index_1.createConsumer(ng);
-                        ng.raw("\nexport interface ParsedContext {\n  code: CodeToConsume\n  node: IASTNode | null\n}\n\nexport interface IParserMeta {\n  structure : IASTNode[]\n  types : string[]  \n  ownTypes : string[]\n  precedence : number\n  starts?: number\n  ends?: number\n}\n\nexport interface IASTNode {\n  precedence? : number\n  // MetaData?: IParserMeta\n  create() : IASTNode\n  setFirst(value:any)\n  getFirst() : IASTNode | null\n  setLast(value:any)\n  getLast() : IASTNode | null\n  getFreeCount() : number\n  consume(code:CodeToConsume) : IASTNode | null\n}    \n    ", true);
+                        ng.raw("\nexport interface ParsedContext {\n  code: CodeToConsume\n  node: IASTNode | null\n}\n\nexport interface IParserMeta {\n  structure : IASTNode[]\n  types : string[]  \n  ownTypes : string[]\n  precedence : number\n  starts?: number\n  ends?: number\n}\n\nexport interface IASTNode {\n  NodeType: string\n  precedence? : number\n  // MetaData?: IParserMeta\n  create() : IASTNode\n  setFirst(value:any)\n  getFirst() : IASTNode | null\n  setLast(value:any)\n  getLast() : IASTNode | null\n  getFreeCount() : number\n  consume(code:CodeToConsume) : IASTNode | null\n  opComplexity : number\n}    \n    ", true);
                         // const apparentType = type.getApparentType();
                         // getIntersectionTypes
                         sourceFile.getTypeAliases().forEach(function (alias) {
@@ -167,6 +167,7 @@ function createProject(settings) {
                                 }
                                 ng.out("export class " + c.getName() + " " + tArgument + " implements IASTNode {", true);
                                 ng.indent(1);
+                                var variables = ng.fork();
                                 var body_1 = ng.fork();
                                 var methods = ng.fork();
                                 var meta = ng.fork();
@@ -184,9 +185,28 @@ function createProject(settings) {
                                 var constr_1 = methods.fork();
                                 methods.indent(-1);
                                 methods.out("}", true);
+                                methods.out("isInPath(code:CodeToConsume) : boolean {", true);
+                                methods.indent(1);
+                                methods.out("for( let p of code.expressionPath) {", true);
+                                methods.indent(1);
+                                methods.out("if( (p.nodetype=='" + c.getName() + "') && (p.index === code.index)) return true", true);
+                                methods.indent(-1);
+                                methods.out("}", true);
+                                methods.out("return false", true);
+                                methods.indent(-1);
+                                methods.out("}", true);
                                 methods.out("consume(code:CodeToConsume) : " + c.getName() + " | null {", true);
                                 methods.indent(1);
-                                methods.out("console.log('Testing " + c.getName() + "')", true);
+                                // See if we are already in the path
+                                // methods.out(``)
+                                methods.out("// console.log('Testing " + c.getName() + "', code.expressionPath)", true);
+                                methods.out("if( this.isInPath(code)) {", true);
+                                methods.indent(1);
+                                // methods.out(`console.log('was already in path ${c.getName()}')`, true)
+                                methods.out("return null", true);
+                                methods.indent(-1);
+                                methods.out("}", true);
+                                methods.out("code.expressionPath.push({index:code.index, nodetype:'" + c.getName() + "'})", true);
                                 methods.out("const start = code.copy()", true);
                                 var consumer_1 = methods.fork();
                                 // methods.out(`console.log('Matched ${c.getName()}')`, true)
@@ -206,7 +226,8 @@ function createProject(settings) {
                                 var hadPred_1 = false;
                                 var freeVariables_1 = [];
                                 var trimOpts_1 = {};
-                                c.getProperties().forEach(function (p) {
+                                var complexity_1 = 0;
+                                c.getProperties().forEach(function (p, propIndex) {
                                     trimOpts_1[p.getName()] = { left: false, right: false };
                                     if (p.getName() === 'precedence') {
                                         body_1.out(p.print(), true);
@@ -239,6 +260,15 @@ function createProject(settings) {
                                             var s = apparentType.getSymbol();
                                             if (s) {
                                                 if (s.getEscapedName() == 'String') {
+                                                    if (!!p.hasQuestionToken()) {
+                                                        complexity_1 += 10;
+                                                    }
+                                                    else {
+                                                        complexity_1 += 1;
+                                                    }
+                                                    if (propIndex === 0 && !p.hasQuestionToken()) {
+                                                        complexity_1 += 100;
+                                                    }
                                                     if (initVal.length > 3) {
                                                         console.log('LEN ', initVal.length);
                                                         var hasSpace = false;
@@ -284,6 +314,7 @@ function createProject(settings) {
                                     else {
                                         freeVariables_1.push(p);
                                         consumer_1.out("// WALK: " + p.getName(), true);
+                                        complexity_1 += 1;
                                         if (p.getType().getUnionTypes().length > 0) {
                                             consumer_1.out("if(!this." + p.getName() + ") {", true);
                                             consumer_1.indent(1);
@@ -440,9 +471,10 @@ function createProject(settings) {
                                 body_1.out("return new " + c.getName() + " " + tArgument + "()", true);
                                 body_1.indent(-1);
                                 body_1.out("}", true);
+                                variables.out("opComplexity = " + complexity_1, true);
                             }
                         });
-                        end.raw("\nlet currDepth = 0\nexport function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : ParsedContext | null {\n  if(currDepth++ > 90) {\n    throw 'Max depth'\n  }\n  if( orig.index >= orig.str.length) {\n    return null\n  }\n  console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))\n  const cc = orig.copy()\n  let activeOp:IASTNode = null\n  let cnt = 0\n  let lastCnt = -1\n  \n  while( cnt !== lastCnt ) {\n    lastCnt = cnt\n    for( let op of opList ) {\n      const opInstance = op.create()\n      if(activeOp === null) {\n        const test = opInstance.consume( cc )\n        if( test ) {\n          activeOp = test\n          cnt++\n          break\n        }\n      } else {\n        if( opInstance.getFreeCount() < 2) {\n          continue\n        }\n        if( opInstance.getFreeCount() > 1) {\n          if( opInstance && (opInstance.precedence > activeOp.precedence )) {\n            opInstance.setFirst( activeOp.getLast() )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp.setLast( mRes )\n              cnt++\n              break\n            }  \n          } else {\n            opInstance.setFirst( activeOp )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp = opInstance\n              cnt++\n              break\n            }      \n          }        \n        }\n      }\n    }\n  }\n  currDepth--\n  if(activeOp === null) return null\n  return {\n    code: cc,\n    node: activeOp\n  }\n}      \n          ", true);
+                        end.raw("\nlet currDepth = 0\nexport function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = initialList) : ParsedContext | null {\n  if(currDepth++ > 20) {\n    throw 'Max depth'\n  }\n  if( orig.index >= orig.str.length) {\n    return null\n  }\n  const opList = opInList.sort( (left, right) => {\n    return right.opComplexity - left.opComplexity\n  })\n  // console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))\n  const cc = orig.copy()\n  let activeOp:IASTNode = null\n  let cnt = 0\n  let lastCnt = -1\n  \n  while( cnt !== lastCnt ) {\n    lastCnt = cnt\n    for( let op of opList ) {\n      const opInstance = op.create()\n      if(activeOp === null) {\n        const test = opInstance.consume( cc )\n        if( test ) {\n          activeOp = test\n          cnt++\n          break\n        }\n      } else {\n        if( opInstance.getFreeCount() < 2) {\n          continue\n        }\n        if( opInstance.getFreeCount() > 1) {\n          if( opInstance && (opInstance.precedence > activeOp.precedence )) {\n            opInstance.setFirst( activeOp.getLast() )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp.setLast( mRes )\n              cnt++\n              break\n            }  \n          } else {\n            opInstance.setFirst( activeOp )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp = opInstance\n              cnt++\n              break\n            }      \n          }        \n        }\n      }\n    }\n  }\n  currDepth--\n  if(activeOp === null) return null\n  return {\n    code: cc,\n    node: activeOp\n  }\n}      \n          ", true);
                     });
                     return [4 /*yield*/, RFs.saveTo('./', false)];
                 case 1:

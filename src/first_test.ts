@@ -358,25 +358,72 @@ export function HelloWorld() {
   // cc.str = '[new foo.bar, new foo().bar]'
   // cc.str = 'const myFn = x => (x + y);'
   cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )'
-  
-  // TODO: newline instead of ; 
-  cc.str = `function hello( message:string ) {
-    const a = 10;
+
+  /*
     if( (d + 500) < 29 ) {
       return 300
     } else {
-
+      return n ? new f() : "joo"
     };
-    const c = 30;
+  
+  */
+  // TODO: newline instead of ; 
+  cc.str = `function hello( message:string ) {
+    const a = 10
+    const ff = new n()
     return "foobar"
   }`
-  // cc.str = 'A * B'
-  // cc.str = `const a = 10`
+
+  
+  cc.str = `function hello<T extends Animal,S>( fn:(x:T) => void ) : S | () => number {
+    const a = 10
+    const c = new n()
+    if( ((d=c.joo() + 9) + 500) < 29 ) {
+      return 300
+    } else {
+      return n ? new f() : (y:number,x?:number) => y + 10 * x
+    }    
+    const c = 9
+    c = jep()
+    return x => "foobar"
+  }
+
+  function helloWorld() {
+    return "Hello"
+  }
+  const MAXCNT = 1000
+
+  class foo {
+    jee() {
+
+    };
+    bar<T>() : () => T {
+
+    };
+    x = 123;
+    y  
+  }
+  ` 
+  
+
+  // cc.str = 'const x = new foo ()'
+  // cc.str = 'A*C+D'
+  // cc.str = `caallSome(h,y)`
   cc.index = 0
   console.time('compiletime')
-  activeOp = PNew.WalkNode( cc ).node
+  const active = PNew.WalkNode( cc )
   console.timeEnd('compiletime')
-  console.log(JSON.stringify( activeOp, null, 2))
+  console.log(JSON.stringify( active.node, null, 2))
+  const code = active.code
+  console.log('Finished at ', code.index, '/', code.str.length)
+
+  console.log(code.str.substr( code.index ))
+
+  const active2 = PNew.WalkNode( code )
+  if(active2) {
+    console.log(JSON.stringify( active2.node, null, 2))
+  }
+
   return 'Hello World!'
 }
   

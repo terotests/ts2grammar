@@ -327,15 +327,32 @@ function HelloWorld() {
     // cc.str = '[new foo.bar, new foo().bar]'
     // cc.str = 'const myFn = x => (x + y);'
     cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )';
+    /*
+      if( (d + 500) < 29 ) {
+        return 300
+      } else {
+        return n ? new f() : "joo"
+      };
+    
+    */
     // TODO: newline instead of ; 
-    cc.str = "function hello( message:string ) {\n    const a = 10;\n    if( (d + 500) < 29 ) {\n      return 300\n    } else {\n\n    };\n    const c = 30;\n    return \"foobar\"\n  }";
-    // cc.str = 'A * B'
-    // cc.str = `const a = 10`
+    cc.str = "function hello( message:string ) {\n    const a = 10\n    const ff = new n()\n    return \"foobar\"\n  }";
+    cc.str = "function hello<T extends Animal,S>( fn:(x:T) => void ) : S | () => number {\n    const a = 10\n    const c = new n()\n    if( ((d=c.joo() + 9) + 500) < 29 ) {\n      return 300\n    } else {\n      return n ? new f() : (y:number,x?:number) => y + 10 * x\n    }    \n    const c = 9\n    c = jep()\n    return x => \"foobar\"\n  }\n\n  function helloWorld() {\n    return \"Hello\"\n  }\n  const MAXCNT = 1000\n\n  class foo {\n    jee() {\n\n    };\n    bar<T>() : () => T {\n\n    };\n    x = 123;\n    y  \n  }\n  ";
+    // cc.str = 'const x = new foo ()'
+    // cc.str = 'A*C+D'
+    // cc.str = `caallSome(h,y)`
     cc.index = 0;
     console.time('compiletime');
-    activeOp = PNew.WalkNode(cc).node;
+    var active = PNew.WalkNode(cc);
     console.timeEnd('compiletime');
-    console.log(JSON.stringify(activeOp, null, 2));
+    console.log(JSON.stringify(active.node, null, 2));
+    var code = active.code;
+    console.log('Finished at ', code.index, '/', code.str.length);
+    console.log(code.str.substr(code.index));
+    var active2 = PNew.WalkNode(code);
+    if (active2) {
+        console.log(JSON.stringify(active2.node, null, 2));
+    }
     return 'Hello World!';
 }
 exports.HelloWorld = HelloWorld;

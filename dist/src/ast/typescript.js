@@ -1,6 +1,41 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 // SimpleArrowFunctionExpression |
+var TypeDefinitionUnion = /** @class */ (function () {
+    function TypeDefinitionUnion() {
+        this.start = ' | ';
+    }
+    return TypeDefinitionUnion;
+}());
+exports.TypeDefinitionUnion = TypeDefinitionUnion;
+var SimpleTypeDefinition = /** @class */ (function () {
+    function SimpleTypeDefinition() {
+    }
+    return SimpleTypeDefinition;
+}());
+exports.SimpleTypeDefinition = SimpleTypeDefinition;
+var Assing = /** @class */ (function () {
+    function Assing() {
+        this.arrow = ' = ';
+    }
+    return Assing;
+}());
+exports.Assing = Assing;
+var ArrowFnType = /** @class */ (function () {
+    function ArrowFnType() {
+        this.async = 'async';
+        this.arrow = ' => ';
+    }
+    return ArrowFnType;
+}());
+exports.ArrowFnType = ArrowFnType;
+var ExtendsKeyword = /** @class */ (function () {
+    function ExtendsKeyword() {
+        this.kw = ' extends ';
+    }
+    return ExtendsKeyword;
+}());
+exports.ExtendsKeyword = ExtendsKeyword;
 var TypeDefinition = /** @class */ (function () {
     function TypeDefinition() {
         this.start = ' : ';
@@ -8,6 +43,27 @@ var TypeDefinition = /** @class */ (function () {
     return TypeDefinition;
 }());
 exports.TypeDefinition = TypeDefinition;
+var NextGenericsDefinition = /** @class */ (function () {
+    function NextGenericsDefinition() {
+        this.comma = ' , ';
+    }
+    return NextGenericsDefinition;
+}());
+exports.NextGenericsDefinition = NextGenericsDefinition;
+var GenericsDefinition = /** @class */ (function () {
+    function GenericsDefinition() {
+    }
+    return GenericsDefinition;
+}());
+exports.GenericsDefinition = GenericsDefinition;
+var Generics = /** @class */ (function () {
+    function Generics() {
+        this.start = ' < ';
+        this.end = ' > ';
+    }
+    return Generics;
+}());
+exports.Generics = Generics;
 var ParamInitializer = /** @class */ (function () {
     function ParamInitializer() {
         this.start = ' = ';
@@ -26,7 +82,7 @@ exports.ParameterListItemTail = ParameterListItemTail;
 var ParameterList = /** @class */ (function () {
     function ParameterList() {
         this.start = ' ( ';
-        this.end = ' ) ';
+        this.end = ' )';
         this.precedence = 20;
     }
     return ParameterList;
@@ -34,7 +90,7 @@ var ParameterList = /** @class */ (function () {
 exports.ParameterList = ParameterList;
 var CallParameterListTail = /** @class */ (function () {
     function CallParameterListTail() {
-        this.start = ',';
+        this.start = ' , ';
     }
     return CallParameterListTail;
 }());
@@ -42,7 +98,7 @@ exports.CallParameterListTail = CallParameterListTail;
 var CallParameterList = /** @class */ (function () {
     function CallParameterList() {
         this.start = ' ( ';
-        this.end = ' ) ';
+        this.end = ' )';
         this.precedence = 20;
     }
     return CallParameterList;
@@ -56,6 +112,48 @@ var NewExpressionWithArgs = /** @class */ (function () {
     return NewExpressionWithArgs;
 }());
 exports.NewExpressionWithArgs = NewExpressionWithArgs;
+var ClassMethodDeclaration = /** @class */ (function () {
+    function ClassMethodDeclaration() {
+    }
+    return ClassMethodDeclaration;
+}());
+exports.ClassMethodDeclaration = ClassMethodDeclaration;
+var ClassPropertyDeclaration = /** @class */ (function () {
+    function ClassPropertyDeclaration() {
+    }
+    return ClassPropertyDeclaration;
+}());
+exports.ClassPropertyDeclaration = ClassPropertyDeclaration;
+var ClassBodyStatement = /** @class */ (function () {
+    function ClassBodyStatement() {
+        this.begins = ' ; ';
+    }
+    return ClassBodyStatement;
+}());
+exports.ClassBodyStatement = ClassBodyStatement;
+var ClassDeclaration = /** @class */ (function () {
+    function ClassDeclaration() {
+        this.start = ' class ';
+        this.begin = ' { ';
+        this.end = ' } ';
+    }
+    return ClassDeclaration;
+}());
+exports.ClassDeclaration = ClassDeclaration;
+var CallExpressionWithArgs = /** @class */ (function () {
+    function CallExpressionWithArgs() {
+        this.precedence = 19;
+    }
+    return CallExpressionWithArgs;
+}());
+exports.CallExpressionWithArgs = CallExpressionWithArgs;
+var FnCallWithArgs = /** @class */ (function () {
+    function FnCallWithArgs() {
+        this.precedence = 19;
+    }
+    return FnCallWithArgs;
+}());
+exports.FnCallWithArgs = FnCallWithArgs;
 var NewExpressionWithoutArgs = /** @class */ (function () {
     function NewExpressionWithoutArgs() {
         this.start = ' new ';
@@ -73,10 +171,7 @@ var FunctionExpression = /** @class */ (function () {
 exports.FunctionExpression = FunctionExpression;
 var SimpleArrowFunctionExpression = /** @class */ (function () {
     function SimpleArrowFunctionExpression() {
-        this.spaceBefore = ' ';
-        this.arrow = '=>';
-        this.spaceAfter = ' ';
-        this.spaceAfter2 = ' ';
+        this.arrow = ' => ';
     }
     return SimpleArrowFunctionExpression;
 }());
@@ -176,14 +271,29 @@ var NextStatement = /** @class */ (function () {
     return NextStatement;
 }());
 exports.NextStatement = NextStatement;
+var NextStatementNl = /** @class */ (function () {
+    function NextStatementNl() {
+        this.space = ' \n ';
+    }
+    return NextStatementNl;
+}());
+exports.NextStatementNl = NextStatementNl;
 var StatementBlock = /** @class */ (function () {
     function StatementBlock() {
-        this.start = '{ ';
+        this.start = ' { ';
         this.end = ' }';
     }
     return StatementBlock;
 }());
 exports.StatementBlock = StatementBlock;
+var StatementBlock2 = /** @class */ (function () {
+    function StatementBlock2() {
+        this.start = ' { ';
+        this.end = ' } ';
+    }
+    return StatementBlock2;
+}());
+exports.StatementBlock2 = StatementBlock2;
 /*
 export class TrueLiteral  {
   spaceBefore? = ' '
@@ -208,6 +318,7 @@ var TNumber = /** @class */ (function () {
 exports.TNumber = TNumber;
 var Token = /** @class */ (function () {
     function Token() {
+        this.questionmark = '?';
     }
     return Token;
 }());
@@ -239,9 +350,7 @@ var MemberAccessOperator = /** @class */ (function () {
 exports.MemberAccessOperator = MemberAccessOperator;
 var PlusExpression = /** @class */ (function () {
     function PlusExpression() {
-        this.spaceBefore = ' ';
-        this.op = '+';
-        this.spaceAfter = ' ';
+        this.op = ' + ';
         this.precedence = 13;
     }
     return PlusExpression;

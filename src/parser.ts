@@ -150,6 +150,7 @@ export interface IParserMeta {
 }
 
 export interface IASTNode {
+  NodeType: string
   precedence? : number
   // MetaData?: IParserMeta
   create() : IASTNode
@@ -159,6 +160,7 @@ export interface IASTNode {
   getLast() : IASTNode | null
   getFreeCount() : number
   consume(code:CodeToConsume) : IASTNode | null
+  opComplexity : number
 }    
     `, true)
     
@@ -221,6 +223,7 @@ export interface IASTNode {
 
         ng.out(`export class ${c.getName()} ${tArgument} implements IASTNode {`, true)
         ng.indent(1)
+        const variables = ng.fork()
         const body = ng.fork()
         const methods = ng.fork()
         const meta = ng.fork()
@@ -241,9 +244,29 @@ export interface IASTNode {
           methods.indent(-1)
         methods.out(`}`, true)
 
+        methods.out(`isInPath(code:CodeToConsume) : boolean {`, true)
+        methods.indent(1)
+          methods.out(`for( let p of code.expressionPath) {`, true)
+            methods.indent(1)
+            methods.out(`if( (p.nodetype=='${c.getName()}') && (p.index === code.index)) return true`, true)
+            methods.indent(-1)
+          methods.out(`}`, true)
+          methods.out(`return false`, true)
+        methods.indent(-1)
+        methods.out(`}`, true)
+        
         methods.out(`consume(code:CodeToConsume) : ${c.getName()} | null {`, true)
           methods.indent(1)
-          methods.out(`console.log('Testing ${c.getName()}')`, true)
+          // See if we are already in the path
+          // methods.out(``)
+          methods.out(`// console.log('Testing ${c.getName()}', code.expressionPath)`, true)
+          methods.out(`if( this.isInPath(code)) {`, true)
+            methods.indent(1)
+            // methods.out(`console.log('was already in path ${c.getName()}')`, true)
+            methods.out(`return null`, true)
+            methods.indent(-1)
+          methods.out(`}`, true)
+          methods.out(`code.expressionPath.push({index:code.index, nodetype:'${c.getName()}'})`, true)
           methods.out(`const start = code.copy()`, true)
           const consumer = methods.fork()
           // methods.out(`console.log('Matched ${c.getName()}')`, true)
@@ -267,7 +290,8 @@ MetaData = {
         let hadPred = false
         const freeVariables:PropertyDeclaration[] = []
         const trimOpts:{[key:string]:TrimOptions} = {}
-        c.getProperties().forEach( p => {
+        let complexity = 0
+        c.getProperties().forEach( (p, propIndex) => {
           trimOpts[p.getName()] = { left:false, right:false }
           if(p.getName() === 'precedence') {
             body.out(p.print(), true)
@@ -303,6 +327,15 @@ MetaData = {
               const s = apparentType.getSymbol()
               if(s) {
                 if( s.getEscapedName() == 'String' ) {
+                  if(!!p.hasQuestionToken()) {
+                    complexity+=10
+                  } else {
+                    complexity+=1
+                  }
+                  
+                  if( propIndex === 0 && !p.hasQuestionToken() ) {
+                    complexity+=100
+                  }
                   if( initVal.length > 3 ) {
                     console.log('LEN ', initVal.length)
                     let hasSpace = false
@@ -349,7 +382,7 @@ MetaData = {
           } else {
             freeVariables.push( p )
             consumer.out(`// WALK: ${p.getName()}`, true)
-
+            complexity += 1
             if(p.getType().getUnionTypes().length > 0) {
 
               consumer.out(`if(!this.${p.getName()}) {`, true)
@@ -513,19 +546,24 @@ MetaData = {
           body.indent(-1)
         body.out(`}`, true)
 
+        variables.out(`opComplexity = ${complexity}`, true)
+
       }     
 
     })      
     end.raw(`
 let currDepth = 0
-export function WalkNode(orig:CodeToConsume, opList:IASTNode[] = initialList) : ParsedContext | null {
-  if(currDepth++ > 90) {
+export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = initialList) : ParsedContext | null {
+  if(currDepth++ > 20) {
     throw 'Max depth'
   }
   if( orig.index >= orig.str.length) {
     return null
   }
-  console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))
+  const opList = opInList.sort( (left, right) => {
+    return right.opComplexity - left.opComplexity
+  })
+  // console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))
   const cc = orig.copy()
   let activeOp:IASTNode = null
   let cnt = 0

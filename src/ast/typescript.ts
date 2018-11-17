@@ -1,11 +1,13 @@
+import { ParameterDeclaration } from "typescript";
+
 
 export type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator
 export type ArgType = Token | TNumberToken | StringLiteral
 export type NTypes = TNumberToken | StringLiteral
 export type ExpressionType =  SimpleArrowFunctionExpression 
   | ArrowFunctionExpression 
-  | NewExpressionWithArgs 
   | NewExpressionWithoutArgs 
+  | NewExpressionWithArgs 
   | MemberAccessOperator 
   | PlusExpression 
   | MultiplyExpression 
@@ -17,13 +19,64 @@ export type ExpressionType =  SimpleArrowFunctionExpression
   | FunctionExpression
   | TernaryOperator
   | ConditionalExpression
+  | FnCallWithArgs
+  | Assing
+  | CallExpressionWithArgs
 
+export type TypeDefs = SimpleTypeDefinition | ArrowFnType
   
 // SimpleArrowFunctionExpression |
 
+export class TypeDefinitionUnion {
+  start = ' | '
+  value: TypeDefs
+  union?: TypeDefinitionUnion
+}
+
+export class SimpleTypeDefinition {
+  value: Token
+}
+
+export class Assing {
+  to:Token
+  arrow = ' = '
+  value:ExpressionType
+}
+
+export class ArrowFnType {
+  async? = 'async'
+  params:ParameterList
+  arrow = ' => '
+  typdef:TypeDefs
+}
+
+export class ExtendsKeyword {
+  kw = ' extends '
+  typename?: TypeDefs
+}
+
 export class TypeDefinition {
   start = ' : '
+  value: TypeDefs
+  union?: TypeDefinitionUnion
+}
+
+export class NextGenericsDefinition {
+  comma = ' , '
   value: Token
+  next?: NextGenericsDefinition
+}
+
+export class GenericsDefinition {
+  value: Token
+  extends?: ExtendsKeyword
+  next?: NextGenericsDefinition
+}
+
+export class Generics {
+  start = ' < '
+  value: GenericsDefinition
+  end = ' > '
 }
 
 export class ParamInitializer {
@@ -46,12 +99,12 @@ export class ParameterList {
   typedef?:TypeDefinition
   initializer?:ParamInitializer
   tail?:ParameterListItemTail
-  end = ' ) '
+  end = ' )'
   precedence = 20
 }
 
 export class CallParameterListTail {
-  start = ','
+  start = ' , '
   head: ExpressionType
   tail?:CallParameterListTail
 }
@@ -60,13 +113,58 @@ export class CallParameterList {
   start = ' ( '
   head?:ExpressionType
   tail?:CallParameterListTail
-  end = ' ) '
+  end = ' )'
   precedence = 20
 }
 
 export class NewExpressionWithArgs {
   start = ' new '
   className: Token
+  params:CallParameterList
+  precedence = 19
+}
+
+export class ClassMethodDeclaration {
+  name:Token
+  generics?: Generics
+  params:ParameterList
+  returnType?:TypeDefinition
+  body: StatementBlock
+}
+
+export class ClassPropertyDeclaration {
+  name: Token
+  init?: ParamInitializer
+}
+
+export type ClassBodyType = ClassMethodDeclaration | ClassPropertyDeclaration
+
+export class ClassBodyStatement {
+  begins = ' ; '
+  head: ClassBodyType
+  tail?: ClassBodyStatement
+}
+
+export class ClassDeclaration {
+  start = ' class '
+  className: Token
+  extends?: ExtendsKeyword
+  begin = ' { '
+  // property?: ClassPropertyDeclaration
+  head?: ClassBodyType
+  tail?: ClassBodyStatement
+  end = ' } '
+}
+
+export class CallExpressionWithArgs {
+  obj: ExpressionType
+  params:CallParameterList
+  precedence = 19
+}
+
+
+export class FnCallWithArgs {
+  name: Token
   params:CallParameterList
   precedence = 19
 }
@@ -80,17 +178,16 @@ export class NewExpressionWithoutArgs {
 export class FunctionExpression {
   start = ' function '
   name:Token
+  generics?: Generics
   params:ParameterList
+  returnType?:TypeDefinition
   body: StatementBlock
 }
 
 export class SimpleArrowFunctionExpression {
   param:Token
-  spaceBefore? = ' '
-  arrow = '=>'
-  spaceAfter? = ' '
+  arrow = ' => '
   expression: ExpressionType
-  spaceAfter2? = ' '
 }
 
 export class ArrowFunctionExpression {
@@ -173,19 +270,33 @@ export class IfStatement {
   elseBlock?: ElseBlock
 }
 
-export type Statement = ConstDeclaration | IfStatement | ReturnStatement
+export type Statement = ConstDeclaration | IfStatement | ReturnStatement | Assing | FunctionExpression | ClassDeclaration
 
 export class NextStatement {
   space = ' ; '
   statement?: Statement
-  next?: NextStatement
+  next?: Next
+}
+export class NextStatementNl {
+  space? = ' \n '
+  statement?: Statement
+  next?: Next
 }
 
+export type Next = NextStatement | NextStatementNl
+
 export class StatementBlock {
-  start = '{ '    
+  start = ' { '    
   statement?: Statement
-  next?: NextStatement  
+  next?: Next  
   end = ' }'
+}
+
+export class StatementBlock2 {
+  start = ' { '    
+  statement?: Statement
+  next?: Next  
+  end = ' } '
 }
 
 
@@ -213,7 +324,8 @@ export class TNumber  {
 }
 
 export class Token  {
-  name:string  
+  name:string 
+  questionmark? = '?'
 }
 
 export class TNumberToken  {
@@ -238,9 +350,7 @@ export class MemberAccessOperator {
 
 export class PlusExpression {
   left: BinaryExpressionPart
-  spaceBefore? = ' '
-  op = '+'
-  spaceAfter? = ' '
+  op = ' + '
   right: BinaryExpressionPart  
   precedence = 13
 }

@@ -2,21 +2,29 @@ import * as R from 'robowr'
 
 export const createConsumer = (wr:R.CodeWriter) => {
   wr.raw(`
+
+export interface ConsumePath {
+  nodetype: string
+  index: number
+}
 /**
  * @generated true
  */ 
 export class CodeToConsume {
   str:string
   index:number
+  expressionPath:ConsumePath[] = []
   copy() : CodeToConsume {
     const o = new CodeToConsume()
     o.str = this.str
     o.index = this.index
+    o.expressionPath = this.expressionPath.slice()
     return o
   }
   from( cc: CodeToConsume) : CodeToConsume {
     this.str = cc.str
     this.index = cc.index
+    this.expressionPath = cc.expressionPath.slice()
     return this
   }
   has( test:string ) : boolean {

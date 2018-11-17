@@ -1,10 +1,50 @@
 export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithArgs | NewExpressionWithoutArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs;
+export declare type TypeDefs = SimpleTypeDefinition | ArrowFnType;
+export declare class TypeDefinitionUnion {
+    start: string;
+    value: TypeDefs;
+    union?: TypeDefinitionUnion;
+}
+export declare class SimpleTypeDefinition {
+    value: Token;
+}
+export declare class Assing {
+    to: Token;
+    arrow: string;
+    value: ExpressionType;
+}
+export declare class ArrowFnType {
+    async?: string;
+    params: ParameterList;
+    arrow: string;
+    typdef: TypeDefs;
+}
+export declare class ExtendsKeyword {
+    kw: string;
+    typename?: TypeDefs;
+}
 export declare class TypeDefinition {
     start: string;
+    value: TypeDefs;
+    union?: TypeDefinitionUnion;
+}
+export declare class NextGenericsDefinition {
+    comma: string;
     value: Token;
+    next?: NextGenericsDefinition;
+}
+export declare class GenericsDefinition {
+    value: Token;
+    extends?: ExtendsKeyword;
+    next?: NextGenericsDefinition;
+}
+export declare class Generics {
+    start: string;
+    value: GenericsDefinition;
+    end: string;
 }
 export declare class ParamInitializer {
     start: string;
@@ -45,6 +85,42 @@ export declare class NewExpressionWithArgs {
     params: CallParameterList;
     precedence: number;
 }
+export declare class ClassMethodDeclaration {
+    name: Token;
+    generics?: Generics;
+    params: ParameterList;
+    returnType?: TypeDefinition;
+    body: StatementBlock;
+}
+export declare class ClassPropertyDeclaration {
+    name: Token;
+    init?: ParamInitializer;
+}
+export declare type ClassBodyType = ClassMethodDeclaration | ClassPropertyDeclaration;
+export declare class ClassBodyStatement {
+    begins: string;
+    head: ClassBodyType;
+    tail?: ClassBodyStatement;
+}
+export declare class ClassDeclaration {
+    start: string;
+    className: Token;
+    extends?: ExtendsKeyword;
+    begin: string;
+    head?: ClassBodyType;
+    tail?: ClassBodyStatement;
+    end: string;
+}
+export declare class CallExpressionWithArgs {
+    obj: ExpressionType;
+    params: CallParameterList;
+    precedence: number;
+}
+export declare class FnCallWithArgs {
+    name: Token;
+    params: CallParameterList;
+    precedence: number;
+}
 export declare class NewExpressionWithoutArgs {
     start: string;
     className: Token;
@@ -53,16 +129,15 @@ export declare class NewExpressionWithoutArgs {
 export declare class FunctionExpression {
     start: string;
     name: Token;
+    generics?: Generics;
     params: ParameterList;
+    returnType?: TypeDefinition;
     body: StatementBlock;
 }
 export declare class SimpleArrowFunctionExpression {
     param: Token;
-    spaceBefore?: string;
     arrow: string;
-    spaceAfter?: string;
     expression: ExpressionType;
-    spaceAfter2?: string;
 }
 export declare class ArrowFunctionExpression {
     async?: string;
@@ -132,16 +207,28 @@ export declare class IfStatement {
     thenBlock: StatementBlock;
     elseBlock?: ElseBlock;
 }
-export declare type Statement = ConstDeclaration | IfStatement | ReturnStatement;
+export declare type Statement = ConstDeclaration | IfStatement | ReturnStatement | Assing | FunctionExpression | ClassDeclaration;
 export declare class NextStatement {
     space: string;
     statement?: Statement;
-    next?: NextStatement;
+    next?: Next;
 }
+export declare class NextStatementNl {
+    space?: string;
+    statement?: Statement;
+    next?: Next;
+}
+export declare type Next = NextStatement | NextStatementNl;
 export declare class StatementBlock {
     start: string;
     statement?: Statement;
-    next?: NextStatement;
+    next?: Next;
+    end: string;
+}
+export declare class StatementBlock2 {
+    start: string;
+    statement?: Statement;
+    next?: Next;
     end: string;
 }
 export declare class TNumber {
@@ -151,6 +238,7 @@ export declare class TNumber {
 }
 export declare class Token {
     name: string;
+    questionmark?: string;
 }
 export declare class TNumberToken {
     prefix?: string;
@@ -171,9 +259,7 @@ export declare class MemberAccessOperator {
 }
 export declare class PlusExpression {
     left: BinaryExpressionPart;
-    spaceBefore?: string;
     op: string;
-    spaceAfter?: string;
     right: BinaryExpressionPart;
     precedence: number;
 }
