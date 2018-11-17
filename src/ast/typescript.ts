@@ -1,6 +1,3 @@
-import { ParameterDeclaration } from "typescript";
-
-
 export type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator
 export type ArgType = Token | TNumberToken | StringLiteral
 export type NTypes = TNumberToken | StringLiteral
@@ -22,6 +19,8 @@ export type ExpressionType =  SimpleArrowFunctionExpression
   | FnCallWithArgs
   | Assing
   | CallExpressionWithArgs
+  | TrueLiteral
+  | FalseLiteral
 
 export type TypeDefs = SimpleTypeDefinition | ArrowFnType
   
@@ -300,20 +299,15 @@ export class StatementBlock2 {
 }
 
 
-/*
+
 export class TrueLiteral  {
-  spaceBefore? = ' '
-  tag = 'true'  
-  spaceAfter? = ' '
+  tag = ' true '  
 }
-*/
-/*
+
 export class FalseLiteral  {
-  spaceBefore? = ' '
-  tag = 'false'  
-  spaceAfter? = ' '
+  tag = ' false '  
 }
-*/
+
 
 
 

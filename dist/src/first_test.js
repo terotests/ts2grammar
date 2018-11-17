@@ -313,6 +313,7 @@ var opList = [
     new MulExpression()
 ];
 var PNew = require("./ast/parsers/typescript");
+var JSONParser = require("./ast/parsers/json");
 function HelloWorld() {
     var activeOp = null;
     var cc = new PNew.CodeToConsume();
@@ -337,7 +338,7 @@ function HelloWorld() {
     */
     // TODO: newline instead of ; 
     cc.str = "function hello( message:string ) {\n    const a = 10\n    const ff = new n()\n    return \"foobar\"\n  }";
-    cc.str = "function hello<T extends Animal,S>( fn:(x:T) => void ) : S | () => number {\n    const a = 10\n    const c = new n()\n    if( ((d=c.joo() + 9) + 500) < 29 ) {\n      return 300\n    } else {\n      return n ? new f() : (y:number,x?:number) => y + 10 * x\n    }    \n    const c = 9\n    c = jep()\n    return x => \"foobar\"\n  }\n\n  function helloWorld() {\n    return \"Hello\"\n  }\n  const MAXCNT = 1000\n\n  class foo {\n    jee() {\n\n    };\n    bar<T>() : () => T {\n\n    };\n    x = 123;\n    y  \n  }\n  ";
+    cc.str = "function hello<T extends Animal,S>( fn:(x:T) => void ) : S | () => number {\n    const a = 10\n    const c = new n()\n    if( ((d=c.joo() + 9) + 500) < 29 ) {\n      return 300\n    } else {\n      return n ? new f() : (y:number,x?:number) => y + 10 * x\n    }    \n    const c = 9\n    c = jep()\n    return x => \"foobar\"\n  }\n\n  function helloWorld() {\n    return \"Hello\"\n  }\n  const MAXCNT = 1000\n\n  class foo {\n    jee() {\n\n    };\n    bar<T>() : () => T {\n\n    };\n    x = 123;\n    y = true\n  }\n  ";
     // cc.str = 'const x = new foo ()'
     // cc.str = 'A*C+D'
     // cc.str = `caallSome(h,y)`
@@ -349,9 +350,13 @@ function HelloWorld() {
     var code = active.code;
     console.log('Finished at ', code.index, '/', code.str.length);
     console.log(code.str.substr(code.index));
-    var active2 = PNew.WalkNode(code);
-    if (active2) {
-        console.log(JSON.stringify(active2.node, null, 2));
+    var jsonCode = new JSONParser.CodeToConsume();
+    jsonCode.str = "{\"foo\":true, \"list\":[3,6,7,\"jee\"]}";
+    jsonCode.index = 0;
+    var testJSON = JSONParser.WalkNode(jsonCode);
+    if (testJSON) {
+        console.log('--- JSON ----');
+        console.log(JSON.stringify(testJSON.node, null, 2));
     }
     return 'Hello World!';
 }

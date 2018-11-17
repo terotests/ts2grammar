@@ -338,6 +338,7 @@ const opList:IASTNode[] = [
 
 
 import * as PNew from './ast/parsers/typescript'
+import * as JSONParser from './ast/parsers/json'
 
 export function HelloWorld() {
 
@@ -401,7 +402,7 @@ export function HelloWorld() {
 
     };
     x = 123;
-    y  
+    y = true
   }
   ` 
   
@@ -419,9 +420,13 @@ export function HelloWorld() {
 
   console.log(code.str.substr( code.index ))
 
-  const active2 = PNew.WalkNode( code )
-  if(active2) {
-    console.log(JSON.stringify( active2.node, null, 2))
+  const jsonCode = new JSONParser.CodeToConsume()
+  jsonCode.str = `{"foo":true, "list":[3,6,7,"jee"]}`
+  jsonCode.index = 0
+  const testJSON = JSONParser.WalkNode( jsonCode )
+  if(testJSON) {
+    console.log('--- JSON ----')
+    console.log(JSON.stringify( testJSON.node, null, 2))
   }
 
   return 'Hello World!'

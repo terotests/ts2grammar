@@ -294,20 +294,20 @@ var StatementBlock2 = /** @class */ (function () {
     return StatementBlock2;
 }());
 exports.StatementBlock2 = StatementBlock2;
-/*
-export class TrueLiteral  {
-  spaceBefore? = ' '
-  tag = 'true'
-  spaceAfter? = ' '
-}
-*/
-/*
-export class FalseLiteral  {
-  spaceBefore? = ' '
-  tag = 'false'
-  spaceAfter? = ' '
-}
-*/
+var TrueLiteral = /** @class */ (function () {
+    function TrueLiteral() {
+        this.tag = ' true ';
+    }
+    return TrueLiteral;
+}());
+exports.TrueLiteral = TrueLiteral;
+var FalseLiteral = /** @class */ (function () {
+    function FalseLiteral() {
+        this.tag = ' false ';
+    }
+    return FalseLiteral;
+}());
+exports.FalseLiteral = FalseLiteral;
 var TNumber = /** @class */ (function () {
     function TNumber() {
         this.spaceBefore = ' ';

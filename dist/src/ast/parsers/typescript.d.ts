@@ -49,7 +49,7 @@ export interface IASTNode {
 export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
 export declare type TypeDefs = SimpleTypeDefinition | ArrowFnType;
 export declare type ClassBodyType = ClassMethodDeclaration | ClassPropertyDeclaration;
 export declare type Statement = ConstDeclaration | IfStatement | ReturnStatement | Assing | FunctionExpression | ClassDeclaration;
@@ -727,6 +727,36 @@ export declare class StatementBlock2 implements IASTNode {
     constructor();
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): StatementBlock2 | null;
+}
+export declare class TrueLiteral implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    tag: string;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): TrueLiteral;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): TrueLiteral | null;
+}
+export declare class FalseLiteral implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    tag: string;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): FalseLiteral;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): FalseLiteral | null;
 }
 export declare class TNumber implements IASTNode {
     opComplexity: number;

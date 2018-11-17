@@ -1,7 +1,7 @@
 export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
 export declare type TypeDefs = SimpleTypeDefinition | ArrowFnType;
 export declare class TypeDefinitionUnion {
     start: string;
@@ -230,6 +230,12 @@ export declare class StatementBlock2 {
     statement?: Statement;
     next?: Next;
     end: string;
+}
+export declare class TrueLiteral {
+    tag: string;
+}
+export declare class FalseLiteral {
+    tag: string;
 }
 export declare class TNumber {
     spaceBefore?: string;
