@@ -1,4 +1,3 @@
-export type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator
 export type ArgType = Token | TNumberToken | StringLiteral
 export type NTypes = TNumberToken | StringLiteral
 export type ExpressionType =  SimpleArrowFunctionExpression 
@@ -277,7 +276,8 @@ export class NextStatement {
   next?: Next
 }
 export class NextStatementNl {
-  space? = ' \n '
+  space_regexp = /^\S*\n[ \t\n\r]+/
+  space:string
   statement?: Statement
   next?: Next
 }
@@ -298,8 +298,6 @@ export class StatementBlock2 {
   end = ' } '
 }
 
-
-
 export class TrueLiteral  {
   tag = ' true '  
 }
@@ -308,27 +306,19 @@ export class FalseLiteral  {
   tag = ' false '  
 }
 
-
-
-
-export class TNumber  {
-  spaceBefore? = ' '
-  value:number  
-  spaceAfter? = ' '
-}
-
 export class Token  {
   name:string 
   questionmark? = '?'
 }
 
 export class TNumberToken  {
-  prefix? = '-'
-  value:number  
+  value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/
+  value:string  
 }
 
 export class StringLiteral  {
   start = '"'
+  value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/  
   value:string  
   end = '"'
 }
@@ -343,23 +333,23 @@ export class MemberAccessOperator {
 }
 
 export class PlusExpression {
-  left: BinaryExpressionPart
+  left: ExpressionType
   op = ' + '
-  right: BinaryExpressionPart  
+  right: ExpressionType  
   precedence = 13
 }
 
 export class MultiplyExpression {
-  left: BinaryExpressionPart
+  left: ExpressionType
   op = ' * '
-  right: BinaryExpressionPart  
+  right: ExpressionType  
   precedence = 14
 }
 
 export class ConditionalExpression {
-  left: BinaryExpressionPart
+  left: ExpressionType
   op = ' < '
-  right: BinaryExpressionPart  
+  right: ExpressionType  
   precedence = 11
 }
 

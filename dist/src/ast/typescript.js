@@ -273,7 +273,7 @@ var NextStatement = /** @class */ (function () {
 exports.NextStatement = NextStatement;
 var NextStatementNl = /** @class */ (function () {
     function NextStatementNl() {
-        this.space = ' \n ';
+        this.space_regexp = /^\S*\n[ \t\n\r]+/;
     }
     return NextStatementNl;
 }());
@@ -308,14 +308,6 @@ var FalseLiteral = /** @class */ (function () {
     return FalseLiteral;
 }());
 exports.FalseLiteral = FalseLiteral;
-var TNumber = /** @class */ (function () {
-    function TNumber() {
-        this.spaceBefore = ' ';
-        this.spaceAfter = ' ';
-    }
-    return TNumber;
-}());
-exports.TNumber = TNumber;
 var Token = /** @class */ (function () {
     function Token() {
         this.questionmark = '?';
@@ -325,7 +317,7 @@ var Token = /** @class */ (function () {
 exports.Token = Token;
 var TNumberToken = /** @class */ (function () {
     function TNumberToken() {
-        this.prefix = '-';
+        this.value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
     }
     return TNumberToken;
 }());
@@ -333,6 +325,7 @@ exports.TNumberToken = TNumberToken;
 var StringLiteral = /** @class */ (function () {
     function StringLiteral() {
         this.start = '"';
+        this.value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
         this.end = '"';
     }
     return StringLiteral;

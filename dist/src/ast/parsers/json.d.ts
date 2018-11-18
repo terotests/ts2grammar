@@ -46,7 +46,7 @@ export interface IASTNode {
     consume(code: CodeToConsume): IASTNode | null;
     opComplexity: number;
 }
-export declare type ExpressionType = Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral;
+export declare type ExpressionType = Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral | NullLiteral;
 export declare class TrueLiteral implements IASTNode {
     opComplexity: number;
     NodeType: string;
@@ -77,6 +77,21 @@ export declare class FalseLiteral implements IASTNode {
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): FalseLiteral | null;
 }
+export declare class NullLiteral implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    tag: string;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): NullLiteral;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): NullLiteral | null;
+}
 export declare class Token implements IASTNode {
     opComplexity: number;
     NodeType: string;
@@ -95,9 +110,8 @@ export declare class Token implements IASTNode {
 export declare class Number implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    spaceBefore?: string;
+    value_regexp: RegExp;
     value: number;
-    spaceAfter?: string;
     precedence?: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -113,6 +127,7 @@ export declare class StringLiteral implements IASTNode {
     opComplexity: number;
     NodeType: string;
     start: string;
+    value_regexp: RegExp;
     value: string;
     end: string;
     precedence?: number;

@@ -197,7 +197,12 @@ export interface IASTNode {
     sourceFile.getClasses().forEach( c=>{
 
       if(true) {
+
         console.log(c.getName())
+
+        if(c.getName().indexOf('Parser') >= 0 ) {
+          return
+        }
 
         c.getType().getIntersectionTypes().forEach( ist => {
           const symb = ist.getSymbol()
@@ -212,6 +217,8 @@ export interface IASTNode {
             })
           }          
         })
+
+        // c.getMethods().
 
         operatorList.out(`new ${c.getName()}(),`, true)
 
@@ -290,14 +297,24 @@ MetaData = {
         let hadPred = false
         const freeVariables:PropertyDeclaration[] = []
         const trimOpts:{[key:string]:TrimOptions} = {}
+        const regExps:{[key:string]:boolean} = {}
         let complexity = 0
         c.getProperties().forEach( (p, propIndex) => {
+
           trimOpts[p.getName()] = { left:false, right:false }
           if(p.getName() === 'precedence') {
             body.out(p.print(), true)
             hadPred = true
             return
           }
+
+          if(p.getName().indexOf('_regexp') > 0 ) {
+            let patternFor = p.getName().substring(0, p.getName().indexOf('_regexp'))
+            regExps[patternFor] = true
+            body.out(p.print(), true)
+            return            
+          }
+
           const t = p.getTypeNode()
           body.out(p.print(), true)
           if(t) {
@@ -427,11 +444,25 @@ MetaData = {
                 const vname = tn.print()
                 switch( vname ) {
                   case 'string':
-                    consumer.out(`this.${p.getName()} = start.consumeString()`, true)
-                    if( !p.hasQuestionToken() ) {
-                      consumer.out(`if(this.${p.getName()}.length === 0) return null`, true)
+                    if( regExps[p.getName()]) {
+                      consumer.out(`const m_${p.getName()} = start.str.substring(start.index).match(this.${p.getName()}_regexp)`, true)
+                      consumer.out(`if(m_${p.getName()} && m_${p.getName()}.index === 0) {`, true)
+                        consumer.indent(1)
+                        consumer.out(`this.${p.getName()} = m_${p.getName()}[0]`, true)
+                        consumer.out(`start.index += this.${p.getName()}.length`, true)
+                        consumer.indent(-1)
+                      consumer.out(`} else {`, true)
+                        consumer.indent(1)
+                        consumer.out(`return null`, true)
+                        consumer.indent(-1)
+                      consumer.out(`}`, true)
                     } else {
-                      consumer.out(`if(this.${p.getName()}.length === 0) this.${p.getName()} =''`, true)                      
+                      consumer.out(`this.${p.getName()} = start.consumeString()`, true)
+                      if( !p.hasQuestionToken() ) {
+                        consumer.out(`if(this.${p.getName()}.length === 0) return null`, true)
+                      } else {
+                        consumer.out(`if(this.${p.getName()}.length === 0) this.${p.getName()} =''`, true)                      
+                      }  
                     }
                     break
                   case 'number':

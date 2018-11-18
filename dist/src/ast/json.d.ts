@@ -1,20 +1,23 @@
-export declare type ExpressionType = Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral;
+export declare type ExpressionType = Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral | NullLiteral;
 export declare class TrueLiteral {
     tag: string;
 }
 export declare class FalseLiteral {
     tag: string;
 }
+export declare class NullLiteral {
+    tag: string;
+}
 export declare class Token {
     name: string;
 }
 export declare class Number {
-    spaceBefore?: string;
+    value_regexp: RegExp;
     value: number;
-    spaceAfter?: string;
 }
 export declare class StringLiteral {
     start: string;
+    value_regexp: RegExp;
     value: string;
     end: string;
 }

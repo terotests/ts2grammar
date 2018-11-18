@@ -14,6 +14,13 @@ var FalseLiteral = /** @class */ (function () {
     return FalseLiteral;
 }());
 exports.FalseLiteral = FalseLiteral;
+var NullLiteral = /** @class */ (function () {
+    function NullLiteral() {
+        this.tag = ' null ';
+    }
+    return NullLiteral;
+}());
+exports.NullLiteral = NullLiteral;
 var Token = /** @class */ (function () {
     function Token() {
     }
@@ -22,16 +29,16 @@ var Token = /** @class */ (function () {
 exports.Token = Token;
 var Number = /** @class */ (function () {
     function Number() {
-        this.spaceBefore = ' ';
-        this.spaceAfter = ' ';
+        this.value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
     }
     return Number;
 }());
 exports.Number = Number;
 var StringLiteral = /** @class */ (function () {
     function StringLiteral() {
-        this.start = '"';
-        this.end = '"';
+        this.start = ' "';
+        this.value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
+        this.end = '" ';
     }
     return StringLiteral;
 }());

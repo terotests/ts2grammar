@@ -121,13 +121,6 @@ export interface IASTNode {
   opComplexity : number
 }    
     
-// Type : BinaryExpressionPart
-// UNION: - Token | ParenExpression | TNumber | MemberAccessOperator
-// Type --> Token
-// Type --> ParenExpression
-// Type --> TNumber
-// Type --> MemberAccessOperator
-export type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 // Type : ArgType
 // UNION: - Token | TNumberToken | StringLiteral
 // Type --> Token
@@ -142,16 +135,16 @@ export type NTypes = TNumberToken | StringLiteral;
 // Type : ExpressionType
 // UNION: - SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral
 // Type --> Token
-// Type --> ParenExpression
-// Type --> MemberAccessOperator
 // Type --> TNumberToken
 // Type --> StringLiteral
 // Type --> SimpleArrowFunctionExpression
 // Type --> ArrowFunctionExpression
 // Type --> NewExpressionWithoutArgs
 // Type --> NewExpressionWithArgs
+// Type --> MemberAccessOperator
 // Type --> PlusExpression
 // Type --> MultiplyExpression
+// Type --> ParenExpression
 // Type --> ObjectLiteral
 // Type --> ArrayLiteral
 // Type --> FunctionExpression
@@ -370,8 +363,8 @@ export class Assing  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -849,8 +842,8 @@ export class ParamInitializer  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -1101,8 +1094,8 @@ export class CallParameterListTail  implements IASTNode {
     }
     // WALK: head
     if(!this.head) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.head = walk.node as ExpressionType
         start.from( walk.code )
@@ -1174,8 +1167,8 @@ export class CallParameterList  implements IASTNode {
     }
     // WALK: head
     if(!this.head) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.head = walk.node as ExpressionType
         start.from( walk.code )
@@ -1655,8 +1648,8 @@ export class CallExpressionWithArgs  implements IASTNode {
     const start = code.copy()
     // WALK: obj
     if(!this.obj) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.obj = walk.node as ExpressionType
         start.from( walk.code )
@@ -1969,8 +1962,8 @@ export class SimpleArrowFunctionExpression  implements IASTNode {
     }
     // WALK: expression
     if(!this.expression) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.expression = walk.node as ExpressionType
         start.from( walk.code )
@@ -2051,8 +2044,8 @@ export class ArrowFunctionExpression  implements IASTNode {
     }
     // WALK: expression
     if(!this.expression) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.expression = walk.node as ExpressionType
         start.from( walk.code )
@@ -2214,8 +2207,8 @@ export class ObjectLiteralEntry  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -2349,8 +2342,8 @@ export class ArrayLiteral  implements IASTNode {
     }
     // WALK: head
     if(!this.head) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.head = walk.node as ExpressionType
         start.from( walk.code )
@@ -2427,8 +2420,8 @@ export class ArrayLiteralTail  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -2527,8 +2520,8 @@ export class ConstDeclaration  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -2587,8 +2580,8 @@ export class ReturnStatement  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -2717,8 +2710,8 @@ export class IfStatement  implements IASTNode {
     }
     // WALK: condition
     if(!this.condition) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.condition = walk.node as ExpressionType
         start.from( walk.code )
@@ -2827,20 +2820,21 @@ export class NextStatement  implements IASTNode {
   }
 }
 export class NextStatementNl  implements IASTNode {
-  opComplexity = 12
+  opComplexity = 3
   NodeType = 'NextStatementNl'
-  space? = ' \n ';
+  space_regexp = /^\S*\n[ \t\n\r]+/;
+  space: string;
   statement?: Statement;
   next?: Next;
   precedence? : number
   getFreeCount() : number {
-    return  2
+    return  3
   }
   setFirst( value : any )  {
-    this.statement = value
+    this.space = value
   }
   getFirst() : any | null {
-    return this.statement
+    return this.space
   }
   setLast( value : any )  {
     this.next = value
@@ -2852,7 +2846,6 @@ export class NextStatementNl  implements IASTNode {
     return new NextStatementNl ()
   }
   constructor() {
-    this.space = this.space.trim()
   }
   isInPath(code:CodeToConsume) : boolean {
     for( let p of code.expressionPath) {
@@ -2867,10 +2860,14 @@ export class NextStatementNl  implements IASTNode {
     }
     code.expressionPath.push({index:code.index, nodetype:'NextStatementNl'})
     const start = code.copy()
-    if(typeof(this.space) === 'string') {
-      start.removeSpace()
-      if(!start.consume(this.space)) this.space = '' 
-      start.removeSpace()
+    // WALK: space
+    // Expect Type: string
+    const m_space = start.str.substring(start.index).match(this.space_regexp)
+    if(m_space && m_space.index === 0) {
+      this.space = m_space[0]
+      start.index += this.space.length
+    } else {
+      return null
     }
     // WALK: statement
     if(!this.statement) {
@@ -3141,61 +3138,6 @@ export class FalseLiteral  implements IASTNode {
     return this
   }
 }
-export class TNumber  implements IASTNode {
-  opComplexity = 21
-  NodeType = 'TNumber'
-  spaceBefore? = ' ';
-  value: number;
-  spaceAfter? = ' ';
-  precedence? : number
-  getFreeCount() : number {
-    return  1
-  }
-  setFirst( value : any )  {
-    this.value = value
-  }
-  getFirst() : any | null {
-    return this.value
-  }
-  setLast( value : any )  {
-    this.value = value
-  }
-  getLast() : any | null {
-    return this.value
-  }
-  create() : TNumber  {
-    return new TNumber ()
-  }
-  constructor() {
-  }
-  isInPath(code:CodeToConsume) : boolean {
-    for( let p of code.expressionPath) {
-      if( (p.nodetype=='TNumber') && (p.index === code.index)) return true
-    }
-    return false
-  }
-  consume(code:CodeToConsume) : TNumber | null {
-    // console.log('Testing TNumber', code.expressionPath)
-    if( this.isInPath(code)) {
-      return null
-    }
-    code.expressionPath.push({index:code.index, nodetype:'TNumber'})
-    const start = code.copy()
-    if(typeof(this.spaceBefore) === 'string') {
-      if(!start.consume(this.spaceBefore)) this.spaceBefore = '' 
-    }
-    // WALK: value
-    // Expect Type: number
-    const tmp_value = start.consumeNumber()
-    if(tmp_value.length === 0) return null
-    this.value = parseInt(tmp_value)
-    if(typeof(this.spaceAfter) === 'string') {
-      if(!start.consume(this.spaceAfter)) this.spaceAfter = '' 
-    }
-    code.from( start )
-    return this
-  }
-}
 export class Token  implements IASTNode {
   opComplexity = 11
   NodeType = 'Token'
@@ -3247,10 +3189,10 @@ export class Token  implements IASTNode {
   }
 }
 export class TNumberToken  implements IASTNode {
-  opComplexity = 11
+  opComplexity = 1
   NodeType = 'TNumberToken'
-  prefix? = '-';
-  value: number;
+  value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
+  value: string;
   precedence? : number
   getFreeCount() : number {
     return  1
@@ -3285,14 +3227,15 @@ export class TNumberToken  implements IASTNode {
     }
     code.expressionPath.push({index:code.index, nodetype:'TNumberToken'})
     const start = code.copy()
-    if(typeof(this.prefix) === 'string') {
-      if(!start.consume(this.prefix)) this.prefix = '' 
-    }
     // WALK: value
-    // Expect Type: number
-    const tmp_value = start.consumeNumber()
-    if(tmp_value.length === 0) return null
-    this.value = parseInt(tmp_value)
+    // Expect Type: string
+    const m_value = start.str.substring(start.index).match(this.value_regexp)
+    if(m_value && m_value.index === 0) {
+      this.value = m_value[0]
+      start.index += this.value.length
+    } else {
+      return null
+    }
     code.from( start )
     return this
   }
@@ -3301,6 +3244,7 @@ export class StringLiteral  implements IASTNode {
   opComplexity = 103
   NodeType = 'StringLiteral'
   start = '"';
+  value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
   value: string;
   end = '"';
   precedence? : number
@@ -3342,8 +3286,13 @@ export class StringLiteral  implements IASTNode {
     }
     // WALK: value
     // Expect Type: string
-    this.value = start.consumeString()
-    if(this.value.length === 0) return null
+    const m_value = start.str.substring(start.index).match(this.value_regexp)
+    if(m_value && m_value.index === 0) {
+      this.value = m_value[0]
+      start.index += this.value.length
+    } else {
+      return null
+    }
     if(typeof(this.end) === 'string') {
       if( !start.consume(this.end) ) return null
     }
@@ -3431,9 +3380,9 @@ export class MemberAccessOperator  implements IASTNode {
 export class PlusExpression  implements IASTNode {
   opComplexity = 3
   NodeType = 'PlusExpression'
-  left: BinaryExpressionPart;
+  left: ExpressionType;
   op = ' + ';
-  right: BinaryExpressionPart;
+  right: ExpressionType;
   precedence = 13;
   getFreeCount() : number {
     return  2
@@ -3471,10 +3420,10 @@ export class PlusExpression  implements IASTNode {
     const start = code.copy()
     // WALK: left
     if(!this.left) {
-      // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
-        this.left = walk.node as BinaryExpressionPart
+        this.left = walk.node as ExpressionType
         start.from( walk.code )
       } else {
         return null
@@ -3487,10 +3436,10 @@ export class PlusExpression  implements IASTNode {
     }
     // WALK: right
     if(!this.right) {
-      // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
-        this.right = walk.node as BinaryExpressionPart
+        this.right = walk.node as ExpressionType
         start.from( walk.code )
       } else {
         return null
@@ -3503,9 +3452,9 @@ export class PlusExpression  implements IASTNode {
 export class MultiplyExpression  implements IASTNode {
   opComplexity = 3
   NodeType = 'MultiplyExpression'
-  left: BinaryExpressionPart;
+  left: ExpressionType;
   op = ' * ';
-  right: BinaryExpressionPart;
+  right: ExpressionType;
   precedence = 14;
   getFreeCount() : number {
     return  2
@@ -3543,10 +3492,10 @@ export class MultiplyExpression  implements IASTNode {
     const start = code.copy()
     // WALK: left
     if(!this.left) {
-      // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
-        this.left = walk.node as BinaryExpressionPart
+        this.left = walk.node as ExpressionType
         start.from( walk.code )
       } else {
         return null
@@ -3559,10 +3508,10 @@ export class MultiplyExpression  implements IASTNode {
     }
     // WALK: right
     if(!this.right) {
-      // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
-        this.right = walk.node as BinaryExpressionPart
+        this.right = walk.node as ExpressionType
         start.from( walk.code )
       } else {
         return null
@@ -3575,9 +3524,9 @@ export class MultiplyExpression  implements IASTNode {
 export class ConditionalExpression  implements IASTNode {
   opComplexity = 3
   NodeType = 'ConditionalExpression'
-  left: BinaryExpressionPart;
+  left: ExpressionType;
   op = ' < ';
-  right: BinaryExpressionPart;
+  right: ExpressionType;
   precedence = 11;
   getFreeCount() : number {
     return  2
@@ -3615,10 +3564,10 @@ export class ConditionalExpression  implements IASTNode {
     const start = code.copy()
     // WALK: left
     if(!this.left) {
-      // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
-        this.left = walk.node as BinaryExpressionPart
+        this.left = walk.node as ExpressionType
         start.from( walk.code )
       } else {
         return null
@@ -3631,10 +3580,10 @@ export class ConditionalExpression  implements IASTNode {
     }
     // WALK: right
     if(!this.right) {
-      // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
-        this.right = walk.node as BinaryExpressionPart
+        this.right = walk.node as ExpressionType
         start.from( walk.code )
       } else {
         return null
@@ -3693,8 +3642,8 @@ export class ParenExpression  implements IASTNode {
     }
     // WALK: expr
     if(!this.expr) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.expr = walk.node as ExpressionType
         start.from( walk.code )
@@ -3757,8 +3706,8 @@ export class TernaryOperator  implements IASTNode {
     const start = code.copy()
     // WALK: condition
     if(!this.condition) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.condition = walk.node as ExpressionType
         start.from( walk.code )
@@ -3773,8 +3722,8 @@ export class TernaryOperator  implements IASTNode {
     }
     // WALK: whentrue
     if(!this.whentrue) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.whentrue = walk.node as ExpressionType
         start.from( walk.code )
@@ -3788,8 +3737,8 @@ export class TernaryOperator  implements IASTNode {
     }
     // WALK: whenfalse
     if(!this.whenfalse) {
-      // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-      const walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
+      // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+      const walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()])
       if(walk) {
         this.whenfalse = walk.node as ExpressionType
         start.from( walk.code )
@@ -3831,12 +3780,10 @@ const keywords:{[key:string]:boolean} = {
   [' else '.trim()] : true,
   [' if '.trim()] : true,
   [' ) '.trim()] : true,
-  [' \n '.trim()] : true,
   [' }'.trim()] : true,
   [' true '.trim()] : true,
   [' false '.trim()] : true,
   ['?'.trim()] : true,
-  ['-'.trim()] : true,
   ['"'.trim()] : true,
   ['.'.trim()] : true,
   [' + '.trim()] : true,
@@ -3884,7 +3831,6 @@ const initialList:IASTNode[] = [
   new StatementBlock2(),
   new TrueLiteral(),
   new FalseLiteral(),
-  new TNumber(),
   new Token(),
   new TNumberToken(),
   new StringLiteral(),

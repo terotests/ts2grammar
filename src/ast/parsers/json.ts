@@ -122,7 +122,7 @@ export interface IASTNode {
 }    
     
 // Type : ExpressionType
-// UNION: - Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral
+// UNION: - Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral | NullLiteral
 // Type --> Token
 // Type --> Number
 // Type --> ObjectLiteral
@@ -130,7 +130,8 @@ export interface IASTNode {
 // Type --> TrueLiteral
 // Type --> FalseLiteral
 // Type --> StringLiteral
-export type ExpressionType = Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral;
+// Type --> NullLiteral
+export type ExpressionType = Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral | NullLiteral;
 export class TrueLiteral  implements IASTNode {
   opComplexity = 101
   NodeType = 'TrueLiteral'
@@ -223,6 +224,52 @@ export class FalseLiteral  implements IASTNode {
     return this
   }
 }
+export class NullLiteral  implements IASTNode {
+  opComplexity = 101
+  NodeType = 'NullLiteral'
+  tag = ' null ';
+  precedence? : number
+  getFreeCount() : number {
+    return  0
+  }
+  setFirst( value : any )  {
+  }
+  getFirst() : any | null {
+    return null
+  }
+  setLast( value : any )  {
+  }
+  getLast() : any | null {
+    return null
+  }
+  create() : NullLiteral  {
+    return new NullLiteral ()
+  }
+  constructor() {
+    this.tag = this.tag.trim()
+  }
+  isInPath(code:CodeToConsume) : boolean {
+    for( let p of code.expressionPath) {
+      if( (p.nodetype=='NullLiteral') && (p.index === code.index)) return true
+    }
+    return false
+  }
+  consume(code:CodeToConsume) : NullLiteral | null {
+    // console.log('Testing NullLiteral', code.expressionPath)
+    if( this.isInPath(code)) {
+      return null
+    }
+    code.expressionPath.push({index:code.index, nodetype:'NullLiteral'})
+    const start = code.copy()
+    if(typeof(this.tag) === 'string') {
+      start.removeSpace()
+      if( !start.consume(this.tag) ) return null
+      start.removeSpace()
+    }
+    code.from( start )
+    return this
+  }
+}
 export class Token  implements IASTNode {
   opComplexity = 1
   NodeType = 'Token'
@@ -270,11 +317,10 @@ export class Token  implements IASTNode {
   }
 }
 export class Number  implements IASTNode {
-  opComplexity = 21
+  opComplexity = 1
   NodeType = 'Number'
-  spaceBefore? = ' ';
+  value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
   value: number;
-  spaceAfter? = ' ';
   precedence? : number
   getFreeCount() : number {
     return  1
@@ -309,17 +355,11 @@ export class Number  implements IASTNode {
     }
     code.expressionPath.push({index:code.index, nodetype:'Number'})
     const start = code.copy()
-    if(typeof(this.spaceBefore) === 'string') {
-      if(!start.consume(this.spaceBefore)) this.spaceBefore = '' 
-    }
     // WALK: value
     // Expect Type: number
     const tmp_value = start.consumeNumber()
     if(tmp_value.length === 0) return null
     this.value = parseInt(tmp_value)
-    if(typeof(this.spaceAfter) === 'string') {
-      if(!start.consume(this.spaceAfter)) this.spaceAfter = '' 
-    }
     code.from( start )
     return this
   }
@@ -327,9 +367,10 @@ export class Number  implements IASTNode {
 export class StringLiteral  implements IASTNode {
   opComplexity = 103
   NodeType = 'StringLiteral'
-  start = '"';
+  start = ' "';
+  value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
   value: string;
-  end = '"';
+  end = '" ';
   precedence? : number
   getFreeCount() : number {
     return  1
@@ -350,6 +391,8 @@ export class StringLiteral  implements IASTNode {
     return new StringLiteral ()
   }
   constructor() {
+    this.start = this.start.trim()
+    this.end = this.end.trim()
   }
   isInPath(code:CodeToConsume) : boolean {
     for( let p of code.expressionPath) {
@@ -365,14 +408,21 @@ export class StringLiteral  implements IASTNode {
     code.expressionPath.push({index:code.index, nodetype:'StringLiteral'})
     const start = code.copy()
     if(typeof(this.start) === 'string') {
+      start.removeSpace()
       if( !start.consume(this.start) ) return null
     }
     // WALK: value
     // Expect Type: string
-    this.value = start.consumeString()
-    if(this.value.length === 0) return null
+    const m_value = start.str.substring(start.index).match(this.value_regexp)
+    if(m_value && m_value.index === 0) {
+      this.value = m_value[0]
+      start.index += this.value.length
+    } else {
+      return null
+    }
     if(typeof(this.end) === 'string') {
       if( !start.consume(this.end) ) return null
+      start.removeSpace()
     }
     code.from( start )
     return this
@@ -437,8 +487,8 @@ export class ObjectLiteralEntry  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral
-      const walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral()])
+      // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+      const walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -648,8 +698,8 @@ export class ArrayLiteral  implements IASTNode {
     }
     // WALK: head
     if(!this.head) {
-      // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral
-      const walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral()])
+      // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+      const walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()])
       if(walk) {
         this.head = walk.node as ExpressionType
         start.from( walk.code )
@@ -723,8 +773,8 @@ export class ArrayLiteralTail  implements IASTNode {
     }
     // WALK: value
     if(!this.value) {
-      // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral
-      const walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral()])
+      // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+      const walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()])
       if(walk) {
         this.value = walk.node as ExpressionType
         start.from( walk.code )
@@ -749,8 +799,9 @@ export class ArrayLiteralTail  implements IASTNode {
 const keywords:{[key:string]:boolean} = {
   [' true '.trim()] : true,
   [' false '.trim()] : true,
-  [' '.trim()] : true,
-  ['"'.trim()] : true,
+  [' null '.trim()] : true,
+  [' "'.trim()] : true,
+  ['" '.trim()] : true,
   [' : '.trim()] : true,
   [' , '.trim()] : true,
   [' { '.trim()] : true,
@@ -761,6 +812,7 @@ const keywords:{[key:string]:boolean} = {
 const initialList:IASTNode[] = [
   new TrueLiteral(),
   new FalseLiteral(),
+  new NullLiteral(),
   new Token(),
   new Number(),
   new StringLiteral(),

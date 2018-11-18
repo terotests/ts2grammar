@@ -46,7 +46,6 @@ export interface IASTNode {
     consume(code: CodeToConsume): IASTNode | null;
     opComplexity: number;
 }
-export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
 export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
@@ -678,7 +677,8 @@ export declare class NextStatement implements IASTNode {
 export declare class NextStatementNl implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    space?: string;
+    space_regexp: RegExp;
+    space: string;
     statement?: Statement;
     next?: Next;
     precedence?: number;
@@ -758,23 +758,6 @@ export declare class FalseLiteral implements IASTNode {
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): FalseLiteral | null;
 }
-export declare class TNumber implements IASTNode {
-    opComplexity: number;
-    NodeType: string;
-    spaceBefore?: string;
-    value: number;
-    spaceAfter?: string;
-    precedence?: number;
-    getFreeCount(): number;
-    setFirst(value: any): void;
-    getFirst(): any | null;
-    setLast(value: any): void;
-    getLast(): any | null;
-    create(): TNumber;
-    constructor();
-    isInPath(code: CodeToConsume): boolean;
-    consume(code: CodeToConsume): TNumber | null;
-}
 export declare class Token implements IASTNode {
     opComplexity: number;
     NodeType: string;
@@ -794,8 +777,8 @@ export declare class Token implements IASTNode {
 export declare class TNumberToken implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    prefix?: string;
-    value: number;
+    value_regexp: RegExp;
+    value: string;
     precedence?: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -811,6 +794,7 @@ export declare class StringLiteral implements IASTNode {
     opComplexity: number;
     NodeType: string;
     start: string;
+    value_regexp: RegExp;
     value: string;
     end: string;
     precedence?: number;
@@ -846,9 +830,9 @@ export declare class MemberAccessOperator implements IASTNode {
 export declare class PlusExpression implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    left: BinaryExpressionPart;
+    left: ExpressionType;
     op: string;
-    right: BinaryExpressionPart;
+    right: ExpressionType;
     precedence: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -863,9 +847,9 @@ export declare class PlusExpression implements IASTNode {
 export declare class MultiplyExpression implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    left: BinaryExpressionPart;
+    left: ExpressionType;
     op: string;
-    right: BinaryExpressionPart;
+    right: ExpressionType;
     precedence: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -880,9 +864,9 @@ export declare class MultiplyExpression implements IASTNode {
 export declare class ConditionalExpression implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    left: BinaryExpressionPart;
+    left: ExpressionType;
     op: string;
-    right: BinaryExpressionPart;
+    right: ExpressionType;
     precedence: number;
     getFreeCount(): number;
     setFirst(value: any): void;

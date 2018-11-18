@@ -145,6 +145,9 @@ function createProject(settings) {
                         sourceFile.getClasses().forEach(function (c) {
                             if (true) {
                                 console.log(c.getName());
+                                if (c.getName().indexOf('Parser') >= 0) {
+                                    return;
+                                }
                                 c.getType().getIntersectionTypes().forEach(function (ist) {
                                     var symb = ist.getSymbol();
                                     if (symb)
@@ -159,6 +162,7 @@ function createProject(settings) {
                                         });
                                     }
                                 });
+                                // c.getMethods().
                                 operatorList.out("new " + c.getName() + "(),", true);
                                 var tparams = c.getTypeParameters().map(function (tparam) { return tparam.print(); });
                                 var tArgument = '';
@@ -226,12 +230,19 @@ function createProject(settings) {
                                 var hadPred_1 = false;
                                 var freeVariables_1 = [];
                                 var trimOpts_1 = {};
+                                var regExps_1 = {};
                                 var complexity_1 = 0;
                                 c.getProperties().forEach(function (p, propIndex) {
                                     trimOpts_1[p.getName()] = { left: false, right: false };
                                     if (p.getName() === 'precedence') {
                                         body_1.out(p.print(), true);
                                         hadPred_1 = true;
+                                        return;
+                                    }
+                                    if (p.getName().indexOf('_regexp') > 0) {
+                                        var patternFor = p.getName().substring(0, p.getName().indexOf('_regexp'));
+                                        regExps_1[patternFor] = true;
+                                        body_1.out(p.print(), true);
                                         return;
                                     }
                                     var t = p.getTypeNode();
@@ -357,12 +368,27 @@ function createProject(settings) {
                                                 var vname = tn.print();
                                                 switch (vname) {
                                                     case 'string':
-                                                        consumer_1.out("this." + p.getName() + " = start.consumeString()", true);
-                                                        if (!p.hasQuestionToken()) {
-                                                            consumer_1.out("if(this." + p.getName() + ".length === 0) return null", true);
+                                                        if (regExps_1[p.getName()]) {
+                                                            consumer_1.out("const m_" + p.getName() + " = start.str.substring(start.index).match(this." + p.getName() + "_regexp)", true);
+                                                            consumer_1.out("if(m_" + p.getName() + " && m_" + p.getName() + ".index === 0) {", true);
+                                                            consumer_1.indent(1);
+                                                            consumer_1.out("this." + p.getName() + " = m_" + p.getName() + "[0]", true);
+                                                            consumer_1.out("start.index += this." + p.getName() + ".length", true);
+                                                            consumer_1.indent(-1);
+                                                            consumer_1.out("} else {", true);
+                                                            consumer_1.indent(1);
+                                                            consumer_1.out("return null", true);
+                                                            consumer_1.indent(-1);
+                                                            consumer_1.out("}", true);
                                                         }
                                                         else {
-                                                            consumer_1.out("if(this." + p.getName() + ".length === 0) this." + p.getName() + " =''", true);
+                                                            consumer_1.out("this." + p.getName() + " = start.consumeString()", true);
+                                                            if (!p.hasQuestionToken()) {
+                                                                consumer_1.out("if(this." + p.getName() + ".length === 0) return null", true);
+                                                            }
+                                                            else {
+                                                                consumer_1.out("if(this." + p.getName() + ".length === 0) this." + p.getName() + " =''", true);
+                                                            }
                                                         }
                                                         break;
                                                     case 'number':

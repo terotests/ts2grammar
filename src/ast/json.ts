@@ -6,28 +6,23 @@ export type ExpressionType =
   | TrueLiteral
   | FalseLiteral
   | StringLiteral
+  | NullLiteral
 
-export class TrueLiteral  { 
-  tag = ' true ' 
-}
-export class FalseLiteral  { 
-  tag = ' false ' 
-}
-
-export class Token  {
-  name:string 
-}
+export class TrueLiteral  { tag = ' true ' }
+export class FalseLiteral  { tag = ' false ' }
+export class NullLiteral  { tag = ' null ' }
+export class Token  { name:string }
 
 export class Number  {
-  spaceBefore? = ' '
+  value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/
   value:number  
-  spaceAfter? = ' '
 }
 
 export class StringLiteral  {
-  start = '"'
-  value:string  
-  end = '"'
+  start = ' "'
+  value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/
+  value:string 
+  end = '" '
 }
   
 export class ObjectLiteralEntry {

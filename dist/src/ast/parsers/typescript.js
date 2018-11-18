@@ -286,8 +286,8 @@ var Assing = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -795,8 +795,8 @@ var ParamInitializer = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -1060,8 +1060,8 @@ var CallParameterListTail = /** @class */ (function () {
         }
         // WALK: head
         if (!this.head) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.head = walk.node;
                 start.from(walk.code);
@@ -1138,8 +1138,8 @@ var CallParameterList = /** @class */ (function () {
         }
         // WALK: head
         if (!this.head) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.head = walk.node;
                 start.from(walk.code);
@@ -1644,8 +1644,8 @@ var CallExpressionWithArgs = /** @class */ (function () {
         var start = code.copy();
         // WALK: obj
         if (!this.obj) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.obj = walk.node;
                 start.from(walk.code);
@@ -1976,8 +1976,8 @@ var SimpleArrowFunctionExpression = /** @class */ (function () {
         }
         // WALK: expression
         if (!this.expression) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.expression = walk.node;
                 start.from(walk.code);
@@ -2065,8 +2065,8 @@ var ArrowFunctionExpression = /** @class */ (function () {
         }
         // WALK: expression
         if (!this.expression) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.expression = walk.node;
                 start.from(walk.code);
@@ -2243,8 +2243,8 @@ var ObjectLiteralEntry = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2387,8 +2387,8 @@ var ArrayLiteral = /** @class */ (function () {
         }
         // WALK: head
         if (!this.head) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.head = walk.node;
                 start.from(walk.code);
@@ -2472,8 +2472,8 @@ var ArrayLiteralTail = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2578,8 +2578,8 @@ var ConstDeclaration = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2642,8 +2642,8 @@ var ReturnStatement = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2779,8 +2779,8 @@ var IfStatement = /** @class */ (function () {
         }
         // WALK: condition
         if (!this.condition) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.condition = walk.node;
                 start.from(walk.code);
@@ -2900,19 +2900,18 @@ var NextStatement = /** @class */ (function () {
 exports.NextStatement = NextStatement;
 var NextStatementNl = /** @class */ (function () {
     function NextStatementNl() {
-        this.opComplexity = 12;
+        this.opComplexity = 3;
         this.NodeType = 'NextStatementNl';
-        this.space = ' \n ';
-        this.space = this.space.trim();
+        this.space_regexp = /^\S*\n[ \t\n\r]+/;
     }
     NextStatementNl.prototype.getFreeCount = function () {
-        return 2;
+        return 3;
     };
     NextStatementNl.prototype.setFirst = function (value) {
-        this.statement = value;
+        this.space = value;
     };
     NextStatementNl.prototype.getFirst = function () {
-        return this.statement;
+        return this.space;
     };
     NextStatementNl.prototype.setLast = function (value) {
         this.next = value;
@@ -2938,11 +2937,15 @@ var NextStatementNl = /** @class */ (function () {
         }
         code.expressionPath.push({ index: code.index, nodetype: 'NextStatementNl' });
         var start = code.copy();
-        if (typeof (this.space) === 'string') {
-            start.removeSpace();
-            if (!start.consume(this.space))
-                this.space = '';
-            start.removeSpace();
+        // WALK: space
+        // Expect Type: string
+        var m_space = start.str.substring(start.index).match(this.space_regexp);
+        if (m_space && m_space.index === 0) {
+            this.space = m_space[0];
+            start.index += this.space.length;
+        }
+        else {
+            return null;
         }
         // WALK: statement
         if (!this.statement) {
@@ -3235,66 +3238,6 @@ var FalseLiteral = /** @class */ (function () {
     return FalseLiteral;
 }());
 exports.FalseLiteral = FalseLiteral;
-var TNumber = /** @class */ (function () {
-    function TNumber() {
-        this.opComplexity = 21;
-        this.NodeType = 'TNumber';
-        this.spaceBefore = ' ';
-        this.spaceAfter = ' ';
-    }
-    TNumber.prototype.getFreeCount = function () {
-        return 1;
-    };
-    TNumber.prototype.setFirst = function (value) {
-        this.value = value;
-    };
-    TNumber.prototype.getFirst = function () {
-        return this.value;
-    };
-    TNumber.prototype.setLast = function (value) {
-        this.value = value;
-    };
-    TNumber.prototype.getLast = function () {
-        return this.value;
-    };
-    TNumber.prototype.create = function () {
-        return new TNumber();
-    };
-    TNumber.prototype.isInPath = function (code) {
-        for (var _i = 0, _a = code.expressionPath; _i < _a.length; _i++) {
-            var p = _a[_i];
-            if ((p.nodetype == 'TNumber') && (p.index === code.index))
-                return true;
-        }
-        return false;
-    };
-    TNumber.prototype.consume = function (code) {
-        // console.log('Testing TNumber', code.expressionPath)
-        if (this.isInPath(code)) {
-            return null;
-        }
-        code.expressionPath.push({ index: code.index, nodetype: 'TNumber' });
-        var start = code.copy();
-        if (typeof (this.spaceBefore) === 'string') {
-            if (!start.consume(this.spaceBefore))
-                this.spaceBefore = '';
-        }
-        // WALK: value
-        // Expect Type: number
-        var tmp_value = start.consumeNumber();
-        if (tmp_value.length === 0)
-            return null;
-        this.value = parseInt(tmp_value);
-        if (typeof (this.spaceAfter) === 'string') {
-            if (!start.consume(this.spaceAfter))
-                this.spaceAfter = '';
-        }
-        code.from(start);
-        return this;
-    };
-    return TNumber;
-}());
-exports.TNumber = TNumber;
 var Token = /** @class */ (function () {
     function Token() {
         this.opComplexity = 11;
@@ -3351,9 +3294,9 @@ var Token = /** @class */ (function () {
 exports.Token = Token;
 var TNumberToken = /** @class */ (function () {
     function TNumberToken() {
-        this.opComplexity = 11;
+        this.opComplexity = 1;
         this.NodeType = 'TNumberToken';
-        this.prefix = '-';
+        this.value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
     }
     TNumberToken.prototype.getFreeCount = function () {
         return 1;
@@ -3388,16 +3331,16 @@ var TNumberToken = /** @class */ (function () {
         }
         code.expressionPath.push({ index: code.index, nodetype: 'TNumberToken' });
         var start = code.copy();
-        if (typeof (this.prefix) === 'string') {
-            if (!start.consume(this.prefix))
-                this.prefix = '';
-        }
         // WALK: value
-        // Expect Type: number
-        var tmp_value = start.consumeNumber();
-        if (tmp_value.length === 0)
+        // Expect Type: string
+        var m_value = start.str.substring(start.index).match(this.value_regexp);
+        if (m_value && m_value.index === 0) {
+            this.value = m_value[0];
+            start.index += this.value.length;
+        }
+        else {
             return null;
-        this.value = parseInt(tmp_value);
+        }
         code.from(start);
         return this;
     };
@@ -3409,6 +3352,7 @@ var StringLiteral = /** @class */ (function () {
         this.opComplexity = 103;
         this.NodeType = 'StringLiteral';
         this.start = '"';
+        this.value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
         this.end = '"';
     }
     StringLiteral.prototype.getFreeCount = function () {
@@ -3450,9 +3394,14 @@ var StringLiteral = /** @class */ (function () {
         }
         // WALK: value
         // Expect Type: string
-        this.value = start.consumeString();
-        if (this.value.length === 0)
+        var m_value = start.str.substring(start.index).match(this.value_regexp);
+        if (m_value && m_value.index === 0) {
+            this.value = m_value[0];
+            start.index += this.value.length;
+        }
+        else {
             return null;
+        }
         if (typeof (this.end) === 'string') {
             if (!start.consume(this.end))
                 return null;
@@ -3590,8 +3539,8 @@ var PlusExpression = /** @class */ (function () {
         var start = code.copy();
         // WALK: left
         if (!this.left) {
-            // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.left = walk.node;
                 start.from(walk.code);
@@ -3608,8 +3557,8 @@ var PlusExpression = /** @class */ (function () {
         }
         // WALK: right
         if (!this.right) {
-            // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.right = walk.node;
                 start.from(walk.code);
@@ -3667,8 +3616,8 @@ var MultiplyExpression = /** @class */ (function () {
         var start = code.copy();
         // WALK: left
         if (!this.left) {
-            // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.left = walk.node;
                 start.from(walk.code);
@@ -3685,8 +3634,8 @@ var MultiplyExpression = /** @class */ (function () {
         }
         // WALK: right
         if (!this.right) {
-            // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.right = walk.node;
                 start.from(walk.code);
@@ -3744,8 +3693,8 @@ var ConditionalExpression = /** @class */ (function () {
         var start = code.copy();
         // WALK: left
         if (!this.left) {
-            // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.left = walk.node;
                 start.from(walk.code);
@@ -3762,8 +3711,8 @@ var ConditionalExpression = /** @class */ (function () {
         }
         // WALK: right
         if (!this.right) {
-            // Expect: Token, ParenExpression, TNumber, MemberAccessOperator
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new TNumber(), new MemberAccessOperator()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.right = walk.node;
                 start.from(walk.code);
@@ -3828,8 +3777,8 @@ var ParenExpression = /** @class */ (function () {
         }
         // WALK: expr
         if (!this.expr) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.expr = walk.node;
                 start.from(walk.code);
@@ -3895,8 +3844,8 @@ var TernaryOperator = /** @class */ (function () {
         var start = code.copy();
         // WALK: condition
         if (!this.condition) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.condition = walk.node;
                 start.from(walk.code);
@@ -3913,8 +3862,8 @@ var TernaryOperator = /** @class */ (function () {
         }
         // WALK: whentrue
         if (!this.whentrue) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.whentrue = walk.node;
                 start.from(walk.code);
@@ -3930,8 +3879,8 @@ var TernaryOperator = /** @class */ (function () {
         }
         // WALK: whenfalse
         if (!this.whenfalse) {
-            // Expect: Token, ParenExpression, MemberAccessOperator, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, PlusExpression, MultiplyExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new ParenExpression(), new MemberAccessOperator(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new PlusExpression(), new MultiplyExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.whenfalse = walk.node;
                 start.from(walk.code);
@@ -3976,12 +3925,10 @@ var keywords = (_a = {},
     _a[' else '.trim()] = true,
     _a[' if '.trim()] = true,
     _a[' ) '.trim()] = true,
-    _a[' \n '.trim()] = true,
     _a[' }'.trim()] = true,
     _a[' true '.trim()] = true,
     _a[' false '.trim()] = true,
     _a['?'.trim()] = true,
-    _a['-'.trim()] = true,
     _a['"'.trim()] = true,
     _a['.'.trim()] = true,
     _a[' + '.trim()] = true,
@@ -4029,7 +3976,6 @@ var initialList = [
     new StatementBlock2(),
     new TrueLiteral(),
     new FalseLiteral(),
-    new TNumber(),
     new Token(),
     new TNumberToken(),
     new StringLiteral(),

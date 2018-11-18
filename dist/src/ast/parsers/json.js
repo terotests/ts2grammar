@@ -195,6 +195,56 @@ var FalseLiteral = /** @class */ (function () {
     return FalseLiteral;
 }());
 exports.FalseLiteral = FalseLiteral;
+var NullLiteral = /** @class */ (function () {
+    function NullLiteral() {
+        this.opComplexity = 101;
+        this.NodeType = 'NullLiteral';
+        this.tag = ' null ';
+        this.tag = this.tag.trim();
+    }
+    NullLiteral.prototype.getFreeCount = function () {
+        return 0;
+    };
+    NullLiteral.prototype.setFirst = function (value) {
+    };
+    NullLiteral.prototype.getFirst = function () {
+        return null;
+    };
+    NullLiteral.prototype.setLast = function (value) {
+    };
+    NullLiteral.prototype.getLast = function () {
+        return null;
+    };
+    NullLiteral.prototype.create = function () {
+        return new NullLiteral();
+    };
+    NullLiteral.prototype.isInPath = function (code) {
+        for (var _i = 0, _a = code.expressionPath; _i < _a.length; _i++) {
+            var p = _a[_i];
+            if ((p.nodetype == 'NullLiteral') && (p.index === code.index))
+                return true;
+        }
+        return false;
+    };
+    NullLiteral.prototype.consume = function (code) {
+        // console.log('Testing NullLiteral', code.expressionPath)
+        if (this.isInPath(code)) {
+            return null;
+        }
+        code.expressionPath.push({ index: code.index, nodetype: 'NullLiteral' });
+        var start = code.copy();
+        if (typeof (this.tag) === 'string') {
+            start.removeSpace();
+            if (!start.consume(this.tag))
+                return null;
+            start.removeSpace();
+        }
+        code.from(start);
+        return this;
+    };
+    return NullLiteral;
+}());
+exports.NullLiteral = NullLiteral;
 var Token = /** @class */ (function () {
     function Token() {
         this.opComplexity = 1;
@@ -246,10 +296,9 @@ var Token = /** @class */ (function () {
 exports.Token = Token;
 var Number = /** @class */ (function () {
     function Number() {
-        this.opComplexity = 21;
+        this.opComplexity = 1;
         this.NodeType = 'Number';
-        this.spaceBefore = ' ';
-        this.spaceAfter = ' ';
+        this.value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
     }
     Number.prototype.getFreeCount = function () {
         return 1;
@@ -284,20 +333,12 @@ var Number = /** @class */ (function () {
         }
         code.expressionPath.push({ index: code.index, nodetype: 'Number' });
         var start = code.copy();
-        if (typeof (this.spaceBefore) === 'string') {
-            if (!start.consume(this.spaceBefore))
-                this.spaceBefore = '';
-        }
         // WALK: value
         // Expect Type: number
         var tmp_value = start.consumeNumber();
         if (tmp_value.length === 0)
             return null;
         this.value = parseInt(tmp_value);
-        if (typeof (this.spaceAfter) === 'string') {
-            if (!start.consume(this.spaceAfter))
-                this.spaceAfter = '';
-        }
         code.from(start);
         return this;
     };
@@ -308,8 +349,11 @@ var StringLiteral = /** @class */ (function () {
     function StringLiteral() {
         this.opComplexity = 103;
         this.NodeType = 'StringLiteral';
-        this.start = '"';
-        this.end = '"';
+        this.start = ' "';
+        this.value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
+        this.end = '" ';
+        this.start = this.start.trim();
+        this.end = this.end.trim();
     }
     StringLiteral.prototype.getFreeCount = function () {
         return 1;
@@ -345,17 +389,24 @@ var StringLiteral = /** @class */ (function () {
         code.expressionPath.push({ index: code.index, nodetype: 'StringLiteral' });
         var start = code.copy();
         if (typeof (this.start) === 'string') {
+            start.removeSpace();
             if (!start.consume(this.start))
                 return null;
         }
         // WALK: value
         // Expect Type: string
-        this.value = start.consumeString();
-        if (this.value.length === 0)
+        var m_value = start.str.substring(start.index).match(this.value_regexp);
+        if (m_value && m_value.index === 0) {
+            this.value = m_value[0];
+            start.index += this.value.length;
+        }
+        else {
             return null;
+        }
         if (typeof (this.end) === 'string') {
             if (!start.consume(this.end))
                 return null;
+            start.removeSpace();
         }
         code.from(start);
         return this;
@@ -423,8 +474,8 @@ var ObjectLiteralEntry = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+            var walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -646,8 +697,8 @@ var ArrayLiteral = /** @class */ (function () {
         }
         // WALK: head
         if (!this.head) {
-            // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+            var walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()]);
             if (walk) {
                 this.head = walk.node;
                 start.from(walk.code);
@@ -726,8 +777,8 @@ var ArrayLiteralTail = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+            var walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -756,8 +807,9 @@ exports.ArrayLiteralTail = ArrayLiteralTail;
 var keywords = (_a = {},
     _a[' true '.trim()] = true,
     _a[' false '.trim()] = true,
-    _a[' '.trim()] = true,
-    _a['"'.trim()] = true,
+    _a[' null '.trim()] = true,
+    _a[' "'.trim()] = true,
+    _a['" '.trim()] = true,
     _a[' : '.trim()] = true,
     _a[' , '.trim()] = true,
     _a[' { '.trim()] = true,
@@ -768,6 +820,7 @@ var keywords = (_a = {},
 var initialList = [
     new TrueLiteral(),
     new FalseLiteral(),
+    new NullLiteral(),
     new Token(),
     new Number(),
     new StringLiteral(),

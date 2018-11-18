@@ -1,4 +1,3 @@
-export declare type BinaryExpressionPart = Token | ParenExpression | TNumber | MemberAccessOperator;
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
 export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
@@ -214,7 +213,8 @@ export declare class NextStatement {
     next?: Next;
 }
 export declare class NextStatementNl {
-    space?: string;
+    space_regexp: RegExp;
+    space: string;
     statement?: Statement;
     next?: Next;
 }
@@ -237,21 +237,17 @@ export declare class TrueLiteral {
 export declare class FalseLiteral {
     tag: string;
 }
-export declare class TNumber {
-    spaceBefore?: string;
-    value: number;
-    spaceAfter?: string;
-}
 export declare class Token {
     name: string;
     questionmark?: string;
 }
 export declare class TNumberToken {
-    prefix?: string;
-    value: number;
+    value_regexp: RegExp;
+    value: string;
 }
 export declare class StringLiteral {
     start: string;
+    value_regexp: RegExp;
     value: string;
     end: string;
 }
@@ -264,21 +260,21 @@ export declare class MemberAccessOperator {
     precedence: number;
 }
 export declare class PlusExpression {
-    left: BinaryExpressionPart;
+    left: ExpressionType;
     op: string;
-    right: BinaryExpressionPart;
+    right: ExpressionType;
     precedence: number;
 }
 export declare class MultiplyExpression {
-    left: BinaryExpressionPart;
+    left: ExpressionType;
     op: string;
-    right: BinaryExpressionPart;
+    right: ExpressionType;
     precedence: number;
 }
 export declare class ConditionalExpression {
-    left: BinaryExpressionPart;
+    left: ExpressionType;
     op: string;
-    right: BinaryExpressionPart;
+    right: ExpressionType;
     precedence: number;
 }
 export declare class ParenExpression {
