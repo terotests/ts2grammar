@@ -1,6 +1,6 @@
 import { createProject } from "./parser";
 
-// import * as PNew from './ast/parsers/typescript'
+import * as TSParser from './ast/parsers/typescript'
 import * as JSONParser from './ast/parsers/json'
 
 export function HelloWorld() {
@@ -36,7 +36,9 @@ export function HelloWorld() {
     return "foobar"
   }`
 
-  
+  */
+  const cc = new TSParser.CodeToConsume()
+  cc.index = 0
   cc.str = `function hello<T extends Animal,S>( fn:(x:T) => void ) : S | () => number {
     const a = 10
     const c = new n()
@@ -70,29 +72,61 @@ export function HelloWorld() {
 
   // cc.str = 'const x = new foo ()'
   // cc.str = 'A*C+D'
-  // cc.str = `caallSome(h,y)`
-  /*
-  cc.index = 0
+
+  cc.str = `
+  function ok() {
+    const a = 3
+    const b = 7  
+  }
+  `
+// (y:number,x?:number) => y + 10 * x
+  cc.str = `
+class foo {
+  x = 123
+  y = 10
+  z = true
+  str = 144;
+  hello = "Hello World";
+  ok = true
+  notOK = false
+
+  bar<T extends Animal,S>() : () => T {
+    const a = 10
+    const c = new n()
+    if( true ) {
+      return 300
+    } else {
+      return n ? new f() : (y) => y
+    }    
+    const c = 9    
+    c = jep()
+    return (x) => "foobar"
+  }    
+}
+`
+  
   console.time('compiletime')
-  const active = PNew.WalkNode( cc )
+  const active = TSParser.WalkNode( cc )
   console.timeEnd('compiletime')
   console.log(JSON.stringify( active.node, null, 2))
   const code = active.code
   console.log('Finished at ', code.index, '/', code.str.length)
-
   console.log(code.str.substr( code.index ))
-  */
+  
+
   const jsonCode = new JSONParser.CodeToConsume()
   jsonCode.str = JSON.stringify({
-    array1:["1", 23, true, false, null],
+    array1:["1", 23, true, false, null, "Hello World"],
     n:null,
     obj2:{ ok:true, nook:false, n:1, list:[1,2,3]}
   })
   jsonCode.index = 0
+  console.time('json.compiletime')
   const testJSON = JSONParser.WalkNode( jsonCode )
+  console.timeEnd('json.compiletime')
   if(testJSON) {
     console.log('--- JSON ----')
-    console.log(JSON.stringify( testJSON.node, null, 2))
+    // console.log(JSON.stringify( testJSON.node, null, 2))
   }
 
   return 'Hello World!'

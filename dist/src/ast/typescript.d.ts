@@ -1,6 +1,6 @@
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | ArrowFunctionExpressionWithBlock | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
 export declare type TypeDefs = SimpleTypeDefinition | ArrowFnType;
 export declare class TypeDefinitionUnion {
     start: string;
@@ -48,7 +48,6 @@ export declare class Generics {
 export declare class ParamInitializer {
     start: string;
     value: ExpressionType;
-    precedence: number;
 }
 export declare class ParameterListItemTail {
     start: string;
@@ -64,7 +63,6 @@ export declare class ParameterList {
     initializer?: ParamInitializer;
     tail?: ParameterListItemTail;
     end: string;
-    precedence: number;
 }
 export declare class CallParameterListTail {
     start: string;
@@ -97,18 +95,22 @@ export declare class ClassPropertyDeclaration {
 }
 export declare type ClassBodyType = ClassMethodDeclaration | ClassPropertyDeclaration;
 export declare class ClassBodyStatement {
+    begins_regexp: RegExp;
     begins: string;
     head: ClassBodyType;
     tail?: ClassBodyStatement;
+}
+export declare class ClassBody {
+    begin: string;
+    head: ClassBodyType;
+    tail?: ClassBodyStatement;
+    end: string;
 }
 export declare class ClassDeclaration {
     start: string;
     className: Token;
     extends?: ExtendsKeyword;
-    begin: string;
-    head?: ClassBodyType;
-    tail?: ClassBodyStatement;
-    end: string;
+    body: ClassBody;
 }
 export declare class CallExpressionWithArgs {
     obj: ExpressionType;
@@ -138,14 +140,17 @@ export declare class SimpleArrowFunctionExpression {
     arrow: string;
     expression: ExpressionType;
 }
+export declare class ArrowFunctionExpressionWithBlock {
+    async?: string;
+    params: ParameterList;
+    arrow: string;
+    body: StatementBlock;
+}
 export declare class ArrowFunctionExpression {
     async?: string;
     params: ParameterList;
-    spaceBefore?: string;
     arrow: string;
-    spaceAfter?: string;
-    expression: ExpressionType;
-    spaceAfter2?: string;
+    body: ExpressionType;
 }
 export declare class ObjectLiteral {
     begin: string;
@@ -213,7 +218,6 @@ export declare class NextStatement {
     next?: Next;
 }
 export declare class NextStatementNl {
-    space_regexp: RegExp;
     space: string;
     statement?: Statement;
     next?: Next;
@@ -289,4 +293,10 @@ export declare class TernaryOperator {
     separator: string;
     whenfalse?: ExpressionType;
     precedence: number;
+}
+/**
+ * @root true
+ */
+export declare class Root {
+    statement?: Statement;
 }

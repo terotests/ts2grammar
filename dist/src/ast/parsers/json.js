@@ -97,7 +97,7 @@ var CodeToConsume = /** @class */ (function () {
 exports.CodeToConsume = CodeToConsume;
 var TrueLiteral = /** @class */ (function () {
     function TrueLiteral() {
-        this.opComplexity = 101;
+        this.opComplexity = 111; // using getClassComplexity
         this.NodeType = 'TrueLiteral';
         this.tag = ' true ';
         this.tag = this.tag.trim();
@@ -127,7 +127,7 @@ var TrueLiteral = /** @class */ (function () {
         return false;
     };
     TrueLiteral.prototype.consume = function (code) {
-        // console.log('Testing TrueLiteral', code.expressionPath)
+        // console.log('Testing TrueLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -147,7 +147,7 @@ var TrueLiteral = /** @class */ (function () {
 exports.TrueLiteral = TrueLiteral;
 var FalseLiteral = /** @class */ (function () {
     function FalseLiteral() {
-        this.opComplexity = 101;
+        this.opComplexity = 111; // using getClassComplexity
         this.NodeType = 'FalseLiteral';
         this.tag = ' false ';
         this.tag = this.tag.trim();
@@ -177,7 +177,7 @@ var FalseLiteral = /** @class */ (function () {
         return false;
     };
     FalseLiteral.prototype.consume = function (code) {
-        // console.log('Testing FalseLiteral', code.expressionPath)
+        // console.log('Testing FalseLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -197,7 +197,7 @@ var FalseLiteral = /** @class */ (function () {
 exports.FalseLiteral = FalseLiteral;
 var NullLiteral = /** @class */ (function () {
     function NullLiteral() {
-        this.opComplexity = 101;
+        this.opComplexity = 111; // using getClassComplexity
         this.NodeType = 'NullLiteral';
         this.tag = ' null ';
         this.tag = this.tag.trim();
@@ -227,7 +227,7 @@ var NullLiteral = /** @class */ (function () {
         return false;
     };
     NullLiteral.prototype.consume = function (code) {
-        // console.log('Testing NullLiteral', code.expressionPath)
+        // console.log('Testing NullLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -247,7 +247,7 @@ var NullLiteral = /** @class */ (function () {
 exports.NullLiteral = NullLiteral;
 var Token = /** @class */ (function () {
     function Token() {
-        this.opComplexity = 1;
+        this.opComplexity = 2; // using getClassComplexity
         this.NodeType = 'Token';
     }
     Token.prototype.getFreeCount = function () {
@@ -277,7 +277,7 @@ var Token = /** @class */ (function () {
         return false;
     };
     Token.prototype.consume = function (code) {
-        // console.log('Testing Token', code.expressionPath)
+        // console.log('Testing Token at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -296,7 +296,7 @@ var Token = /** @class */ (function () {
 exports.Token = Token;
 var Number = /** @class */ (function () {
     function Number() {
-        this.opComplexity = 1;
+        this.opComplexity = 2; // using getClassComplexity
         this.NodeType = 'Number';
         this.value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
     }
@@ -327,7 +327,7 @@ var Number = /** @class */ (function () {
         return false;
     };
     Number.prototype.consume = function (code) {
-        // console.log('Testing Number', code.expressionPath)
+        // console.log('Testing Number at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -347,7 +347,7 @@ var Number = /** @class */ (function () {
 exports.Number = Number;
 var StringLiteral = /** @class */ (function () {
     function StringLiteral() {
-        this.opComplexity = 103;
+        this.opComplexity = 122; // using getClassComplexity
         this.NodeType = 'StringLiteral';
         this.start = ' "';
         this.value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
@@ -382,7 +382,7 @@ var StringLiteral = /** @class */ (function () {
         return false;
     };
     StringLiteral.prototype.consume = function (code) {
-        // console.log('Testing StringLiteral', code.expressionPath)
+        // console.log('Testing StringLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -416,7 +416,7 @@ var StringLiteral = /** @class */ (function () {
 exports.StringLiteral = StringLiteral;
 var ObjectLiteralEntry = /** @class */ (function () {
     function ObjectLiteralEntry() {
-        this.opComplexity = 3;
+        this.opComplexity = 136; // using getClassComplexity
         this.NodeType = 'ObjectLiteralEntry';
         this.separator = ' : ';
         this.separator = this.separator.trim();
@@ -448,7 +448,7 @@ var ObjectLiteralEntry = /** @class */ (function () {
         return false;
     };
     ObjectLiteralEntry.prototype.consume = function (code) {
-        // console.log('Testing ObjectLiteralEntry', code.expressionPath)
+        // console.log('Testing ObjectLiteralEntry at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -492,7 +492,7 @@ var ObjectLiteralEntry = /** @class */ (function () {
 exports.ObjectLiteralEntry = ObjectLiteralEntry;
 var ObjectLiteralTail = /** @class */ (function () {
     function ObjectLiteralTail() {
-        this.opComplexity = 103;
+        this.opComplexity = 488; // using getClassComplexity
         this.NodeType = 'ObjectLiteralTail';
         this.start = ' , ';
         this.start = this.start.trim();
@@ -524,7 +524,7 @@ var ObjectLiteralTail = /** @class */ (function () {
         return false;
     };
     ObjectLiteralTail.prototype.consume = function (code) {
-        // console.log('Testing ObjectLiteralTail', code.expressionPath)
+        // console.log('Testing ObjectLiteralTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -567,7 +567,7 @@ var ObjectLiteralTail = /** @class */ (function () {
 exports.ObjectLiteralTail = ObjectLiteralTail;
 var ObjectLiteral = /** @class */ (function () {
     function ObjectLiteral() {
-        this.opComplexity = 104;
+        this.opComplexity = 742; // using getClassComplexity
         this.NodeType = 'ObjectLiteral';
         this.begin = ' { ';
         this.end = ' } ';
@@ -601,7 +601,7 @@ var ObjectLiteral = /** @class */ (function () {
         return false;
     };
     ObjectLiteral.prototype.consume = function (code) {
-        // console.log('Testing ObjectLiteral', code.expressionPath)
+        // console.log('Testing ObjectLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -649,7 +649,7 @@ var ObjectLiteral = /** @class */ (function () {
 exports.ObjectLiteral = ObjectLiteral;
 var ArrayLiteral = /** @class */ (function () {
     function ArrayLiteral() {
-        this.opComplexity = 104;
+        this.opComplexity = 352; // using getClassComplexity
         this.NodeType = 'ArrayLiteral';
         this.begin = ' [ ';
         this.end = ' ] ';
@@ -683,7 +683,7 @@ var ArrayLiteral = /** @class */ (function () {
         return false;
     };
     ArrayLiteral.prototype.consume = function (code) {
-        // console.log('Testing ArrayLiteral', code.expressionPath)
+        // console.log('Testing ArrayLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -731,7 +731,7 @@ var ArrayLiteral = /** @class */ (function () {
 exports.ArrayLiteral = ArrayLiteral;
 var ArrayLiteralTail = /** @class */ (function () {
     function ArrayLiteralTail() {
-        this.opComplexity = 103;
+        this.opComplexity = 228; // using getClassComplexity
         this.NodeType = 'ArrayLiteralTail';
         this.start = ' , ';
         this.start = this.start.trim();
@@ -763,7 +763,7 @@ var ArrayLiteralTail = /** @class */ (function () {
         return false;
     };
     ArrayLiteralTail.prototype.consume = function (code) {
-        // console.log('Testing ArrayLiteralTail', code.expressionPath)
+        // console.log('Testing ArrayLiteralTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -804,6 +804,62 @@ var ArrayLiteralTail = /** @class */ (function () {
     return ArrayLiteralTail;
 }());
 exports.ArrayLiteralTail = ArrayLiteralTail;
+var Root = /** @class */ (function () {
+    function Root() {
+        this.opComplexity = 4; // using getClassComplexity
+        this.NodeType = 'Root';
+    }
+    Root.prototype.getFreeCount = function () {
+        return 1;
+    };
+    Root.prototype.setFirst = function (value) {
+        this.value = value;
+    };
+    Root.prototype.getFirst = function () {
+        return this.value;
+    };
+    Root.prototype.setLast = function (value) {
+        this.value = value;
+    };
+    Root.prototype.getLast = function () {
+        return this.value;
+    };
+    Root.prototype.create = function () {
+        return new Root();
+    };
+    Root.prototype.isInPath = function (code) {
+        for (var _i = 0, _a = code.expressionPath; _i < _a.length; _i++) {
+            var p = _a[_i];
+            if ((p.nodetype == 'Root') && (p.index === code.index))
+                return true;
+        }
+        return false;
+    };
+    Root.prototype.consume = function (code) {
+        // console.log('Testing Root at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
+        if (this.isInPath(code)) {
+            return null;
+        }
+        code.expressionPath.push({ index: code.index, nodetype: 'Root' });
+        var start = code.copy();
+        // WALK: value
+        if (!this.value) {
+            // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+            var walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()]);
+            if (walk) {
+                this.value = walk.node;
+                start.from(walk.code);
+            }
+            else {
+                return null;
+            }
+        }
+        code.from(start);
+        return this;
+    };
+    return Root;
+}());
+exports.Root = Root;
 var keywords = (_a = {},
     _a[' true '.trim()] = true,
     _a[' false '.trim()] = true,
@@ -829,11 +885,12 @@ var initialList = [
     new ObjectLiteral(),
     new ArrayLiteral(),
     new ArrayLiteralTail(),
+    new Root(),
 ];
 var currDepth = 0;
 function WalkNode(orig, opInList) {
-    if (opInList === void 0) { opInList = initialList; }
-    if (currDepth++ > 20) {
+    if (opInList === void 0) { opInList = [new Root()]; }
+    if (currDepth++ > 100) {
         throw 'Max depth';
     }
     if (orig.index >= orig.str.length) {
@@ -861,10 +918,7 @@ function WalkNode(orig, opInList) {
                 }
             }
             else {
-                if (opInstance.getFreeCount() < 2) {
-                    continue;
-                }
-                if (opInstance.getFreeCount() > 1) {
+                if (opInstance.getFreeCount() > 1 && (opInstance.precedence) && activeOp.precedence) {
                     if (opInstance && (opInstance.precedence > activeOp.precedence)) {
                         opInstance.setFirst(activeOp.getLast());
                         var mRes = opInstance.consume(cc);

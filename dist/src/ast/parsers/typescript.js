@@ -97,7 +97,7 @@ var CodeToConsume = /** @class */ (function () {
 exports.CodeToConsume = CodeToConsume;
 var TypeDefinitionUnion = /** @class */ (function () {
     function TypeDefinitionUnion() {
-        this.opComplexity = 103;
+        this.opComplexity = 232; // using getClassComplexity
         this.NodeType = 'TypeDefinitionUnion';
         this.start = ' | ';
         this.start = this.start.trim();
@@ -129,7 +129,7 @@ var TypeDefinitionUnion = /** @class */ (function () {
         return false;
     };
     TypeDefinitionUnion.prototype.consume = function (code) {
-        // console.log('Testing TypeDefinitionUnion', code.expressionPath)
+        // console.log('Testing TypeDefinitionUnion at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -172,7 +172,7 @@ var TypeDefinitionUnion = /** @class */ (function () {
 exports.TypeDefinitionUnion = TypeDefinitionUnion;
 var SimpleTypeDefinition = /** @class */ (function () {
     function SimpleTypeDefinition() {
-        this.opComplexity = 1;
+        this.opComplexity = 4; // using getClassComplexity
         this.NodeType = 'SimpleTypeDefinition';
     }
     SimpleTypeDefinition.prototype.getFreeCount = function () {
@@ -202,7 +202,7 @@ var SimpleTypeDefinition = /** @class */ (function () {
         return false;
     };
     SimpleTypeDefinition.prototype.consume = function (code) {
-        // console.log('Testing SimpleTypeDefinition', code.expressionPath)
+        // console.log('Testing SimpleTypeDefinition at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -228,7 +228,7 @@ var SimpleTypeDefinition = /** @class */ (function () {
 exports.SimpleTypeDefinition = SimpleTypeDefinition;
 var Assing = /** @class */ (function () {
     function Assing() {
-        this.opComplexity = 3;
+        this.opComplexity = 17; // using getClassComplexity
         this.NodeType = 'Assing';
         this.arrow = ' = ';
         this.arrow = this.arrow.trim();
@@ -260,7 +260,7 @@ var Assing = /** @class */ (function () {
         return false;
     };
     Assing.prototype.consume = function (code) {
-        // console.log('Testing Assing', code.expressionPath)
+        // console.log('Testing Assing at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -286,8 +286,8 @@ var Assing = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -304,7 +304,7 @@ var Assing = /** @class */ (function () {
 exports.Assing = Assing;
 var ArrowFnType = /** @class */ (function () {
     function ArrowFnType() {
-        this.opComplexity = 13;
+        this.opComplexity = 1386; // using getClassComplexity
         this.NodeType = 'ArrowFnType';
         this.async = 'async';
         this.arrow = ' => ';
@@ -337,7 +337,7 @@ var ArrowFnType = /** @class */ (function () {
         return false;
     };
     ArrowFnType.prototype.consume = function (code) {
-        // console.log('Testing ArrowFnType', code.expressionPath)
+        // console.log('Testing ArrowFnType at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -385,7 +385,7 @@ var ArrowFnType = /** @class */ (function () {
 exports.ArrowFnType = ArrowFnType;
 var ExtendsKeyword = /** @class */ (function () {
     function ExtendsKeyword() {
-        this.opComplexity = 102;
+        this.opComplexity = 114; // using getClassComplexity
         this.NodeType = 'ExtendsKeyword';
         this.kw = ' extends ';
         this.kw = this.kw.trim();
@@ -417,7 +417,7 @@ var ExtendsKeyword = /** @class */ (function () {
         return false;
     };
     ExtendsKeyword.prototype.consume = function (code) {
-        // console.log('Testing ExtendsKeyword', code.expressionPath)
+        // console.log('Testing ExtendsKeyword at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -448,7 +448,7 @@ var ExtendsKeyword = /** @class */ (function () {
 exports.ExtendsKeyword = ExtendsKeyword;
 var TypeDefinition = /** @class */ (function () {
     function TypeDefinition() {
-        this.opComplexity = 103;
+        this.opComplexity = 225; // using getClassComplexity
         this.NodeType = 'TypeDefinition';
         this.start = ' : ';
         this.start = this.start.trim();
@@ -480,7 +480,7 @@ var TypeDefinition = /** @class */ (function () {
         return false;
     };
     TypeDefinition.prototype.consume = function (code) {
-        // console.log('Testing TypeDefinition', code.expressionPath)
+        // console.log('Testing TypeDefinition at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -523,7 +523,7 @@ var TypeDefinition = /** @class */ (function () {
 exports.TypeDefinition = TypeDefinition;
 var NextGenericsDefinition = /** @class */ (function () {
     function NextGenericsDefinition() {
-        this.opComplexity = 103;
+        this.opComplexity = 228; // using getClassComplexity
         this.NodeType = 'NextGenericsDefinition';
         this.comma = ' , ';
         this.comma = this.comma.trim();
@@ -555,7 +555,7 @@ var NextGenericsDefinition = /** @class */ (function () {
         return false;
     };
     NextGenericsDefinition.prototype.consume = function (code) {
-        // console.log('Testing NextGenericsDefinition', code.expressionPath)
+        // console.log('Testing NextGenericsDefinition at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -598,7 +598,7 @@ var NextGenericsDefinition = /** @class */ (function () {
 exports.NextGenericsDefinition = NextGenericsDefinition;
 var GenericsDefinition = /** @class */ (function () {
     function GenericsDefinition() {
-        this.opComplexity = 3;
+        this.opComplexity = 346; // using getClassComplexity
         this.NodeType = 'GenericsDefinition';
     }
     GenericsDefinition.prototype.getFreeCount = function () {
@@ -628,7 +628,7 @@ var GenericsDefinition = /** @class */ (function () {
         return false;
     };
     GenericsDefinition.prototype.consume = function (code) {
-        // console.log('Testing GenericsDefinition', code.expressionPath)
+        // console.log('Testing GenericsDefinition at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -676,7 +676,7 @@ var GenericsDefinition = /** @class */ (function () {
 exports.GenericsDefinition = GenericsDefinition;
 var Generics = /** @class */ (function () {
     function Generics() {
-        this.opComplexity = 103;
+        this.opComplexity = 467; // using getClassComplexity
         this.NodeType = 'Generics';
         this.start = ' < ';
         this.end = ' > ';
@@ -710,7 +710,7 @@ var Generics = /** @class */ (function () {
         return false;
     };
     Generics.prototype.consume = function (code) {
-        // console.log('Testing Generics', code.expressionPath)
+        // console.log('Testing Generics at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -748,10 +748,9 @@ var Generics = /** @class */ (function () {
 exports.Generics = Generics;
 var ParamInitializer = /** @class */ (function () {
     function ParamInitializer() {
-        this.opComplexity = 102;
+        this.opComplexity = 114; // using getClassComplexity
         this.NodeType = 'ParamInitializer';
         this.start = ' = ';
-        this.precedence = 3;
         this.start = this.start.trim();
     }
     ParamInitializer.prototype.getFreeCount = function () {
@@ -781,7 +780,7 @@ var ParamInitializer = /** @class */ (function () {
         return false;
     };
     ParamInitializer.prototype.consume = function (code) {
-        // console.log('Testing ParamInitializer', code.expressionPath)
+        // console.log('Testing ParamInitializer at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -795,8 +794,8 @@ var ParamInitializer = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -813,7 +812,7 @@ var ParamInitializer = /** @class */ (function () {
 exports.ParamInitializer = ParamInitializer;
 var ParameterListItemTail = /** @class */ (function () {
     function ParameterListItemTail() {
-        this.opComplexity = 105;
+        this.opComplexity = 906; // using getClassComplexity
         this.NodeType = 'ParameterListItemTail';
         this.start = ' , ';
         this.start = this.start.trim();
@@ -845,7 +844,7 @@ var ParameterListItemTail = /** @class */ (function () {
         return false;
     };
     ParameterListItemTail.prototype.consume = function (code) {
-        // console.log('Testing ParameterListItemTail', code.expressionPath)
+        // console.log('Testing ParameterListItemTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -910,11 +909,10 @@ var ParameterListItemTail = /** @class */ (function () {
 exports.ParameterListItemTail = ParameterListItemTail;
 var ParameterList = /** @class */ (function () {
     function ParameterList() {
-        this.opComplexity = 106;
+        this.opComplexity = 1369; // using getClassComplexity
         this.NodeType = 'ParameterList';
         this.start = ' ( ';
         this.end = ' )';
-        this.precedence = 20;
         this.start = this.start.trim();
         this.end = this.end.trim();
     }
@@ -945,7 +943,7 @@ var ParameterList = /** @class */ (function () {
         return false;
     };
     ParameterList.prototype.consume = function (code) {
-        // console.log('Testing ParameterList', code.expressionPath)
+        // console.log('Testing ParameterList at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1014,7 +1012,7 @@ var ParameterList = /** @class */ (function () {
 exports.ParameterList = ParameterList;
 var CallParameterListTail = /** @class */ (function () {
     function CallParameterListTail() {
-        this.opComplexity = 103;
+        this.opComplexity = 228; // using getClassComplexity
         this.NodeType = 'CallParameterListTail';
         this.start = ' , ';
         this.start = this.start.trim();
@@ -1046,7 +1044,7 @@ var CallParameterListTail = /** @class */ (function () {
         return false;
     };
     CallParameterListTail.prototype.consume = function (code) {
-        // console.log('Testing CallParameterListTail', code.expressionPath)
+        // console.log('Testing CallParameterListTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1060,8 +1058,8 @@ var CallParameterListTail = /** @class */ (function () {
         }
         // WALK: head
         if (!this.head) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.head = walk.node;
                 start.from(walk.code);
@@ -1089,7 +1087,7 @@ var CallParameterListTail = /** @class */ (function () {
 exports.CallParameterListTail = CallParameterListTail;
 var CallParameterList = /** @class */ (function () {
     function CallParameterList() {
-        this.opComplexity = 104;
+        this.opComplexity = 352; // using getClassComplexity
         this.NodeType = 'CallParameterList';
         this.start = ' ( ';
         this.end = ' )';
@@ -1124,7 +1122,7 @@ var CallParameterList = /** @class */ (function () {
         return false;
     };
     CallParameterList.prototype.consume = function (code) {
-        // console.log('Testing CallParameterList', code.expressionPath)
+        // console.log('Testing CallParameterList at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1138,8 +1136,8 @@ var CallParameterList = /** @class */ (function () {
         }
         // WALK: head
         if (!this.head) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.head = walk.node;
                 start.from(walk.code);
@@ -1171,7 +1169,7 @@ var CallParameterList = /** @class */ (function () {
 exports.CallParameterList = CallParameterList;
 var NewExpressionWithArgs = /** @class */ (function () {
     function NewExpressionWithArgs() {
-        this.opComplexity = 103;
+        this.opComplexity = 466; // using getClassComplexity
         this.NodeType = 'NewExpressionWithArgs';
         this.start = ' new ';
         this.precedence = 19;
@@ -1204,7 +1202,7 @@ var NewExpressionWithArgs = /** @class */ (function () {
         return false;
     };
     NewExpressionWithArgs.prototype.consume = function (code) {
-        // console.log('Testing NewExpressionWithArgs', code.expressionPath)
+        // console.log('Testing NewExpressionWithArgs at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1248,7 +1246,7 @@ var NewExpressionWithArgs = /** @class */ (function () {
 exports.NewExpressionWithArgs = NewExpressionWithArgs;
 var ClassMethodDeclaration = /** @class */ (function () {
     function ClassMethodDeclaration() {
-        this.opComplexity = 5;
+        this.opComplexity = 1146; // using getClassComplexity
         this.NodeType = 'ClassMethodDeclaration';
     }
     ClassMethodDeclaration.prototype.getFreeCount = function () {
@@ -1278,7 +1276,7 @@ var ClassMethodDeclaration = /** @class */ (function () {
         return false;
     };
     ClassMethodDeclaration.prototype.consume = function (code) {
-        // console.log('Testing ClassMethodDeclaration', code.expressionPath)
+        // console.log('Testing ClassMethodDeclaration at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1350,7 +1348,7 @@ var ClassMethodDeclaration = /** @class */ (function () {
 exports.ClassMethodDeclaration = ClassMethodDeclaration;
 var ClassPropertyDeclaration = /** @class */ (function () {
     function ClassPropertyDeclaration() {
-        this.opComplexity = 2;
+        this.opComplexity = 115; // using getClassComplexity
         this.NodeType = 'ClassPropertyDeclaration';
     }
     ClassPropertyDeclaration.prototype.getFreeCount = function () {
@@ -1380,7 +1378,7 @@ var ClassPropertyDeclaration = /** @class */ (function () {
         return false;
     };
     ClassPropertyDeclaration.prototype.consume = function (code) {
-        // console.log('Testing ClassPropertyDeclaration', code.expressionPath)
+        // console.log('Testing ClassPropertyDeclaration at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1417,19 +1415,19 @@ var ClassPropertyDeclaration = /** @class */ (function () {
 exports.ClassPropertyDeclaration = ClassPropertyDeclaration;
 var ClassBodyStatement = /** @class */ (function () {
     function ClassBodyStatement() {
-        this.opComplexity = 103;
+        this.opComplexity = 236; // using getClassComplexity
         this.NodeType = 'ClassBodyStatement';
-        this.begins = ' ; ';
-        this.begins = this.begins.trim();
+        // begins_regexp = /\S*[\n;]+[ \t\n\r]*/
+        this.begins_regexp = /^[ \t\n\r;]+/;
     }
     ClassBodyStatement.prototype.getFreeCount = function () {
-        return 2;
+        return 3;
     };
     ClassBodyStatement.prototype.setFirst = function (value) {
-        this.head = value;
+        this.begins = value;
     };
     ClassBodyStatement.prototype.getFirst = function () {
-        return this.head;
+        return this.begins;
     };
     ClassBodyStatement.prototype.setLast = function (value) {
         this.tail = value;
@@ -1449,17 +1447,21 @@ var ClassBodyStatement = /** @class */ (function () {
         return false;
     };
     ClassBodyStatement.prototype.consume = function (code) {
-        // console.log('Testing ClassBodyStatement', code.expressionPath)
+        // console.log('Testing ClassBodyStatement at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
         code.expressionPath.push({ index: code.index, nodetype: 'ClassBodyStatement' });
         var start = code.copy();
-        if (typeof (this.begins) === 'string') {
-            start.removeSpace();
-            if (!start.consume(this.begins))
-                return null;
-            start.removeSpace();
+        // WALK: begins
+        // Expect Type: string
+        var m_begins = start.str.substring(start.index).match(this.begins_regexp);
+        if (m_begins && m_begins.index === 0) {
+            this.begins = m_begins[0];
+            start.index += this.begins.length;
+        }
+        else {
+            return null;
         }
         // WALK: head
         if (!this.head) {
@@ -1490,19 +1492,98 @@ var ClassBodyStatement = /** @class */ (function () {
     return ClassBodyStatement;
 }());
 exports.ClassBodyStatement = ClassBodyStatement;
-var ClassDeclaration = /** @class */ (function () {
-    function ClassDeclaration() {
-        this.opComplexity = 107;
-        this.NodeType = 'ClassDeclaration';
-        this.start = ' class ';
+var ClassBody = /** @class */ (function () {
+    function ClassBody() {
+        this.opComplexity = 473; // using getClassComplexity
+        this.NodeType = 'ClassBody';
         this.begin = ' { ';
         this.end = ' } ';
-        this.start = this.start.trim();
         this.begin = this.begin.trim();
         this.end = this.end.trim();
     }
+    ClassBody.prototype.getFreeCount = function () {
+        return 2;
+    };
+    ClassBody.prototype.setFirst = function (value) {
+        this.head = value;
+    };
+    ClassBody.prototype.getFirst = function () {
+        return this.head;
+    };
+    ClassBody.prototype.setLast = function (value) {
+        this.tail = value;
+    };
+    ClassBody.prototype.getLast = function () {
+        return this.tail;
+    };
+    ClassBody.prototype.create = function () {
+        return new ClassBody();
+    };
+    ClassBody.prototype.isInPath = function (code) {
+        for (var _i = 0, _a = code.expressionPath; _i < _a.length; _i++) {
+            var p = _a[_i];
+            if ((p.nodetype == 'ClassBody') && (p.index === code.index))
+                return true;
+        }
+        return false;
+    };
+    ClassBody.prototype.consume = function (code) {
+        // console.log('Testing ClassBody at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
+        if (this.isInPath(code)) {
+            return null;
+        }
+        code.expressionPath.push({ index: code.index, nodetype: 'ClassBody' });
+        var start = code.copy();
+        if (typeof (this.begin) === 'string') {
+            start.removeSpace();
+            if (!start.consume(this.begin))
+                return null;
+            start.removeSpace();
+        }
+        // WALK: head
+        if (!this.head) {
+            // Expect: ClassMethodDeclaration, ClassPropertyDeclaration
+            var walk = WalkNode(start, [new ClassMethodDeclaration(), new ClassPropertyDeclaration()]);
+            if (walk) {
+                this.head = walk.node;
+                start.from(walk.code);
+            }
+            else {
+                return null;
+            }
+        }
+        // WALK: tail
+        // Expect Type: ClassBodyStatement
+        if (!this.tail) {
+            var tmp_tail = WalkNode(start, [new ClassBodyStatement()]);
+            if (tmp_tail) {
+                this.tail = tmp_tail.node;
+                start.from(tmp_tail.code);
+            }
+            else {
+            }
+        }
+        if (typeof (this.end) === 'string') {
+            start.removeSpace();
+            if (!start.consume(this.end))
+                return null;
+            start.removeSpace();
+        }
+        code.from(start);
+        return this;
+    };
+    return ClassBody;
+}());
+exports.ClassBody = ClassBody;
+var ClassDeclaration = /** @class */ (function () {
+    function ClassDeclaration() {
+        this.opComplexity = 701; // using getClassComplexity
+        this.NodeType = 'ClassDeclaration';
+        this.start = ' class ';
+        this.start = this.start.trim();
+    }
     ClassDeclaration.prototype.getFreeCount = function () {
-        return 4;
+        return 3;
     };
     ClassDeclaration.prototype.setFirst = function (value) {
         this.className = value;
@@ -1511,10 +1592,10 @@ var ClassDeclaration = /** @class */ (function () {
         return this.className;
     };
     ClassDeclaration.prototype.setLast = function (value) {
-        this.tail = value;
+        this.body = value;
     };
     ClassDeclaration.prototype.getLast = function () {
-        return this.tail;
+        return this.body;
     };
     ClassDeclaration.prototype.create = function () {
         return new ClassDeclaration();
@@ -1528,7 +1609,7 @@ var ClassDeclaration = /** @class */ (function () {
         return false;
     };
     ClassDeclaration.prototype.consume = function (code) {
-        // console.log('Testing ClassDeclaration', code.expressionPath)
+        // console.log('Testing ClassDeclaration at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1563,39 +1644,17 @@ var ClassDeclaration = /** @class */ (function () {
             else {
             }
         }
-        if (typeof (this.begin) === 'string') {
-            start.removeSpace();
-            if (!start.consume(this.begin))
-                return null;
-            start.removeSpace();
-        }
-        // WALK: head
-        if (!this.head) {
-            // Expect: ClassMethodDeclaration, ClassPropertyDeclaration
-            var walk = WalkNode(start, [new ClassMethodDeclaration(), new ClassPropertyDeclaration()]);
-            if (walk) {
-                this.head = walk.node;
-                start.from(walk.code);
+        // WALK: body
+        // Expect Type: ClassBody
+        if (!this.body) {
+            var tmp_body = WalkNode(start, [new ClassBody()]);
+            if (tmp_body) {
+                this.body = tmp_body.node;
+                start.from(tmp_body.code);
             }
             else {
-            }
-        }
-        // WALK: tail
-        // Expect Type: ClassBodyStatement
-        if (!this.tail) {
-            var tmp_tail = WalkNode(start, [new ClassBodyStatement()]);
-            if (tmp_tail) {
-                this.tail = tmp_tail.node;
-                start.from(tmp_tail.code);
-            }
-            else {
-            }
-        }
-        if (typeof (this.end) === 'string') {
-            start.removeSpace();
-            if (!start.consume(this.end))
                 return null;
-            start.removeSpace();
+            }
         }
         code.from(start);
         return this;
@@ -1605,7 +1664,7 @@ var ClassDeclaration = /** @class */ (function () {
 exports.ClassDeclaration = ClassDeclaration;
 var CallExpressionWithArgs = /** @class */ (function () {
     function CallExpressionWithArgs() {
-        this.opComplexity = 2;
+        this.opComplexity = 114; // using getClassComplexity
         this.NodeType = 'CallExpressionWithArgs';
         this.precedence = 19;
     }
@@ -1636,7 +1695,7 @@ var CallExpressionWithArgs = /** @class */ (function () {
         return false;
     };
     CallExpressionWithArgs.prototype.consume = function (code) {
-        // console.log('Testing CallExpressionWithArgs', code.expressionPath)
+        // console.log('Testing CallExpressionWithArgs at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1644,8 +1703,8 @@ var CallExpressionWithArgs = /** @class */ (function () {
         var start = code.copy();
         // WALK: obj
         if (!this.obj) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.obj = walk.node;
                 start.from(walk.code);
@@ -1674,7 +1733,7 @@ var CallExpressionWithArgs = /** @class */ (function () {
 exports.CallExpressionWithArgs = CallExpressionWithArgs;
 var FnCallWithArgs = /** @class */ (function () {
     function FnCallWithArgs() {
-        this.opComplexity = 2;
+        this.opComplexity = 115; // using getClassComplexity
         this.NodeType = 'FnCallWithArgs';
         this.precedence = 19;
     }
@@ -1705,7 +1764,7 @@ var FnCallWithArgs = /** @class */ (function () {
         return false;
     };
     FnCallWithArgs.prototype.consume = function (code) {
-        // console.log('Testing FnCallWithArgs', code.expressionPath)
+        // console.log('Testing FnCallWithArgs at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1743,7 +1802,7 @@ var FnCallWithArgs = /** @class */ (function () {
 exports.FnCallWithArgs = FnCallWithArgs;
 var NewExpressionWithoutArgs = /** @class */ (function () {
     function NewExpressionWithoutArgs() {
-        this.opComplexity = 102;
+        this.opComplexity = 114; // using getClassComplexity
         this.NodeType = 'NewExpressionWithoutArgs';
         this.start = ' new ';
         this.precedence = 18;
@@ -1776,7 +1835,7 @@ var NewExpressionWithoutArgs = /** @class */ (function () {
         return false;
     };
     NewExpressionWithoutArgs.prototype.consume = function (code) {
-        // console.log('Testing NewExpressionWithoutArgs', code.expressionPath)
+        // console.log('Testing NewExpressionWithoutArgs at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1808,7 +1867,7 @@ var NewExpressionWithoutArgs = /** @class */ (function () {
 exports.NewExpressionWithoutArgs = NewExpressionWithoutArgs;
 var FunctionExpression = /** @class */ (function () {
     function FunctionExpression() {
-        this.opComplexity = 106;
+        this.opComplexity = 1256; // using getClassComplexity
         this.NodeType = 'FunctionExpression';
         this.start = ' function ';
         this.start = this.start.trim();
@@ -1840,7 +1899,7 @@ var FunctionExpression = /** @class */ (function () {
         return false;
     };
     FunctionExpression.prototype.consume = function (code) {
-        // console.log('Testing FunctionExpression', code.expressionPath)
+        // console.log('Testing FunctionExpression at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1918,7 +1977,7 @@ var FunctionExpression = /** @class */ (function () {
 exports.FunctionExpression = FunctionExpression;
 var SimpleArrowFunctionExpression = /** @class */ (function () {
     function SimpleArrowFunctionExpression() {
-        this.opComplexity = 3;
+        this.opComplexity = 17; // using getClassComplexity
         this.NodeType = 'SimpleArrowFunctionExpression';
         this.arrow = ' => ';
         this.arrow = this.arrow.trim();
@@ -1950,7 +2009,7 @@ var SimpleArrowFunctionExpression = /** @class */ (function () {
         return false;
     };
     SimpleArrowFunctionExpression.prototype.consume = function (code) {
-        // console.log('Testing SimpleArrowFunctionExpression', code.expressionPath)
+        // console.log('Testing SimpleArrowFunctionExpression at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -1976,8 +2035,8 @@ var SimpleArrowFunctionExpression = /** @class */ (function () {
         }
         // WALK: expression
         if (!this.expression) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.expression = walk.node;
                 start.from(walk.code);
@@ -1992,52 +2051,53 @@ var SimpleArrowFunctionExpression = /** @class */ (function () {
     return SimpleArrowFunctionExpression;
 }());
 exports.SimpleArrowFunctionExpression = SimpleArrowFunctionExpression;
-var ArrowFunctionExpression = /** @class */ (function () {
-    function ArrowFunctionExpression() {
-        this.opComplexity = 43;
-        this.NodeType = 'ArrowFunctionExpression';
-        this.async = 'async';
-        this.spaceBefore = ' ';
-        this.arrow = '=>';
-        this.spaceAfter = ' ';
-        this.spaceAfter2 = ' ';
+var ArrowFunctionExpressionWithBlock = /** @class */ (function () {
+    function ArrowFunctionExpressionWithBlock() {
+        this.opComplexity = 750; // using getClassComplexity
+        this.NodeType = 'ArrowFunctionExpressionWithBlock';
+        this.async = ' async ';
+        this.arrow = ' => ';
+        this.async = this.async.trim();
+        this.arrow = this.arrow.trim();
     }
-    ArrowFunctionExpression.prototype.getFreeCount = function () {
+    ArrowFunctionExpressionWithBlock.prototype.getFreeCount = function () {
         return 2;
     };
-    ArrowFunctionExpression.prototype.setFirst = function (value) {
+    ArrowFunctionExpressionWithBlock.prototype.setFirst = function (value) {
         this.params = value;
     };
-    ArrowFunctionExpression.prototype.getFirst = function () {
+    ArrowFunctionExpressionWithBlock.prototype.getFirst = function () {
         return this.params;
     };
-    ArrowFunctionExpression.prototype.setLast = function (value) {
-        this.expression = value;
+    ArrowFunctionExpressionWithBlock.prototype.setLast = function (value) {
+        this.body = value;
     };
-    ArrowFunctionExpression.prototype.getLast = function () {
-        return this.expression;
+    ArrowFunctionExpressionWithBlock.prototype.getLast = function () {
+        return this.body;
     };
-    ArrowFunctionExpression.prototype.create = function () {
-        return new ArrowFunctionExpression();
+    ArrowFunctionExpressionWithBlock.prototype.create = function () {
+        return new ArrowFunctionExpressionWithBlock();
     };
-    ArrowFunctionExpression.prototype.isInPath = function (code) {
+    ArrowFunctionExpressionWithBlock.prototype.isInPath = function (code) {
         for (var _i = 0, _a = code.expressionPath; _i < _a.length; _i++) {
             var p = _a[_i];
-            if ((p.nodetype == 'ArrowFunctionExpression') && (p.index === code.index))
+            if ((p.nodetype == 'ArrowFunctionExpressionWithBlock') && (p.index === code.index))
                 return true;
         }
         return false;
     };
-    ArrowFunctionExpression.prototype.consume = function (code) {
-        // console.log('Testing ArrowFunctionExpression', code.expressionPath)
+    ArrowFunctionExpressionWithBlock.prototype.consume = function (code) {
+        // console.log('Testing ArrowFunctionExpressionWithBlock at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
-        code.expressionPath.push({ index: code.index, nodetype: 'ArrowFunctionExpression' });
+        code.expressionPath.push({ index: code.index, nodetype: 'ArrowFunctionExpressionWithBlock' });
         var start = code.copy();
         if (typeof (this.async) === 'string') {
+            start.removeSpace();
             if (!start.consume(this.async))
                 this.async = '';
+            start.removeSpace();
         }
         // WALK: params
         // Expect Type: ParameterList
@@ -2051,33 +2111,107 @@ var ArrowFunctionExpression = /** @class */ (function () {
                 return null;
             }
         }
-        if (typeof (this.spaceBefore) === 'string') {
-            if (!start.consume(this.spaceBefore))
-                this.spaceBefore = '';
-        }
         if (typeof (this.arrow) === 'string') {
+            start.removeSpace();
             if (!start.consume(this.arrow))
                 return null;
+            start.removeSpace();
         }
-        if (typeof (this.spaceAfter) === 'string') {
-            if (!start.consume(this.spaceAfter))
-                this.spaceAfter = '';
-        }
-        // WALK: expression
-        if (!this.expression) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
-            if (walk) {
-                this.expression = walk.node;
-                start.from(walk.code);
+        // WALK: body
+        // Expect Type: StatementBlock
+        if (!this.body) {
+            var tmp_body = WalkNode(start, [new StatementBlock()]);
+            if (tmp_body) {
+                this.body = tmp_body.node;
+                start.from(tmp_body.code);
             }
             else {
                 return null;
             }
         }
-        if (typeof (this.spaceAfter2) === 'string') {
-            if (!start.consume(this.spaceAfter2))
-                this.spaceAfter2 = '';
+        code.from(start);
+        return this;
+    };
+    return ArrowFunctionExpressionWithBlock;
+}());
+exports.ArrowFunctionExpressionWithBlock = ArrowFunctionExpressionWithBlock;
+var ArrowFunctionExpression = /** @class */ (function () {
+    function ArrowFunctionExpression() {
+        this.opComplexity = 354; // using getClassComplexity
+        this.NodeType = 'ArrowFunctionExpression';
+        this.async = ' async ';
+        this.arrow = ' => ';
+        this.async = this.async.trim();
+        this.arrow = this.arrow.trim();
+    }
+    ArrowFunctionExpression.prototype.getFreeCount = function () {
+        return 2;
+    };
+    ArrowFunctionExpression.prototype.setFirst = function (value) {
+        this.params = value;
+    };
+    ArrowFunctionExpression.prototype.getFirst = function () {
+        return this.params;
+    };
+    ArrowFunctionExpression.prototype.setLast = function (value) {
+        this.body = value;
+    };
+    ArrowFunctionExpression.prototype.getLast = function () {
+        return this.body;
+    };
+    ArrowFunctionExpression.prototype.create = function () {
+        return new ArrowFunctionExpression();
+    };
+    ArrowFunctionExpression.prototype.isInPath = function (code) {
+        for (var _i = 0, _a = code.expressionPath; _i < _a.length; _i++) {
+            var p = _a[_i];
+            if ((p.nodetype == 'ArrowFunctionExpression') && (p.index === code.index))
+                return true;
+        }
+        return false;
+    };
+    ArrowFunctionExpression.prototype.consume = function (code) {
+        // console.log('Testing ArrowFunctionExpression at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
+        if (this.isInPath(code)) {
+            return null;
+        }
+        code.expressionPath.push({ index: code.index, nodetype: 'ArrowFunctionExpression' });
+        var start = code.copy();
+        if (typeof (this.async) === 'string') {
+            start.removeSpace();
+            if (!start.consume(this.async))
+                this.async = '';
+            start.removeSpace();
+        }
+        // WALK: params
+        // Expect Type: ParameterList
+        if (!this.params) {
+            var tmp_params = WalkNode(start, [new ParameterList()]);
+            if (tmp_params) {
+                this.params = tmp_params.node;
+                start.from(tmp_params.code);
+            }
+            else {
+                return null;
+            }
+        }
+        if (typeof (this.arrow) === 'string') {
+            start.removeSpace();
+            if (!start.consume(this.arrow))
+                return null;
+            start.removeSpace();
+        }
+        // WALK: body
+        if (!this.body) {
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            if (walk) {
+                this.body = walk.node;
+                start.from(walk.code);
+            }
+            else {
+                return null;
+            }
         }
         code.from(start);
         return this;
@@ -2087,7 +2221,7 @@ var ArrowFunctionExpression = /** @class */ (function () {
 exports.ArrowFunctionExpression = ArrowFunctionExpression;
 var ObjectLiteral = /** @class */ (function () {
     function ObjectLiteral() {
-        this.opComplexity = 124;
+        this.opComplexity = 204; // using getClassComplexity
         this.NodeType = 'ObjectLiteral';
         this.begin = '{';
         this.spaceBefore = ' ';
@@ -2121,7 +2255,7 @@ var ObjectLiteral = /** @class */ (function () {
         return false;
     };
     ObjectLiteral.prototype.consume = function (code) {
-        // console.log('Testing ObjectLiteral', code.expressionPath)
+        // console.log('Testing ObjectLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2173,7 +2307,7 @@ var ObjectLiteral = /** @class */ (function () {
 exports.ObjectLiteral = ObjectLiteral;
 var ObjectLiteralEntry = /** @class */ (function () {
     function ObjectLiteralEntry() {
-        this.opComplexity = 33;
+        this.opComplexity = 19; // using getClassComplexity
         this.NodeType = 'ObjectLiteralEntry';
         this.spaceFill = ' ';
         this.spaceBefore = ' ';
@@ -2207,7 +2341,7 @@ var ObjectLiteralEntry = /** @class */ (function () {
         return false;
     };
     ObjectLiteralEntry.prototype.consume = function (code) {
-        // console.log('Testing ObjectLiteralEntry', code.expressionPath)
+        // console.log('Testing ObjectLiteralEntry at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2243,8 +2377,8 @@ var ObjectLiteralEntry = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2261,7 +2395,7 @@ var ObjectLiteralEntry = /** @class */ (function () {
 exports.ObjectLiteralEntry = ObjectLiteralEntry;
 var ObjectLiteralTail = /** @class */ (function () {
     function ObjectLiteralTail() {
-        this.opComplexity = 13;
+        this.opComplexity = 62; // using getClassComplexity
         this.NodeType = 'ObjectLiteralTail';
         this.spaceFill = ' ';
         this.start = ',';
@@ -2293,7 +2427,7 @@ var ObjectLiteralTail = /** @class */ (function () {
         return false;
     };
     ObjectLiteralTail.prototype.consume = function (code) {
-        // console.log('Testing ObjectLiteralTail', code.expressionPath)
+        // console.log('Testing ObjectLiteralTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2338,7 +2472,7 @@ var ObjectLiteralTail = /** @class */ (function () {
 exports.ObjectLiteralTail = ObjectLiteralTail;
 var ArrayLiteral = /** @class */ (function () {
     function ArrayLiteral() {
-        this.opComplexity = 114;
+        this.opComplexity = 154; // using getClassComplexity
         this.NodeType = 'ArrayLiteral';
         this.begin = '[';
         this.spaceFill = ' ';
@@ -2371,7 +2505,7 @@ var ArrayLiteral = /** @class */ (function () {
         return false;
     };
     ArrayLiteral.prototype.consume = function (code) {
-        // console.log('Testing ArrayLiteral', code.expressionPath)
+        // console.log('Testing ArrayLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2387,8 +2521,8 @@ var ArrayLiteral = /** @class */ (function () {
         }
         // WALK: head
         if (!this.head) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.head = walk.node;
                 start.from(walk.code);
@@ -2419,7 +2553,7 @@ var ArrayLiteral = /** @class */ (function () {
 exports.ArrayLiteral = ArrayLiteral;
 var ArrayLiteralTail = /** @class */ (function () {
     function ArrayLiteralTail() {
-        this.opComplexity = 23;
+        this.opComplexity = 30; // using getClassComplexity
         this.NodeType = 'ArrayLiteralTail';
         this.spaceFill = ' ';
         this.start = ',';
@@ -2452,7 +2586,7 @@ var ArrayLiteralTail = /** @class */ (function () {
         return false;
     };
     ArrayLiteralTail.prototype.consume = function (code) {
-        // console.log('Testing ArrayLiteralTail', code.expressionPath)
+        // console.log('Testing ArrayLiteralTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2472,8 +2606,8 @@ var ArrayLiteralTail = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2501,7 +2635,7 @@ var ArrayLiteralTail = /** @class */ (function () {
 exports.ArrayLiteralTail = ArrayLiteralTail;
 var ConstDeclaration = /** @class */ (function () {
     function ConstDeclaration() {
-        this.opComplexity = 105;
+        this.opComplexity = 352; // using getClassComplexity
         this.NodeType = 'ConstDeclaration';
         this.constKeyword = ' const ';
         this.assignOp = ' = ';
@@ -2535,7 +2669,7 @@ var ConstDeclaration = /** @class */ (function () {
         return false;
     };
     ConstDeclaration.prototype.consume = function (code) {
-        // console.log('Testing ConstDeclaration', code.expressionPath)
+        // console.log('Testing ConstDeclaration at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2578,8 +2712,8 @@ var ConstDeclaration = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2596,7 +2730,7 @@ var ConstDeclaration = /** @class */ (function () {
 exports.ConstDeclaration = ConstDeclaration;
 var ReturnStatement = /** @class */ (function () {
     function ReturnStatement() {
-        this.opComplexity = 102;
+        this.opComplexity = 114; // using getClassComplexity
         this.NodeType = 'ReturnStatement';
         this.returnKeyword = ' return ';
         this.returnKeyword = this.returnKeyword.trim();
@@ -2628,7 +2762,7 @@ var ReturnStatement = /** @class */ (function () {
         return false;
     };
     ReturnStatement.prototype.consume = function (code) {
-        // console.log('Testing ReturnStatement', code.expressionPath)
+        // console.log('Testing ReturnStatement at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2642,8 +2776,8 @@ var ReturnStatement = /** @class */ (function () {
         }
         // WALK: value
         if (!this.value) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.value = walk.node;
                 start.from(walk.code);
@@ -2659,7 +2793,7 @@ var ReturnStatement = /** @class */ (function () {
 exports.ReturnStatement = ReturnStatement;
 var ElseBlock = /** @class */ (function () {
     function ElseBlock() {
-        this.opComplexity = 102;
+        this.opComplexity = 222; // using getClassComplexity
         this.NodeType = 'ElseBlock';
         this.elseKeyword = ' else ';
         this.elseKeyword = this.elseKeyword.trim();
@@ -2691,7 +2825,7 @@ var ElseBlock = /** @class */ (function () {
         return false;
     };
     ElseBlock.prototype.consume = function (code) {
-        // console.log('Testing ElseBlock', code.expressionPath)
+        // console.log('Testing ElseBlock at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2723,7 +2857,7 @@ var ElseBlock = /** @class */ (function () {
 exports.ElseBlock = ElseBlock;
 var IfStatement = /** @class */ (function () {
     function IfStatement() {
-        this.opComplexity = 106;
+        this.opComplexity = 467; // using getClassComplexity
         this.NodeType = 'IfStatement';
         this.ifKeyword = ' if ';
         this.leftParen = ' ( ';
@@ -2759,7 +2893,7 @@ var IfStatement = /** @class */ (function () {
         return false;
     };
     IfStatement.prototype.consume = function (code) {
-        // console.log('Testing IfStatement', code.expressionPath)
+        // console.log('Testing IfStatement at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2779,8 +2913,8 @@ var IfStatement = /** @class */ (function () {
         }
         // WALK: condition
         if (!this.condition) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.condition = walk.node;
                 start.from(walk.code);
@@ -2826,7 +2960,7 @@ var IfStatement = /** @class */ (function () {
 exports.IfStatement = IfStatement;
 var NextStatement = /** @class */ (function () {
     function NextStatement() {
-        this.opComplexity = 103;
+        this.opComplexity = 259; // using getClassComplexity
         this.NodeType = 'NextStatement';
         this.space = ' ; ';
         this.space = this.space.trim();
@@ -2858,7 +2992,7 @@ var NextStatement = /** @class */ (function () {
         return false;
     };
     NextStatement.prototype.consume = function (code) {
-        // console.log('Testing NextStatement', code.expressionPath)
+        // console.log('Testing NextStatement at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -2900,18 +3034,20 @@ var NextStatement = /** @class */ (function () {
 exports.NextStatement = NextStatement;
 var NextStatementNl = /** @class */ (function () {
     function NextStatementNl() {
-        this.opComplexity = 3;
+        this.opComplexity = 259; // using getClassComplexity
         this.NodeType = 'NextStatementNl';
-        this.space_regexp = /^\S*\n[ \t\n\r]+/;
+        // space_regexp = /^\n/
+        this.space = ' \n ';
+        this.space = this.space.trim();
     }
     NextStatementNl.prototype.getFreeCount = function () {
-        return 3;
+        return 2;
     };
     NextStatementNl.prototype.setFirst = function (value) {
-        this.space = value;
+        this.statement = value;
     };
     NextStatementNl.prototype.getFirst = function () {
-        return this.space;
+        return this.statement;
     };
     NextStatementNl.prototype.setLast = function (value) {
         this.next = value;
@@ -2931,21 +3067,17 @@ var NextStatementNl = /** @class */ (function () {
         return false;
     };
     NextStatementNl.prototype.consume = function (code) {
-        // console.log('Testing NextStatementNl', code.expressionPath)
+        // console.log('Testing NextStatementNl at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
         code.expressionPath.push({ index: code.index, nodetype: 'NextStatementNl' });
         var start = code.copy();
-        // WALK: space
-        // Expect Type: string
-        var m_space = start.str.substring(start.index).match(this.space_regexp);
-        if (m_space && m_space.index === 0) {
-            this.space = m_space[0];
-            start.index += this.space.length;
-        }
-        else {
-            return null;
+        if (typeof (this.space) === 'string') {
+            start.removeSpace();
+            if (!start.consume(this.space))
+                return null;
+            start.removeSpace();
         }
         // WALK: statement
         if (!this.statement) {
@@ -2977,7 +3109,7 @@ var NextStatementNl = /** @class */ (function () {
 exports.NextStatementNl = NextStatementNl;
 var StatementBlock = /** @class */ (function () {
     function StatementBlock() {
-        this.opComplexity = 104;
+        this.opComplexity = 399; // using getClassComplexity
         this.NodeType = 'StatementBlock';
         this.start = ' { ';
         this.end = ' }';
@@ -3011,7 +3143,7 @@ var StatementBlock = /** @class */ (function () {
         return false;
     };
     StatementBlock.prototype.consume = function (code) {
-        // console.log('Testing StatementBlock', code.expressionPath)
+        // console.log('Testing StatementBlock at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3058,7 +3190,7 @@ var StatementBlock = /** @class */ (function () {
 exports.StatementBlock = StatementBlock;
 var StatementBlock2 = /** @class */ (function () {
     function StatementBlock2() {
-        this.opComplexity = 104;
+        this.opComplexity = 399; // using getClassComplexity
         this.NodeType = 'StatementBlock2';
         this.start = ' { ';
         this.end = ' } ';
@@ -3092,7 +3224,7 @@ var StatementBlock2 = /** @class */ (function () {
         return false;
     };
     StatementBlock2.prototype.consume = function (code) {
-        // console.log('Testing StatementBlock2', code.expressionPath)
+        // console.log('Testing StatementBlock2 at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3140,9 +3272,9 @@ var StatementBlock2 = /** @class */ (function () {
 exports.StatementBlock2 = StatementBlock2;
 var TrueLiteral = /** @class */ (function () {
     function TrueLiteral() {
-        this.opComplexity = 101;
+        this.opComplexity = 111; // using getClassComplexity
         this.NodeType = 'TrueLiteral';
-        this.tag = ' true ';
+        this.tag = ' true';
         this.tag = this.tag.trim();
     }
     TrueLiteral.prototype.getFreeCount = function () {
@@ -3170,7 +3302,7 @@ var TrueLiteral = /** @class */ (function () {
         return false;
     };
     TrueLiteral.prototype.consume = function (code) {
-        // console.log('Testing TrueLiteral', code.expressionPath)
+        // console.log('Testing TrueLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3180,7 +3312,6 @@ var TrueLiteral = /** @class */ (function () {
             start.removeSpace();
             if (!start.consume(this.tag))
                 return null;
-            start.removeSpace();
         }
         code.from(start);
         return this;
@@ -3190,9 +3321,9 @@ var TrueLiteral = /** @class */ (function () {
 exports.TrueLiteral = TrueLiteral;
 var FalseLiteral = /** @class */ (function () {
     function FalseLiteral() {
-        this.opComplexity = 101;
+        this.opComplexity = 111; // using getClassComplexity
         this.NodeType = 'FalseLiteral';
-        this.tag = ' false ';
+        this.tag = ' false';
         this.tag = this.tag.trim();
     }
     FalseLiteral.prototype.getFreeCount = function () {
@@ -3220,7 +3351,7 @@ var FalseLiteral = /** @class */ (function () {
         return false;
     };
     FalseLiteral.prototype.consume = function (code) {
-        // console.log('Testing FalseLiteral', code.expressionPath)
+        // console.log('Testing FalseLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3230,7 +3361,6 @@ var FalseLiteral = /** @class */ (function () {
             start.removeSpace();
             if (!start.consume(this.tag))
                 return null;
-            start.removeSpace();
         }
         code.from(start);
         return this;
@@ -3240,7 +3370,7 @@ var FalseLiteral = /** @class */ (function () {
 exports.FalseLiteral = FalseLiteral;
 var Token = /** @class */ (function () {
     function Token() {
-        this.opComplexity = 11;
+        this.opComplexity = 3; // using getClassComplexity
         this.NodeType = 'Token';
         this.questionmark = '?';
     }
@@ -3271,7 +3401,7 @@ var Token = /** @class */ (function () {
         return false;
     };
     Token.prototype.consume = function (code) {
-        // console.log('Testing Token', code.expressionPath)
+        // console.log('Testing Token at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3294,7 +3424,7 @@ var Token = /** @class */ (function () {
 exports.Token = Token;
 var TNumberToken = /** @class */ (function () {
     function TNumberToken() {
-        this.opComplexity = 1;
+        this.opComplexity = 2; // using getClassComplexity
         this.NodeType = 'TNumberToken';
         this.value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
     }
@@ -3325,7 +3455,7 @@ var TNumberToken = /** @class */ (function () {
         return false;
     };
     TNumberToken.prototype.consume = function (code) {
-        // console.log('Testing TNumberToken', code.expressionPath)
+        // console.log('Testing TNumberToken at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3349,7 +3479,7 @@ var TNumberToken = /** @class */ (function () {
 exports.TNumberToken = TNumberToken;
 var StringLiteral = /** @class */ (function () {
     function StringLiteral() {
-        this.opComplexity = 103;
+        this.opComplexity = 122; // using getClassComplexity
         this.NodeType = 'StringLiteral';
         this.start = '"';
         this.value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
@@ -3382,7 +3512,7 @@ var StringLiteral = /** @class */ (function () {
         return false;
     };
     StringLiteral.prototype.consume = function (code) {
-        // console.log('Testing StringLiteral', code.expressionPath)
+        // console.log('Testing StringLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3414,7 +3544,7 @@ var StringLiteral = /** @class */ (function () {
 exports.StringLiteral = StringLiteral;
 var MemberAccessOperator = /** @class */ (function () {
     function MemberAccessOperator() {
-        this.opComplexity = 23;
+        this.opComplexity = 19; // using getClassComplexity
         this.NodeType = 'MemberAccessOperator';
         this.spaceBefore = ' ';
         this.op = '.';
@@ -3448,7 +3578,7 @@ var MemberAccessOperator = /** @class */ (function () {
         return false;
     };
     MemberAccessOperator.prototype.consume = function (code) {
-        // console.log('Testing MemberAccessOperator', code.expressionPath)
+        // console.log('Testing MemberAccessOperator at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3498,7 +3628,7 @@ var MemberAccessOperator = /** @class */ (function () {
 exports.MemberAccessOperator = MemberAccessOperator;
 var PlusExpression = /** @class */ (function () {
     function PlusExpression() {
-        this.opComplexity = 3;
+        this.opComplexity = 16; // using getClassComplexity
         this.NodeType = 'PlusExpression';
         this.op = ' + ';
         this.precedence = 13;
@@ -3531,7 +3661,7 @@ var PlusExpression = /** @class */ (function () {
         return false;
     };
     PlusExpression.prototype.consume = function (code) {
-        // console.log('Testing PlusExpression', code.expressionPath)
+        // console.log('Testing PlusExpression at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3539,8 +3669,8 @@ var PlusExpression = /** @class */ (function () {
         var start = code.copy();
         // WALK: left
         if (!this.left) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.left = walk.node;
                 start.from(walk.code);
@@ -3557,8 +3687,8 @@ var PlusExpression = /** @class */ (function () {
         }
         // WALK: right
         if (!this.right) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.right = walk.node;
                 start.from(walk.code);
@@ -3575,7 +3705,7 @@ var PlusExpression = /** @class */ (function () {
 exports.PlusExpression = PlusExpression;
 var MultiplyExpression = /** @class */ (function () {
     function MultiplyExpression() {
-        this.opComplexity = 3;
+        this.opComplexity = 15; // using getClassComplexity
         this.NodeType = 'MultiplyExpression';
         this.op = ' * ';
         this.precedence = 14;
@@ -3608,7 +3738,7 @@ var MultiplyExpression = /** @class */ (function () {
         return false;
     };
     MultiplyExpression.prototype.consume = function (code) {
-        // console.log('Testing MultiplyExpression', code.expressionPath)
+        // console.log('Testing MultiplyExpression at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3616,8 +3746,8 @@ var MultiplyExpression = /** @class */ (function () {
         var start = code.copy();
         // WALK: left
         if (!this.left) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.left = walk.node;
                 start.from(walk.code);
@@ -3634,8 +3764,8 @@ var MultiplyExpression = /** @class */ (function () {
         }
         // WALK: right
         if (!this.right) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.right = walk.node;
                 start.from(walk.code);
@@ -3652,7 +3782,7 @@ var MultiplyExpression = /** @class */ (function () {
 exports.MultiplyExpression = MultiplyExpression;
 var ConditionalExpression = /** @class */ (function () {
     function ConditionalExpression() {
-        this.opComplexity = 3;
+        this.opComplexity = 15; // using getClassComplexity
         this.NodeType = 'ConditionalExpression';
         this.op = ' < ';
         this.precedence = 11;
@@ -3685,7 +3815,7 @@ var ConditionalExpression = /** @class */ (function () {
         return false;
     };
     ConditionalExpression.prototype.consume = function (code) {
-        // console.log('Testing ConditionalExpression', code.expressionPath)
+        // console.log('Testing ConditionalExpression at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3693,8 +3823,8 @@ var ConditionalExpression = /** @class */ (function () {
         var start = code.copy();
         // WALK: left
         if (!this.left) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.left = walk.node;
                 start.from(walk.code);
@@ -3711,8 +3841,8 @@ var ConditionalExpression = /** @class */ (function () {
         }
         // WALK: right
         if (!this.right) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.right = walk.node;
                 start.from(walk.code);
@@ -3729,10 +3859,10 @@ var ConditionalExpression = /** @class */ (function () {
 exports.ConditionalExpression = ConditionalExpression;
 var ParenExpression = /** @class */ (function () {
     function ParenExpression() {
-        this.opComplexity = 103;
+        this.opComplexity = 123; // using getClassComplexity
         this.NodeType = 'ParenExpression';
         this.leftParen = ' ( ';
-        this.rightParen = ' ) ';
+        this.rightParen = ' )';
         this.leftParen = this.leftParen.trim();
         this.rightParen = this.rightParen.trim();
     }
@@ -3763,7 +3893,7 @@ var ParenExpression = /** @class */ (function () {
         return false;
     };
     ParenExpression.prototype.consume = function (code) {
-        // console.log('Testing ParenExpression', code.expressionPath)
+        // console.log('Testing ParenExpression at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3777,8 +3907,8 @@ var ParenExpression = /** @class */ (function () {
         }
         // WALK: expr
         if (!this.expr) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.expr = walk.node;
                 start.from(walk.code);
@@ -3791,7 +3921,6 @@ var ParenExpression = /** @class */ (function () {
             start.removeSpace();
             if (!start.consume(this.rightParen))
                 return null;
-            start.removeSpace();
         }
         code.from(start);
         return this;
@@ -3801,7 +3930,7 @@ var ParenExpression = /** @class */ (function () {
 exports.ParenExpression = ParenExpression;
 var TernaryOperator = /** @class */ (function () {
     function TernaryOperator() {
-        this.opComplexity = 5;
+        this.opComplexity = 27; // using getClassComplexity
         this.NodeType = 'TernaryOperator';
         this.start = ' ? ';
         this.separator = ' : ';
@@ -3836,7 +3965,7 @@ var TernaryOperator = /** @class */ (function () {
         return false;
     };
     TernaryOperator.prototype.consume = function (code) {
-        // console.log('Testing TernaryOperator', code.expressionPath)
+        // console.log('Testing TernaryOperator at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
         if (this.isInPath(code)) {
             return null;
         }
@@ -3844,8 +3973,8 @@ var TernaryOperator = /** @class */ (function () {
         var start = code.copy();
         // WALK: condition
         if (!this.condition) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.condition = walk.node;
                 start.from(walk.code);
@@ -3862,8 +3991,8 @@ var TernaryOperator = /** @class */ (function () {
         }
         // WALK: whentrue
         if (!this.whentrue) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.whentrue = walk.node;
                 start.from(walk.code);
@@ -3879,8 +4008,8 @@ var TernaryOperator = /** @class */ (function () {
         }
         // WALK: whenfalse
         if (!this.whenfalse) {
-            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
-            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
+            // Expect: Token, TNumberToken, StringLiteral, SimpleArrowFunctionExpression, ArrowFunctionExpression, ArrowFunctionExpressionWithBlock, NewExpressionWithoutArgs, NewExpressionWithArgs, MemberAccessOperator, PlusExpression, MultiplyExpression, ParenExpression, ObjectLiteral, ArrayLiteral, FunctionExpression, TernaryOperator, ConditionalExpression, FnCallWithArgs, Assing, CallExpressionWithArgs, TrueLiteral, FalseLiteral
+            var walk = WalkNode(start, [new Token(), new TNumberToken(), new StringLiteral(), new SimpleArrowFunctionExpression(), new ArrowFunctionExpression(), new ArrowFunctionExpressionWithBlock(), new NewExpressionWithoutArgs(), new NewExpressionWithArgs(), new MemberAccessOperator(), new PlusExpression(), new MultiplyExpression(), new ParenExpression(), new ObjectLiteral(), new ArrayLiteral(), new FunctionExpression(), new TernaryOperator(), new ConditionalExpression(), new FnCallWithArgs(), new Assing(), new CallExpressionWithArgs(), new TrueLiteral(), new FalseLiteral()]);
             if (walk) {
                 this.whenfalse = walk.node;
                 start.from(walk.code);
@@ -3894,6 +4023,61 @@ var TernaryOperator = /** @class */ (function () {
     return TernaryOperator;
 }());
 exports.TernaryOperator = TernaryOperator;
+var Root = /** @class */ (function () {
+    function Root() {
+        this.opComplexity = 19; // using getClassComplexity
+        this.NodeType = 'Root';
+    }
+    Root.prototype.getFreeCount = function () {
+        return 1;
+    };
+    Root.prototype.setFirst = function (value) {
+        this.statement = value;
+    };
+    Root.prototype.getFirst = function () {
+        return this.statement;
+    };
+    Root.prototype.setLast = function (value) {
+        this.statement = value;
+    };
+    Root.prototype.getLast = function () {
+        return this.statement;
+    };
+    Root.prototype.create = function () {
+        return new Root();
+    };
+    Root.prototype.isInPath = function (code) {
+        for (var _i = 0, _a = code.expressionPath; _i < _a.length; _i++) {
+            var p = _a[_i];
+            if ((p.nodetype == 'Root') && (p.index === code.index))
+                return true;
+        }
+        return false;
+    };
+    Root.prototype.consume = function (code) {
+        // console.log('Testing Root at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
+        if (this.isInPath(code)) {
+            return null;
+        }
+        code.expressionPath.push({ index: code.index, nodetype: 'Root' });
+        var start = code.copy();
+        // WALK: statement
+        if (!this.statement) {
+            // Expect: FunctionExpression, Assing, ConstDeclaration, IfStatement, ReturnStatement, ClassDeclaration
+            var walk = WalkNode(start, [new FunctionExpression(), new Assing(), new ConstDeclaration(), new IfStatement(), new ReturnStatement(), new ClassDeclaration()]);
+            if (walk) {
+                this.statement = walk.node;
+                start.from(walk.code);
+            }
+            else {
+            }
+        }
+        code.from(start);
+        return this;
+    };
+    return Root;
+}());
+exports.Root = Root;
 var keywords = (_a = {},
     _a[' | '.trim()] = true,
     _a[' = '.trim()] = true,
@@ -3907,14 +4091,13 @@ var keywords = (_a = {},
     _a[' ( '.trim()] = true,
     _a[' )'.trim()] = true,
     _a[' new '.trim()] = true,
-    _a[' ; '.trim()] = true,
-    _a[' class '.trim()] = true,
     _a[' { '.trim()] = true,
     _a[' } '.trim()] = true,
+    _a[' class '.trim()] = true,
     _a[' function '.trim()] = true,
-    _a[' '.trim()] = true,
-    _a['=>'.trim()] = true,
+    _a[' async '.trim()] = true,
     _a['{'.trim()] = true,
+    _a[' '.trim()] = true,
     _a['}'.trim()] = true,
     _a[':'.trim()] = true,
     _a[','.trim()] = true,
@@ -3925,9 +4108,11 @@ var keywords = (_a = {},
     _a[' else '.trim()] = true,
     _a[' if '.trim()] = true,
     _a[' ) '.trim()] = true,
+    _a[' ; '.trim()] = true,
+    _a[' \n '.trim()] = true,
     _a[' }'.trim()] = true,
-    _a[' true '.trim()] = true,
-    _a[' false '.trim()] = true,
+    _a[' true'.trim()] = true,
+    _a[' false'.trim()] = true,
     _a['?'.trim()] = true,
     _a['"'.trim()] = true,
     _a['.'.trim()] = true,
@@ -3954,12 +4139,14 @@ var initialList = [
     new ClassMethodDeclaration(),
     new ClassPropertyDeclaration(),
     new ClassBodyStatement(),
+    new ClassBody(),
     new ClassDeclaration(),
     new CallExpressionWithArgs(),
     new FnCallWithArgs(),
     new NewExpressionWithoutArgs(),
     new FunctionExpression(),
     new SimpleArrowFunctionExpression(),
+    new ArrowFunctionExpressionWithBlock(),
     new ArrowFunctionExpression(),
     new ObjectLiteral(),
     new ObjectLiteralEntry(),
@@ -3985,11 +4172,12 @@ var initialList = [
     new ConditionalExpression(),
     new ParenExpression(),
     new TernaryOperator(),
+    new Root(),
 ];
 var currDepth = 0;
 function WalkNode(orig, opInList) {
-    if (opInList === void 0) { opInList = initialList; }
-    if (currDepth++ > 20) {
+    if (opInList === void 0) { opInList = [new Root()]; }
+    if (currDepth++ > 100) {
         throw 'Max depth';
     }
     if (orig.index >= orig.str.length) {
@@ -4017,10 +4205,7 @@ function WalkNode(orig, opInList) {
                 }
             }
             else {
-                if (opInstance.getFreeCount() < 2) {
-                    continue;
-                }
-                if (opInstance.getFreeCount() > 1) {
+                if (opInstance.getFreeCount() > 1 && (opInstance.precedence) && activeOp.precedence) {
                     if (opInstance && (opInstance.precedence > activeOp.precedence)) {
                         opInstance.setFirst(activeOp.getLast());
                         var mRes = opInstance.consume(cc);

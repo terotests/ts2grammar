@@ -80,4 +80,10 @@ var ArrayLiteralTail = /** @class */ (function () {
     return ArrayLiteralTail;
 }());
 exports.ArrayLiteralTail = ArrayLiteralTail;
+var Root = /** @class */ (function () {
+    function Root() {
+    }
+    return Root;
+}());
+exports.Root = Root;
 //# sourceMappingURL=json.js.map

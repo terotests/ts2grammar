@@ -1,7 +1,10 @@
+import { ExpressionStatement } from "ts-simple-ast";
+
 export type ArgType = Token | TNumberToken | StringLiteral
 export type NTypes = TNumberToken | StringLiteral
 export type ExpressionType =  SimpleArrowFunctionExpression 
   | ArrowFunctionExpression 
+  | ArrowFunctionExpressionWithBlock
   | NewExpressionWithoutArgs 
   | NewExpressionWithArgs 
   | MemberAccessOperator 
@@ -80,7 +83,6 @@ export class Generics {
 export class ParamInitializer {
   start = ' = '
   value: ExpressionType
-  precedence = 3
 }
 
 export class ParameterListItemTail {
@@ -98,7 +100,6 @@ export class ParameterList {
   initializer?:ParamInitializer
   tail?:ParameterListItemTail
   end = ' )'
-  precedence = 20
 }
 
 export class CallParameterListTail {
@@ -138,20 +139,25 @@ export class ClassPropertyDeclaration {
 export type ClassBodyType = ClassMethodDeclaration | ClassPropertyDeclaration
 
 export class ClassBodyStatement {
-  begins = ' ; '
+  // begins_regexp = /\S*[\n;]+[ \t\n\r]*/
+  begins_regexp = /^[ \t\n\r;]+/
+  begins:string
   head: ClassBodyType
   tail?: ClassBodyStatement
+}
+
+export class ClassBody {
+  begin = ' { '
+  head: ClassBodyType
+  tail?: ClassBodyStatement
+  end = ' } '
 }
 
 export class ClassDeclaration {
   start = ' class '
   className: Token
   extends?: ExtendsKeyword
-  begin = ' { '
-  // property?: ClassPropertyDeclaration
-  head?: ClassBodyType
-  tail?: ClassBodyStatement
-  end = ' } '
+  body:ClassBody
 }
 
 export class CallExpressionWithArgs {
@@ -188,14 +194,18 @@ export class SimpleArrowFunctionExpression {
   expression: ExpressionType
 }
 
-export class ArrowFunctionExpression {
-  async? = 'async'
+export class ArrowFunctionExpressionWithBlock {
+  async? = ' async '
   params:ParameterList
-  spaceBefore? = ' '
-  arrow = '=>'
-  spaceAfter? = ' '
-  expression: ExpressionType
-  spaceAfter2? = ' '
+  arrow = ' => '
+  body: StatementBlock
+}
+
+export class ArrowFunctionExpression {
+  async? = ' async '
+  params:ParameterList
+  arrow = ' => '
+  body: ExpressionType
 }
 
 export class ObjectLiteral {
@@ -276,8 +286,8 @@ export class NextStatement {
   next?: Next
 }
 export class NextStatementNl {
-  space_regexp = /^\S*\n[ \t\n\r]+/
-  space:string
+  // space_regexp = /^\n/
+  space:string = ' \n '
   statement?: Statement
   next?: Next
 }
@@ -299,11 +309,11 @@ export class StatementBlock2 {
 }
 
 export class TrueLiteral  {
-  tag = ' true '  
+  tag = ' true'  
 }
 
 export class FalseLiteral  {
-  tag = ' false '  
+  tag = ' false'  
 }
 
 export class Token  {
@@ -356,7 +366,7 @@ export class ConditionalExpression {
 export class ParenExpression {
   leftParen = ' ( '
   expr:ExpressionType  
-  rightParen = ' ) '
+  rightParen = ' )'
 }
 
 export class TernaryOperator {
@@ -366,5 +376,12 @@ export class TernaryOperator {
   separator = ' : '
   whenfalse?: ExpressionType
   precedence = 4
+}
+
+/**
+ * @root true
+ */
+export class Root {
+  statement?: Statement
 }
 

@@ -194,6 +194,62 @@ export interface IASTNode {
       end.indent(-1)
     end.out(`]`, true)
 
+    const memoizedComplexities:{[key:string]:number} = {}
+    const getClassComplexity = (name:string) => {
+      if(!name) return 0
+      if(typeof(memoizedComplexities[name]) !== 'undefined' ) {
+        return memoizedComplexities[name]
+      }
+      if(name==='string') return 1
+      if(name==='number') return 1
+      memoizedComplexities[name] = 1
+      const c = sourceFile.getClass(name)
+      if(!c) return 1
+      let complexity = 0
+      c.getProperties().forEach( (p, propIndex) => {
+        if( p.getName() === 'precedence' ||
+           (p.getName().indexOf('_regexp') > 0 ) ) {
+          return
+        }
+        if( p.getInitializer() ) {
+          const init = p.getInitializer().getType()
+          const initVal = p.getInitializer().print()
+          const apparentType = init.getApparentType();
+          let keywordValue = initVal
+          if( apparentType ) {
+            const s = apparentType.getSymbol()
+            if(s) {
+              if( s.getEscapedName() == 'String' ) {
+                if(!p.hasQuestionToken()) {
+                  memoizedComplexities[name]+=10
+                } else {
+                  memoizedComplexities[name]+=1
+                }
+                if( propIndex === 0 && !p.hasQuestionToken() ) {
+                  memoizedComplexities[name]+=100
+                }                
+              }
+            }
+          }
+        } else {
+          if(p.getType().getUnionTypes().length > 0) {             
+            const uTypes = p.getType().getUnionTypes().map( ist => {
+              const symb = ist.getSymbol()
+              if(symb) return '' + symb.getEscapedName()
+              return ''
+            }).filter( v => v.length > 0)   
+            memoizedComplexities[name] += Math.min( ...uTypes.map(curr => getClassComplexity(curr) ) )            
+          }    
+          const tn = p.getTypeNode()
+          if(tn) {
+            // console.log(' complexity class : ', tn.print(), ' ... for', c.getName())
+            memoizedComplexities[name] += getClassComplexity( tn.print() )
+          }
+        }
+      })
+      return memoizedComplexities[name]
+    }
+
     sourceFile.getClasses().forEach( c=>{
 
       if(true) {
@@ -266,7 +322,7 @@ export interface IASTNode {
           methods.indent(1)
           // See if we are already in the path
           // methods.out(``)
-          methods.out(`// console.log('Testing ${c.getName()}', code.expressionPath)`, true)
+          methods.out(`// console.log('Testing ${c.getName()} at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)`, true)
           methods.out(`if( this.isInPath(code)) {`, true)
             methods.indent(1)
             // methods.out(`console.log('was already in path ${c.getName()}')`, true)
@@ -330,10 +386,14 @@ MetaData = {
             }
           }
 
+          if(p.hasQuestionToken()) {
+//             complexity = complexity - 1
+          }          
+
           if( p.getInitializer() ) {
             const init = p.getInitializer().getType()
-            console.log(init.getText())
-            console.log( p.getInitializer().print() )
+            // console.log(init.getText())
+            // console.log( p.getInitializer().print() )
             // console.log( p.getInitializer().getType() )
 
             const initVal = p.getInitializer().print()
@@ -344,7 +404,7 @@ MetaData = {
               const s = apparentType.getSymbol()
               if(s) {
                 if( s.getEscapedName() == 'String' ) {
-                  if(!!p.hasQuestionToken()) {
+                  if(!p.hasQuestionToken()) {
                     complexity+=10
                   } else {
                     complexity+=1
@@ -577,15 +637,16 @@ MetaData = {
           body.indent(-1)
         body.out(`}`, true)
 
-        variables.out(`opComplexity = ${complexity}`, true)
+        const calcComp = getClassComplexity( c.getName() )
+        variables.out(`opComplexity = ${calcComp} // using getClassComplexity`, true)
 
       }     
 
     })      
     end.raw(`
 let currDepth = 0
-export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = initialList) : ParsedContext | null {
-  if(currDepth++ > 20) {
+export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = [new Root()]) : ParsedContext | null {
+  if(currDepth++ > 100) {
     throw 'Max depth'
   }
   if( orig.index >= orig.str.length) {
@@ -612,10 +673,7 @@ export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = initialList) 
           break
         }
       } else {
-        if( opInstance.getFreeCount() < 2) {
-          continue
-        }
-        if( opInstance.getFreeCount() > 1) {
+        if( opInstance.getFreeCount() > 1 && (opInstance.precedence) && activeOp.precedence) {
           if( opInstance && (opInstance.precedence > activeOp.precedence )) {
             opInstance.setFirst( activeOp.getLast() )
             const mRes = opInstance.consume( cc )

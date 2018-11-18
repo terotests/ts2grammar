@@ -142,6 +142,68 @@ function createProject(settings) {
                         var operatorList = end.fork();
                         end.indent(-1);
                         end.out("]", true);
+                        var memoizedComplexities = {};
+                        var getClassComplexity = function (name) {
+                            if (!name)
+                                return 0;
+                            if (typeof (memoizedComplexities[name]) !== 'undefined') {
+                                return memoizedComplexities[name];
+                            }
+                            if (name === 'string')
+                                return 1;
+                            if (name === 'number')
+                                return 1;
+                            memoizedComplexities[name] = 1;
+                            var c = sourceFile.getClass(name);
+                            if (!c)
+                                return 1;
+                            var complexity = 0;
+                            c.getProperties().forEach(function (p, propIndex) {
+                                if (p.getName() === 'precedence' ||
+                                    (p.getName().indexOf('_regexp') > 0)) {
+                                    return;
+                                }
+                                if (p.getInitializer()) {
+                                    var init = p.getInitializer().getType();
+                                    var initVal = p.getInitializer().print();
+                                    var apparentType = init.getApparentType();
+                                    var keywordValue = initVal;
+                                    if (apparentType) {
+                                        var s = apparentType.getSymbol();
+                                        if (s) {
+                                            if (s.getEscapedName() == 'String') {
+                                                if (!p.hasQuestionToken()) {
+                                                    memoizedComplexities[name] += 10;
+                                                }
+                                                else {
+                                                    memoizedComplexities[name] += 1;
+                                                }
+                                                if (propIndex === 0 && !p.hasQuestionToken()) {
+                                                    memoizedComplexities[name] += 100;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (p.getType().getUnionTypes().length > 0) {
+                                        var uTypes = p.getType().getUnionTypes().map(function (ist) {
+                                            var symb = ist.getSymbol();
+                                            if (symb)
+                                                return '' + symb.getEscapedName();
+                                            return '';
+                                        }).filter(function (v) { return v.length > 0; });
+                                        memoizedComplexities[name] += Math.min.apply(Math, uTypes.map(function (curr) { return getClassComplexity(curr); }));
+                                    }
+                                    var tn = p.getTypeNode();
+                                    if (tn) {
+                                        // console.log(' complexity class : ', tn.print(), ' ... for', c.getName())
+                                        memoizedComplexities[name] += getClassComplexity(tn.print());
+                                    }
+                                }
+                            });
+                            return memoizedComplexities[name];
+                        };
                         sourceFile.getClasses().forEach(function (c) {
                             if (true) {
                                 console.log(c.getName());
@@ -203,7 +265,7 @@ function createProject(settings) {
                                 methods.indent(1);
                                 // See if we are already in the path
                                 // methods.out(``)
-                                methods.out("// console.log('Testing " + c.getName() + "', code.expressionPath)", true);
+                                methods.out("// console.log('Testing " + c.getName() + " at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)", true);
                                 methods.out("if( this.isInPath(code)) {", true);
                                 methods.indent(1);
                                 // methods.out(`console.log('was already in path ${c.getName()}')`, true)
@@ -259,10 +321,13 @@ function createProject(settings) {
                                             });
                                         }
                                     }
+                                    if (p.hasQuestionToken()) {
+                                        //             complexity = complexity - 1
+                                    }
                                     if (p.getInitializer()) {
                                         var init = p.getInitializer().getType();
-                                        console.log(init.getText());
-                                        console.log(p.getInitializer().print());
+                                        // console.log(init.getText())
+                                        // console.log( p.getInitializer().print() )
                                         // console.log( p.getInitializer().getType() )
                                         var initVal = p.getInitializer().print();
                                         var apparentType = init.getApparentType();
@@ -271,7 +336,7 @@ function createProject(settings) {
                                             var s = apparentType.getSymbol();
                                             if (s) {
                                                 if (s.getEscapedName() == 'String') {
-                                                    if (!!p.hasQuestionToken()) {
+                                                    if (!p.hasQuestionToken()) {
                                                         complexity_1 += 10;
                                                     }
                                                     else {
@@ -497,10 +562,11 @@ function createProject(settings) {
                                 body_1.out("return new " + c.getName() + " " + tArgument + "()", true);
                                 body_1.indent(-1);
                                 body_1.out("}", true);
-                                variables.out("opComplexity = " + complexity_1, true);
+                                var calcComp = getClassComplexity(c.getName());
+                                variables.out("opComplexity = " + calcComp + " // using getClassComplexity", true);
                             }
                         });
-                        end.raw("\nlet currDepth = 0\nexport function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = initialList) : ParsedContext | null {\n  if(currDepth++ > 20) {\n    throw 'Max depth'\n  }\n  if( orig.index >= orig.str.length) {\n    return null\n  }\n  const opList = opInList.sort( (left, right) => {\n    return right.opComplexity - left.opComplexity\n  })\n  // console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))\n  const cc = orig.copy()\n  let activeOp:IASTNode = null\n  let cnt = 0\n  let lastCnt = -1\n  \n  while( cnt !== lastCnt ) {\n    lastCnt = cnt\n    for( let op of opList ) {\n      const opInstance = op.create()\n      if(activeOp === null) {\n        const test = opInstance.consume( cc )\n        if( test ) {\n          activeOp = test\n          cnt++\n          break\n        }\n      } else {\n        if( opInstance.getFreeCount() < 2) {\n          continue\n        }\n        if( opInstance.getFreeCount() > 1) {\n          if( opInstance && (opInstance.precedence > activeOp.precedence )) {\n            opInstance.setFirst( activeOp.getLast() )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp.setLast( mRes )\n              cnt++\n              break\n            }  \n          } else {\n            opInstance.setFirst( activeOp )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp = opInstance\n              cnt++\n              break\n            }      \n          }        \n        }\n      }\n    }\n  }\n  currDepth--\n  if(activeOp === null) return null\n  return {\n    code: cc,\n    node: activeOp\n  }\n}      \n          ", true);
+                        end.raw("\nlet currDepth = 0\nexport function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = [new Root()]) : ParsedContext | null {\n  if(currDepth++ > 100) {\n    throw 'Max depth'\n  }\n  if( orig.index >= orig.str.length) {\n    return null\n  }\n  const opList = opInList.sort( (left, right) => {\n    return right.opComplexity - left.opComplexity\n  })\n  // console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))\n  const cc = orig.copy()\n  let activeOp:IASTNode = null\n  let cnt = 0\n  let lastCnt = -1\n  \n  while( cnt !== lastCnt ) {\n    lastCnt = cnt\n    for( let op of opList ) {\n      const opInstance = op.create()\n      if(activeOp === null) {\n        const test = opInstance.consume( cc )\n        if( test ) {\n          activeOp = test\n          cnt++\n          break\n        }\n      } else {\n        if( opInstance.getFreeCount() > 1 && (opInstance.precedence) && activeOp.precedence) {\n          if( opInstance && (opInstance.precedence > activeOp.precedence )) {\n            opInstance.setFirst( activeOp.getLast() )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp.setLast( mRes )\n              cnt++\n              break\n            }  \n          } else {\n            opInstance.setFirst( activeOp )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp = opInstance\n              cnt++\n              break\n            }      \n          }        \n        }\n      }\n    }\n  }\n  currDepth--\n  if(activeOp === null) return null\n  return {\n    code: cc,\n    node: activeOp\n  }\n}      \n          ", true);
                     });
                     return [4 /*yield*/, RFs.saveTo('./', false)];
                 case 1:

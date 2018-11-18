@@ -56,3 +56,7 @@ export class ArrayLiteralTail {
   value: ExpressionType
   tail?: ArrayLiteralTail
 }
+
+export class Root {
+  value: ExpressionType
+}

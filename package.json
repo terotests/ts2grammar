@@ -7,7 +7,9 @@
     "compile" : "tsc",
     "renew" : "node dist/src/compile",
     "d" : "npm run compile && npm run renew",
-    "test": "npm run compile && npm run renew && ./node_modules/.bin/mocha dist/test/ --recursive --reporter spec"
+    "debug" : "node --debug-brk --inspect dist/src/runtest",
+    "all": "npm run compile && npm run renew && ./node_modules/.bin/mocha dist/test/ --recursive --reporter spec",
+    "test": "npm run compile && ./node_modules/.bin/mocha dist/test/ --recursive --reporter spec"
   },
   "keywords": [],
   "author": "Tero Tolonen",

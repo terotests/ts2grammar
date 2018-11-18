@@ -48,3 +48,6 @@ export declare class ArrayLiteralTail {
     value: ExpressionType;
     tail?: ArrayLiteralTail;
 }
+export declare class Root {
+    value: ExpressionType;
+}

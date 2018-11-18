@@ -67,7 +67,6 @@ exports.Generics = Generics;
 var ParamInitializer = /** @class */ (function () {
     function ParamInitializer() {
         this.start = ' = ';
-        this.precedence = 3;
     }
     return ParamInitializer;
 }());
@@ -83,7 +82,6 @@ var ParameterList = /** @class */ (function () {
     function ParameterList() {
         this.start = ' ( ';
         this.end = ' )';
-        this.precedence = 20;
     }
     return ParameterList;
 }());
@@ -126,16 +124,23 @@ var ClassPropertyDeclaration = /** @class */ (function () {
 exports.ClassPropertyDeclaration = ClassPropertyDeclaration;
 var ClassBodyStatement = /** @class */ (function () {
     function ClassBodyStatement() {
-        this.begins = ' ; ';
+        // begins_regexp = /\S*[\n;]+[ \t\n\r]*/
+        this.begins_regexp = /^[ \t\n\r;]+/;
     }
     return ClassBodyStatement;
 }());
 exports.ClassBodyStatement = ClassBodyStatement;
+var ClassBody = /** @class */ (function () {
+    function ClassBody() {
+        this.begin = ' { ';
+        this.end = ' } ';
+    }
+    return ClassBody;
+}());
+exports.ClassBody = ClassBody;
 var ClassDeclaration = /** @class */ (function () {
     function ClassDeclaration() {
         this.start = ' class ';
-        this.begin = ' { ';
-        this.end = ' } ';
     }
     return ClassDeclaration;
 }());
@@ -176,13 +181,18 @@ var SimpleArrowFunctionExpression = /** @class */ (function () {
     return SimpleArrowFunctionExpression;
 }());
 exports.SimpleArrowFunctionExpression = SimpleArrowFunctionExpression;
+var ArrowFunctionExpressionWithBlock = /** @class */ (function () {
+    function ArrowFunctionExpressionWithBlock() {
+        this.async = ' async ';
+        this.arrow = ' => ';
+    }
+    return ArrowFunctionExpressionWithBlock;
+}());
+exports.ArrowFunctionExpressionWithBlock = ArrowFunctionExpressionWithBlock;
 var ArrowFunctionExpression = /** @class */ (function () {
     function ArrowFunctionExpression() {
-        this.async = 'async';
-        this.spaceBefore = ' ';
-        this.arrow = '=>';
-        this.spaceAfter = ' ';
-        this.spaceAfter2 = ' ';
+        this.async = ' async ';
+        this.arrow = ' => ';
     }
     return ArrowFunctionExpression;
 }());
@@ -273,7 +283,8 @@ var NextStatement = /** @class */ (function () {
 exports.NextStatement = NextStatement;
 var NextStatementNl = /** @class */ (function () {
     function NextStatementNl() {
-        this.space_regexp = /^\S*\n[ \t\n\r]+/;
+        // space_regexp = /^\n/
+        this.space = ' \n ';
     }
     return NextStatementNl;
 }());
@@ -296,14 +307,14 @@ var StatementBlock2 = /** @class */ (function () {
 exports.StatementBlock2 = StatementBlock2;
 var TrueLiteral = /** @class */ (function () {
     function TrueLiteral() {
-        this.tag = ' true ';
+        this.tag = ' true';
     }
     return TrueLiteral;
 }());
 exports.TrueLiteral = TrueLiteral;
 var FalseLiteral = /** @class */ (function () {
     function FalseLiteral() {
-        this.tag = ' false ';
+        this.tag = ' false';
     }
     return FalseLiteral;
 }());
@@ -368,7 +379,7 @@ exports.ConditionalExpression = ConditionalExpression;
 var ParenExpression = /** @class */ (function () {
     function ParenExpression() {
         this.leftParen = ' ( ';
-        this.rightParen = ' ) ';
+        this.rightParen = ' )';
     }
     return ParenExpression;
 }());
@@ -382,4 +393,13 @@ var TernaryOperator = /** @class */ (function () {
     return TernaryOperator;
 }());
 exports.TernaryOperator = TernaryOperator;
+/**
+ * @root true
+ */
+var Root = /** @class */ (function () {
+    function Root() {
+    }
+    return Root;
+}());
+exports.Root = Root;
 //# sourceMappingURL=typescript.js.map

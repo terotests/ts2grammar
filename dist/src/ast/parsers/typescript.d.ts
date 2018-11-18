@@ -48,7 +48,7 @@ export interface IASTNode {
 }
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | ArrowFunctionExpressionWithBlock | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
 export declare type TypeDefs = SimpleTypeDefinition | ArrowFnType;
 export declare type ClassBodyType = ClassMethodDeclaration | ClassPropertyDeclaration;
 export declare type Statement = ConstDeclaration | IfStatement | ReturnStatement | Assing | FunctionExpression | ClassDeclaration;
@@ -209,7 +209,7 @@ export declare class ParamInitializer implements IASTNode {
     NodeType: string;
     start: string;
     value: ExpressionType;
-    precedence: number;
+    precedence?: number;
     getFreeCount(): number;
     setFirst(value: any): void;
     getFirst(): any | null;
@@ -248,7 +248,7 @@ export declare class ParameterList implements IASTNode {
     initializer?: ParamInitializer;
     tail?: ParameterListItemTail;
     end: string;
-    precedence: number;
+    precedence?: number;
     getFreeCount(): number;
     setFirst(value: any): void;
     getFirst(): any | null;
@@ -349,6 +349,7 @@ export declare class ClassPropertyDeclaration implements IASTNode {
 export declare class ClassBodyStatement implements IASTNode {
     opComplexity: number;
     NodeType: string;
+    begins_regexp: RegExp;
     begins: string;
     head: ClassBodyType;
     tail?: ClassBodyStatement;
@@ -363,16 +364,31 @@ export declare class ClassBodyStatement implements IASTNode {
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): ClassBodyStatement | null;
 }
+export declare class ClassBody implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    begin: string;
+    head: ClassBodyType;
+    tail?: ClassBodyStatement;
+    end: string;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): ClassBody;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): ClassBody | null;
+}
 export declare class ClassDeclaration implements IASTNode {
     opComplexity: number;
     NodeType: string;
     start: string;
     className: Token;
     extends?: ExtendsKeyword;
-    begin: string;
-    head?: ClassBodyType;
-    tail?: ClassBodyStatement;
-    end: string;
+    body: ClassBody;
     precedence?: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -469,16 +485,31 @@ export declare class SimpleArrowFunctionExpression implements IASTNode {
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): SimpleArrowFunctionExpression | null;
 }
+export declare class ArrowFunctionExpressionWithBlock implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    async?: string;
+    params: ParameterList;
+    arrow: string;
+    body: StatementBlock;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): ArrowFunctionExpressionWithBlock;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): ArrowFunctionExpressionWithBlock | null;
+}
 export declare class ArrowFunctionExpression implements IASTNode {
     opComplexity: number;
     NodeType: string;
     async?: string;
     params: ParameterList;
-    spaceBefore?: string;
     arrow: string;
-    spaceAfter?: string;
-    expression: ExpressionType;
-    spaceAfter2?: string;
+    body: ExpressionType;
     precedence?: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -677,7 +708,6 @@ export declare class NextStatement implements IASTNode {
 export declare class NextStatementNl implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    space_regexp: RegExp;
     space: string;
     statement?: Statement;
     next?: Next;
@@ -913,5 +943,20 @@ export declare class TernaryOperator implements IASTNode {
     constructor();
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): TernaryOperator | null;
+}
+export declare class Root implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    statement?: Statement;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): Root;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): Root | null;
 }
 export declare function WalkNode(orig: CodeToConsume, opInList?: IASTNode[]): ParsedContext | null;

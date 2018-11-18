@@ -228,4 +228,19 @@ export declare class ArrayLiteralTail implements IASTNode {
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): ArrayLiteralTail | null;
 }
+export declare class Root implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    value: ExpressionType;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): Root;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): Root | null;
+}
 export declare function WalkNode(orig: CodeToConsume, opInList?: IASTNode[]): ParsedContext | null;

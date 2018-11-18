@@ -133,7 +133,7 @@ export interface IASTNode {
 // Type --> NullLiteral
 export type ExpressionType = Token | Number | ObjectLiteral | ArrayLiteral | TrueLiteral | FalseLiteral | StringLiteral | NullLiteral;
 export class TrueLiteral  implements IASTNode {
-  opComplexity = 101
+  opComplexity = 111 // using getClassComplexity
   NodeType = 'TrueLiteral'
   tag = ' true ';
   precedence? : number
@@ -163,7 +163,7 @@ export class TrueLiteral  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : TrueLiteral | null {
-    // console.log('Testing TrueLiteral', code.expressionPath)
+    // console.log('Testing TrueLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -179,7 +179,7 @@ export class TrueLiteral  implements IASTNode {
   }
 }
 export class FalseLiteral  implements IASTNode {
-  opComplexity = 101
+  opComplexity = 111 // using getClassComplexity
   NodeType = 'FalseLiteral'
   tag = ' false ';
   precedence? : number
@@ -209,7 +209,7 @@ export class FalseLiteral  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : FalseLiteral | null {
-    // console.log('Testing FalseLiteral', code.expressionPath)
+    // console.log('Testing FalseLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -225,7 +225,7 @@ export class FalseLiteral  implements IASTNode {
   }
 }
 export class NullLiteral  implements IASTNode {
-  opComplexity = 101
+  opComplexity = 111 // using getClassComplexity
   NodeType = 'NullLiteral'
   tag = ' null ';
   precedence? : number
@@ -255,7 +255,7 @@ export class NullLiteral  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : NullLiteral | null {
-    // console.log('Testing NullLiteral', code.expressionPath)
+    // console.log('Testing NullLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -271,7 +271,7 @@ export class NullLiteral  implements IASTNode {
   }
 }
 export class Token  implements IASTNode {
-  opComplexity = 1
+  opComplexity = 2 // using getClassComplexity
   NodeType = 'Token'
   name: string;
   precedence? : number
@@ -302,7 +302,7 @@ export class Token  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : Token | null {
-    // console.log('Testing Token', code.expressionPath)
+    // console.log('Testing Token at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -317,7 +317,7 @@ export class Token  implements IASTNode {
   }
 }
 export class Number  implements IASTNode {
-  opComplexity = 1
+  opComplexity = 2 // using getClassComplexity
   NodeType = 'Number'
   value_regexp = /^-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d+)?/;
   value: number;
@@ -349,7 +349,7 @@ export class Number  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : Number | null {
-    // console.log('Testing Number', code.expressionPath)
+    // console.log('Testing Number at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -365,7 +365,7 @@ export class Number  implements IASTNode {
   }
 }
 export class StringLiteral  implements IASTNode {
-  opComplexity = 103
+  opComplexity = 122 // using getClassComplexity
   NodeType = 'StringLiteral'
   start = ' "';
   value_regexp = /^(?:[^\\"]|\\(?:[bfnrtv"\\/]|u[0-9a-fA-F]{4}))*/;
@@ -401,7 +401,7 @@ export class StringLiteral  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : StringLiteral | null {
-    // console.log('Testing StringLiteral', code.expressionPath)
+    // console.log('Testing StringLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -429,7 +429,7 @@ export class StringLiteral  implements IASTNode {
   }
 }
 export class ObjectLiteralEntry  implements IASTNode {
-  opComplexity = 3
+  opComplexity = 136 // using getClassComplexity
   NodeType = 'ObjectLiteralEntry'
   key: StringLiteral;
   separator = ' : ';
@@ -463,7 +463,7 @@ export class ObjectLiteralEntry  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : ObjectLiteralEntry | null {
-    // console.log('Testing ObjectLiteralEntry', code.expressionPath)
+    // console.log('Testing ObjectLiteralEntry at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -501,7 +501,7 @@ export class ObjectLiteralEntry  implements IASTNode {
   }
 }
 export class ObjectLiteralTail  implements IASTNode {
-  opComplexity = 103
+  opComplexity = 488 // using getClassComplexity
   NodeType = 'ObjectLiteralTail'
   start = ' , ';
   head: ObjectLiteralEntry;
@@ -535,7 +535,7 @@ export class ObjectLiteralTail  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : ObjectLiteralTail | null {
-    // console.log('Testing ObjectLiteralTail', code.expressionPath)
+    // console.log('Testing ObjectLiteralTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -572,7 +572,7 @@ export class ObjectLiteralTail  implements IASTNode {
   }
 }
 export class ObjectLiteral  implements IASTNode {
-  opComplexity = 104
+  opComplexity = 742 // using getClassComplexity
   NodeType = 'ObjectLiteral'
   begin = ' { ';
   head?: ObjectLiteralEntry;
@@ -608,7 +608,7 @@ export class ObjectLiteral  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : ObjectLiteral | null {
-    // console.log('Testing ObjectLiteral', code.expressionPath)
+    // console.log('Testing ObjectLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -649,7 +649,7 @@ export class ObjectLiteral  implements IASTNode {
   }
 }
 export class ArrayLiteral  implements IASTNode {
-  opComplexity = 104
+  opComplexity = 352 // using getClassComplexity
   NodeType = 'ArrayLiteral'
   begin = ' [ ';
   head?: ExpressionType;
@@ -685,7 +685,7 @@ export class ArrayLiteral  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : ArrayLiteral | null {
-    // console.log('Testing ArrayLiteral', code.expressionPath)
+    // console.log('Testing ArrayLiteral at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -726,7 +726,7 @@ export class ArrayLiteral  implements IASTNode {
   }
 }
 export class ArrayLiteralTail  implements IASTNode {
-  opComplexity = 103
+  opComplexity = 228 // using getClassComplexity
   NodeType = 'ArrayLiteralTail'
   start = ' , ';
   value: ExpressionType;
@@ -760,7 +760,7 @@ export class ArrayLiteralTail  implements IASTNode {
     return false
   }
   consume(code:CodeToConsume) : ArrayLiteralTail | null {
-    // console.log('Testing ArrayLiteralTail', code.expressionPath)
+    // console.log('Testing ArrayLiteralTail at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
     if( this.isInPath(code)) {
       return null
     }
@@ -796,6 +796,59 @@ export class ArrayLiteralTail  implements IASTNode {
     return this
   }
 }
+export class Root  implements IASTNode {
+  opComplexity = 4 // using getClassComplexity
+  NodeType = 'Root'
+  value: ExpressionType;
+  precedence? : number
+  getFreeCount() : number {
+    return  1
+  }
+  setFirst( value : any )  {
+    this.value = value
+  }
+  getFirst() : any | null {
+    return this.value
+  }
+  setLast( value : any )  {
+    this.value = value
+  }
+  getLast() : any | null {
+    return this.value
+  }
+  create() : Root  {
+    return new Root ()
+  }
+  constructor() {
+  }
+  isInPath(code:CodeToConsume) : boolean {
+    for( let p of code.expressionPath) {
+      if( (p.nodetype=='Root') && (p.index === code.index)) return true
+    }
+    return false
+  }
+  consume(code:CodeToConsume) : Root | null {
+    // console.log('Testing Root at ' +code.str.substring(code.index, code.index + 20), code.expressionPath)
+    if( this.isInPath(code)) {
+      return null
+    }
+    code.expressionPath.push({index:code.index, nodetype:'Root'})
+    const start = code.copy()
+    // WALK: value
+    if(!this.value) {
+      // Expect: Token, Number, ObjectLiteral, ArrayLiteral, TrueLiteral, FalseLiteral, StringLiteral, NullLiteral
+      const walk = WalkNode(start, [new Token(), new Number(), new ObjectLiteral(), new ArrayLiteral(), new TrueLiteral(), new FalseLiteral(), new StringLiteral(), new NullLiteral()])
+      if(walk) {
+        this.value = walk.node as ExpressionType
+        start.from( walk.code )
+      } else {
+        return null
+      }
+    }
+    code.from( start )
+    return this
+  }
+}
 const keywords:{[key:string]:boolean} = {
   [' true '.trim()] : true,
   [' false '.trim()] : true,
@@ -821,11 +874,12 @@ const initialList:IASTNode[] = [
   new ObjectLiteral(),
   new ArrayLiteral(),
   new ArrayLiteralTail(),
+  new Root(),
 ]
 
 let currDepth = 0
-export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = initialList) : ParsedContext | null {
-  if(currDepth++ > 20) {
+export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = [new Root()]) : ParsedContext | null {
+  if(currDepth++ > 100) {
     throw 'Max depth'
   }
   if( orig.index >= orig.str.length) {
@@ -852,10 +906,7 @@ export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = initialList) 
           break
         }
       } else {
-        if( opInstance.getFreeCount() < 2) {
-          continue
-        }
-        if( opInstance.getFreeCount() > 1) {
+        if( opInstance.getFreeCount() > 1 && (opInstance.precedence) && activeOp.precedence) {
           if( opInstance && (opInstance.precedence > activeOp.precedence )) {
             opInstance.setFirst( activeOp.getLast() )
             const mRes = opInstance.consume( cc )
