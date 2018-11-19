@@ -1,4 +1,12 @@
 
+
+
+# Project Notes
+
+```
+NOTE: These are just some ideas which this project has been based on
+```
+
 Idea of a context builder comes from creating a context with grammar rules for specified context.
 
 The basic premise and problem is as follow: in real world application generators it is not enough just to write code and classes - typically you will create some kind of running context for some
