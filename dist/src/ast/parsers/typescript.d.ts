@@ -48,7 +48,7 @@ export interface IASTNode {
 }
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | ArrowFunctionExpressionWithBlock | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | ArrowFunctionExpressionWithBlock | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | ComputedMemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral | UnaryNot | UnaryNegation | PrefixIncrement | PrefixDecrement | PrefixTypeof | PrefixVoid | PrefixDelete | PrefixAwait | UnaryBitwiseNot;
 export declare type TypeDefs = SimpleTypeDefinition | ArrowFnType;
 export declare type ClassBodyType = ClassMethodDeclaration | ClassPropertyDeclaration;
 export declare type Statement = ConstDeclaration | IfStatement | ReturnStatement | Assing | FunctionExpression | ClassDeclaration;
@@ -101,6 +101,150 @@ export declare class Assing implements IASTNode {
     constructor();
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): Assing | null;
+}
+export declare class UnaryNot implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): UnaryNot;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): UnaryNot | null;
+}
+export declare class UnaryNegation implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): UnaryNegation;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): UnaryNegation | null;
+}
+export declare class UnaryBitwiseNot implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): UnaryBitwiseNot;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): UnaryBitwiseNot | null;
+}
+export declare class PrefixIncrement implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): PrefixIncrement;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): PrefixIncrement | null;
+}
+export declare class PrefixDecrement implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): PrefixDecrement;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): PrefixDecrement | null;
+}
+export declare class PrefixTypeof implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): PrefixTypeof;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): PrefixTypeof | null;
+}
+export declare class PrefixVoid implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): PrefixVoid;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): PrefixVoid | null;
+}
+export declare class PrefixDelete implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): PrefixDelete;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): PrefixDelete | null;
+}
+export declare class PrefixAwait implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): PrefixAwait;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): PrefixAwait | null;
 }
 export declare class ArrowFnType implements IASTNode {
     opComplexity: number;
@@ -311,9 +455,28 @@ export declare class NewExpressionWithArgs implements IASTNode {
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): NewExpressionWithArgs | null;
 }
+export declare class PrivateOrPublic implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    private?: string;
+    public?: string;
+    precedence?: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): PrivateOrPublic;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): PrivateOrPublic | null;
+}
 export declare class ClassMethodDeclaration implements IASTNode {
     opComplexity: number;
     NodeType: string;
+    scope?: PrivateOrPublic;
+    isstatic?: string;
+    isasync?: string;
     name: Token;
     generics?: Generics;
     params: ParameterList;
@@ -841,11 +1004,9 @@ export declare class StringLiteral implements IASTNode {
 export declare class MemberAccessOperator implements IASTNode {
     opComplexity: number;
     NodeType: string;
-    spaceBefore?: string;
-    left: Token;
+    left: ExpressionType;
     op: string;
     right: Token;
-    spaceAfter?: string;
     precedence: number;
     getFreeCount(): number;
     setFirst(value: any): void;
@@ -856,6 +1017,24 @@ export declare class MemberAccessOperator implements IASTNode {
     constructor();
     isInPath(code: CodeToConsume): boolean;
     consume(code: CodeToConsume): MemberAccessOperator | null;
+}
+export declare class ComputedMemberAccessOperator implements IASTNode {
+    opComplexity: number;
+    NodeType: string;
+    left: ExpressionType;
+    leftB: string;
+    right: ExpressionType;
+    rightB: string;
+    precedence: number;
+    getFreeCount(): number;
+    setFirst(value: any): void;
+    getFirst(): any | null;
+    setLast(value: any): void;
+    getLast(): any | null;
+    create(): ComputedMemberAccessOperator;
+    constructor();
+    isInPath(code: CodeToConsume): boolean;
+    consume(code: CodeToConsume): ComputedMemberAccessOperator | null;
 }
 export declare class PlusExpression implements IASTNode {
     opComplexity: number;

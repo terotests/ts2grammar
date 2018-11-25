@@ -1,6 +1,6 @@
 export declare type ArgType = Token | TNumberToken | StringLiteral;
 export declare type NTypes = TNumberToken | StringLiteral;
-export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | ArrowFunctionExpressionWithBlock | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | ComputedMemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral;
+export declare type ExpressionType = SimpleArrowFunctionExpression | ArrowFunctionExpression | ArrowFunctionExpressionWithBlock | NewExpressionWithoutArgs | NewExpressionWithArgs | MemberAccessOperator | ComputedMemberAccessOperator | PlusExpression | MultiplyExpression | ParenExpression | Token | NTypes | ObjectLiteral | ArrayLiteral | FunctionExpression | TernaryOperator | ConditionalExpression | FnCallWithArgs | Assing | CallExpressionWithArgs | TrueLiteral | FalseLiteral | UnaryNot | UnaryNegation | PrefixIncrement | PrefixDecrement | PrefixTypeof | PrefixVoid | PrefixDelete | PrefixAwait | UnaryBitwiseNot;
 export declare type TypeDefs = SimpleTypeDefinition | ArrowFnType;
 export declare class TypeDefinitionUnion {
     start: string;
@@ -14,6 +14,51 @@ export declare class Assing {
     to: Token;
     arrow: string;
     value: ExpressionType;
+}
+export declare class UnaryNot {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class UnaryNegation {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class UnaryBitwiseNot {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class PrefixIncrement {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class PrefixDecrement {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class PrefixTypeof {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class PrefixVoid {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class PrefixDelete {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
+}
+export declare class PrefixAwait {
+    notExpr: string;
+    value: ExpressionType;
+    precedence: number;
 }
 export declare class ArrowFnType {
     async?: string;

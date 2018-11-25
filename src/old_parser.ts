@@ -7,7 +7,6 @@ import * as path from 'path'
 import { dirname } from "path";
 import { printNode } from 'ts-simple-ast'
 import { createConsumer } from "./utils/index";
-import { CodeWriter } from "robowr";
 
 
 export interface GenerationOptions {
@@ -71,6 +70,8 @@ export async function createProject( settings:GenerationOptions) {
   const reducerPath =  '/'+settings.reducerPath+'/'
   project.addExistingSourceFiles([`${settings.path}/**/*.ts`,`${settings.path}/**/*.tsx`]); // , "!**/*.d.ts"
   const RFs = new R.CodeFileSystem()
+
+
   const targetFiles:{[key:string]:TargetFile} = {};
   const modelsList:ModelDefinition[] = []
   const generatedFiles:ModelDefinition[] = []
@@ -117,11 +118,8 @@ export async function createProject( settings:GenerationOptions) {
     const sourceDir = path.normalize( path.relative( process.cwd(), path.dirname( sourceFile.getFilePath() ) ) )
     const fileNg = RFs.getFile(sourceDir + reducerPath,  fileName ).getWriter()
 
-    const fWr = fileNg.fork()
-    fWr.out('// beginning of the file', true)
-
-    const ng = new CodeWriter()
-    const end = new CodeWriter()
+    const ng = fileNg.fork()
+    const end = fileNg.fork()
 
     const usedKeywords:{[key:string]:boolean} = {}
 
@@ -357,9 +355,6 @@ MetaData = {
         const trimOpts:{[key:string]:TrimOptions} = {}
         const regExps:{[key:string]:boolean} = {}
         let complexity = 0
-
-        fWr.out('', true)
-        fWr.out(`// class ${c.getName()}`, true)
         c.getProperties().forEach( (p, propIndex) => {
 
           trimOpts[p.getName()] = { left:false, right:false }
@@ -440,37 +435,25 @@ MetaData = {
               }
             }
             
+
             if(isNaN(parseFloat(keywordValue)) && !usedKeywords[keywordValue]) {
               keywordList.out(`[${keywordValue}.trim()] : true,`, true)  
               usedKeywords[keywordValue] = true            
             }
 
-            // TODO: Get the default type for the value...
-
             consumer.out(`if(typeof(this.${p.getName()}) === 'string') {`, true)
               consumer.indent(1)
-              let spaceLeft = false
-              let spaceRight = false
-              let optional = false
               if( trimOpts[p.getName()].left ) {
-                spaceLeft = true
                 consumer.out(`start.removeSpace()`, true)                
               }
               if( p.hasQuestionToken() ) {
-                optional = true
                 consumer.out(`if(!start.consume(this.${p.getName()})) this.${p.getName()} = '' `, true)
               } else {
                 consumer.out(`if( !start.consume(this.${p.getName()}) ) return null`, true)
               }
               if( trimOpts[p.getName()].right ) {
-                spaceLeft = true
                 consumer.out(`start.removeSpace()`, true)                
               }              
-              fWr.out(`// consume ${p.getName()}`, false)
-              if(optional) fWr.out(' (optional)')
-              if(spaceLeft) fWr.out(' trim left ')
-              if(spaceRight) fWr.out(' trim right ')
-              fWr.out('', true)
               consumer.indent(-1)
             consumer.out(`}`, true)
           } else {
@@ -478,8 +461,6 @@ MetaData = {
             consumer.out(`// WALK: ${p.getName()}`, true)
             complexity += 1
             if(p.getType().getUnionTypes().length > 0) {
-
-              fWr.out(`// consume ${p.getName()}`, true)
 
               consumer.out(`if(!this.${p.getName()}) {`, true)
               consumer.indent(1)              
@@ -489,8 +470,6 @@ MetaData = {
                 return ''
               }).filter( v => v.length > 0)         
               consumer.out(`// Expect: ${uTypes.join(', ')}`, true)   
-
-              fWr.out('// --> Having ' + uTypes.join(', '), true)
 
               consumer.out(`const walk = WalkNode(start, [${uTypes.map( t => 'new '+t+'()' ).join(', ')}])`, true)
               consumer.out(`if(walk) {`, true)
@@ -522,9 +501,6 @@ MetaData = {
               const tn = p.getTypeNode()
               if(tn) {
                 consumer.out(`// Expect Type: ${tn.print()}`, true) 
-
-                fWr.out(`// *** consume Type Node ${tn.print()}`, true)
-
                 const vname = tn.print()
                 switch( vname ) {
                   case 'string':
@@ -665,10 +641,8 @@ MetaData = {
         variables.out(`opComplexity = ${calcComp} // using getClassComplexity`, true)
 
       }     
-    })    
-    
-    fWr.raw(`const complexities = ${JSON.stringify(memoizedComplexities, null, 2)}`, true)
-    
+
+    })      
     end.raw(`
 let currDepth = 0
 export function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = [new Root()]) : ParsedContext | null {

@@ -21,61 +21,78 @@ var Assing = /** @class */ (function () {
     return Assing;
 }());
 exports.Assing = Assing;
-/*
-export class UnaryNot {
-  notExpr = ' ! '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class UnaryNegation {
-  notExpr = ' - '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class UnaryBitwiseNot {
-  notExpr = ' ~ '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class PrefixIncrement {
-  notExpr = ' ++ '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class PrefixDecrement {
-  notExpr = ' -- '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class PrefixTypeof {
-  notExpr = ' typeof '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class PrefixVoid {
-  notExpr = ' void '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class PrefixDelete {
-  notExpr = ' delete '
-  value:ExpressionType
-  precedence = 16
-}
-
-export class PrefixAwait {
-  notExpr = ' await '
-  value:ExpressionType
-  precedence = 16
-}
-*/
+var UnaryNot = /** @class */ (function () {
+    function UnaryNot() {
+        this.notExpr = ' ! ';
+        this.precedence = 16;
+    }
+    return UnaryNot;
+}());
+exports.UnaryNot = UnaryNot;
+var UnaryNegation = /** @class */ (function () {
+    function UnaryNegation() {
+        this.notExpr = ' - ';
+        this.precedence = 16;
+    }
+    return UnaryNegation;
+}());
+exports.UnaryNegation = UnaryNegation;
+var UnaryBitwiseNot = /** @class */ (function () {
+    function UnaryBitwiseNot() {
+        this.notExpr = ' ~ ';
+        this.precedence = 16;
+    }
+    return UnaryBitwiseNot;
+}());
+exports.UnaryBitwiseNot = UnaryBitwiseNot;
+var PrefixIncrement = /** @class */ (function () {
+    function PrefixIncrement() {
+        this.notExpr = ' ++ ';
+        this.precedence = 16;
+    }
+    return PrefixIncrement;
+}());
+exports.PrefixIncrement = PrefixIncrement;
+var PrefixDecrement = /** @class */ (function () {
+    function PrefixDecrement() {
+        this.notExpr = ' -- ';
+        this.precedence = 16;
+    }
+    return PrefixDecrement;
+}());
+exports.PrefixDecrement = PrefixDecrement;
+var PrefixTypeof = /** @class */ (function () {
+    function PrefixTypeof() {
+        this.notExpr = ' typeof ';
+        this.precedence = 16;
+    }
+    return PrefixTypeof;
+}());
+exports.PrefixTypeof = PrefixTypeof;
+var PrefixVoid = /** @class */ (function () {
+    function PrefixVoid() {
+        this.notExpr = ' void ';
+        this.precedence = 16;
+    }
+    return PrefixVoid;
+}());
+exports.PrefixVoid = PrefixVoid;
+var PrefixDelete = /** @class */ (function () {
+    function PrefixDelete() {
+        this.notExpr = ' delete ';
+        this.precedence = 16;
+    }
+    return PrefixDelete;
+}());
+exports.PrefixDelete = PrefixDelete;
+var PrefixAwait = /** @class */ (function () {
+    function PrefixAwait() {
+        this.notExpr = ' await ';
+        this.precedence = 16;
+    }
+    return PrefixAwait;
+}());
+exports.PrefixAwait = PrefixAwait;
 var ArrowFnType = /** @class */ (function () {
     function ArrowFnType() {
         this.async = 'async';

@@ -8,8 +8,8 @@
     "renew" : "node dist/src/compile",
     "d" : "npm run compile && npm run renew",
     "debug" : "node --debug-brk --inspect dist/src/runtest",
-    "all": "npm run compile && npm run renew && ./node_modules/.bin/mocha dist/test/ --recursive --reporter spec",
-    "test": "npm run compile && ./node_modules/.bin/mocha dist/test/ --recursive --reporter spec"
+    "all": "npm run compile && npm run renew && ./node_modules/.bin/mocha dist/test/ --recursive --reporter spec --timeout 10000",
+    "test": "npm run compile && ./node_modules/.bin/mocha dist/test/ --recursive --reporter spec --timeout 10000"
   },
   "keywords": [],
   "author": "Tero Tolonen",

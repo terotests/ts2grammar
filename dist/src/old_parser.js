@@ -39,7 +39,6 @@ var ts_simple_ast_1 = require("ts-simple-ast");
 var R = require("robowr");
 var path = require("path");
 var index_1 = require("./utils/index");
-var robowr_1 = require("robowr");
 var createComment = function (wr, txt) {
     var lines = txt.split('\n');
     var longest = lines.map(function (line) { return line.length; }).reduce(function (prev, curr) { return Math.max(prev, curr); }, 0);
@@ -105,10 +104,8 @@ function createProject(settings) {
                         var fileName = path.basename(sourceFile.getFilePath());
                         var sourceDir = path.normalize(path.relative(process.cwd(), path.dirname(sourceFile.getFilePath())));
                         var fileNg = RFs.getFile(sourceDir + reducerPath, fileName).getWriter();
-                        var fWr = fileNg.fork();
-                        fWr.out('// beginning of the file', true);
-                        var ng = new robowr_1.CodeWriter();
-                        var end = new robowr_1.CodeWriter();
+                        var ng = fileNg.fork();
+                        var end = fileNg.fork();
                         var usedKeywords = {};
                         // do not process target files
                         if (generatedFiles.filter(function (m) { return m.file.getFilePath() == sourceFile.getFilePath(); }).length > 0) {
@@ -297,8 +294,6 @@ function createProject(settings) {
                                 var trimOpts_1 = {};
                                 var regExps_1 = {};
                                 var complexity_1 = 0;
-                                fWr.out('', true);
-                                fWr.out("// class " + c.getName(), true);
                                 c.getProperties().forEach(function (p, propIndex) {
                                     trimOpts_1[p.getName()] = { left: false, right: false };
                                     if (p.getName() === 'precedence') {
@@ -377,32 +372,18 @@ function createProject(settings) {
                                         }
                                         consumer_1.out("if(typeof(this." + p.getName() + ") === 'string') {", true);
                                         consumer_1.indent(1);
-                                        var spaceLeft = false;
-                                        var spaceRight = false;
-                                        var optional = false;
                                         if (trimOpts_1[p.getName()].left) {
-                                            spaceLeft = true;
                                             consumer_1.out("start.removeSpace()", true);
                                         }
                                         if (p.hasQuestionToken()) {
-                                            optional = true;
                                             consumer_1.out("if(!start.consume(this." + p.getName() + ")) this." + p.getName() + " = '' ", true);
                                         }
                                         else {
                                             consumer_1.out("if( !start.consume(this." + p.getName() + ") ) return null", true);
                                         }
                                         if (trimOpts_1[p.getName()].right) {
-                                            spaceLeft = true;
                                             consumer_1.out("start.removeSpace()", true);
                                         }
-                                        fWr.out("// consume " + p.getName(), false);
-                                        if (optional)
-                                            fWr.out(' (optional)');
-                                        if (spaceLeft)
-                                            fWr.out(' trim left ');
-                                        if (spaceRight)
-                                            fWr.out(' trim right ');
-                                        fWr.out('', true);
                                         consumer_1.indent(-1);
                                         consumer_1.out("}", true);
                                     }
@@ -411,7 +392,6 @@ function createProject(settings) {
                                         consumer_1.out("// WALK: " + p.getName(), true);
                                         complexity_1 += 1;
                                         if (p.getType().getUnionTypes().length > 0) {
-                                            fWr.out("// consume " + p.getName(), true);
                                             consumer_1.out("if(!this." + p.getName() + ") {", true);
                                             consumer_1.indent(1);
                                             var uTypes = p.getType().getUnionTypes().map(function (ist) {
@@ -421,7 +401,6 @@ function createProject(settings) {
                                                 return '';
                                             }).filter(function (v) { return v.length > 0; });
                                             consumer_1.out("// Expect: " + uTypes.join(', '), true);
-                                            fWr.out('// --> Having ' + uTypes.join(', '), true);
                                             consumer_1.out("const walk = WalkNode(start, [" + uTypes.map(function (t) { return 'new ' + t + '()'; }).join(', ') + "])", true);
                                             consumer_1.out("if(walk) {", true);
                                             consumer_1.indent(1);
@@ -451,7 +430,6 @@ function createProject(settings) {
                                             var tn = p.getTypeNode();
                                             if (tn) {
                                                 consumer_1.out("// Expect Type: " + tn.print(), true);
-                                                fWr.out("// *** consume Type Node " + tn.print(), true);
                                                 var vname = tn.print();
                                                 switch (vname) {
                                                     case 'string':
@@ -588,7 +566,6 @@ function createProject(settings) {
                                 variables.out("opComplexity = " + calcComp + " // using getClassComplexity", true);
                             }
                         });
-                        fWr.raw("const complexities = " + JSON.stringify(memoizedComplexities, null, 2), true);
                         end.raw("\nlet currDepth = 0\nexport function WalkNode(orig:CodeToConsume, opInList:IASTNode[] = [new Root()]) : ParsedContext | null {\n  if(currDepth++ > 100) {\n    throw 'Max depth'\n  }\n  if( orig.index >= orig.str.length) {\n    return null\n  }\n  const opList = opInList.sort( (left, right) => {\n    return right.opComplexity - left.opComplexity\n  })\n  // console.log('pos', orig.index, orig.str.length, orig.str.substring( orig.index ))\n  const cc = orig.copy()\n  let activeOp:IASTNode = null\n  let cnt = 0\n  let lastCnt = -1\n  \n  while( cnt !== lastCnt ) {\n    lastCnt = cnt\n    for( let op of opList ) {\n      const opInstance = op.create()\n      if(activeOp === null) {\n        const test = opInstance.consume( cc )\n        if( test ) {\n          activeOp = test\n          cnt++\n          break\n        }\n      } else {\n        if( opInstance.getFreeCount() > 1 && (opInstance.precedence) && activeOp.precedence) {\n          if( opInstance && (opInstance.precedence > activeOp.precedence )) {\n            opInstance.setFirst( activeOp.getLast() )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp.setLast( mRes )\n              cnt++\n              break\n            }  \n          } else {\n            opInstance.setFirst( activeOp )\n            const mRes = opInstance.consume( cc )\n            if(mRes) {\n              activeOp = opInstance\n              cnt++\n              break\n            }      \n          }        \n        }\n      }\n    }\n  }\n  currDepth--\n  if(activeOp === null) return null\n  return {\n    code: cc,\n    node: activeOp\n  }\n}      \n          ", true);
                     });
                     return [4 /*yield*/, RFs.saveTo('./', false)];
@@ -600,4 +577,4 @@ function createProject(settings) {
     });
 }
 exports.createProject = createProject;
-//# sourceMappingURL=parser.js.map
+//# sourceMappingURL=old_parser.js.map

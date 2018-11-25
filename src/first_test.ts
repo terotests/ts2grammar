@@ -1,10 +1,9 @@
 import { createProject } from "./parser";
 
-import * as TSParser from './ast/parsers/typescript'
-import * as JSONParser from './ast/parsers/json'
+// import * as TSParser from './ast/parsers/typescript'
+// import * as JSONParser from './ast/parsers/json'
 
 export function HelloWorld() {
-
 
   // cc.str = 'function test(a = new foobar(x+10,y,new foo.bar.jee,new foo().bar.jee),b=foo.bar,c=8){}'
   // cc.str = 'new myClass(x+r)'
@@ -20,23 +19,8 @@ export function HelloWorld() {
   // cc.str = 'const myFn = x => (x + y);'
   // cc.str = 'true ?   new someclass :  new  otherclass( 5  *  9 )'
 
-  /*
-    if( (d + 500) < 29 ) {
-      return 300
-    } else {
-      return n ? new f() : "joo"
-    };
-  
-  */
   // TODO: newline instead of ; 
-  /*
-  cc.str = `function hello( message:string ) {
-    const a = 10
-    const ff = new n()
-    return "foobar"
-  }`
-
-  */
+/*
   const cc = new TSParser.CodeToConsume()
   cc.index = 0
   cc.str = `function hello<T extends Animal,S>( fn:(x:T) => void ) : S | () => number {
@@ -84,23 +68,8 @@ export function HelloWorld() {
 class foo {
   x = 123
   y = 10
-  z = true
-  str = 144;
-  hello = "Hello World";
-  ok = true
-  notOK = false
-
   bar<T extends Animal,S>() : () => T {
-    const a = 10
-    const c = new n()
-    if( true ) {
-      return 300
-    } else {
-      return n ? new f() : (y) => y
-    }    
-    const c = 9    
-    c = jep()
-    return (x) => "foobar"
+    return "OK"
   }    
 }
 `
@@ -128,7 +97,7 @@ class foo {
     console.log('--- JSON ----')
     // console.log(JSON.stringify( testJSON.node, null, 2))
   }
-
+*/
   return 'Hello World!'
 }
   

@@ -7,7 +7,7 @@ export type ExpressionType =  SimpleArrowFunctionExpression
   | ArrowFunctionExpressionWithBlock
   | NewExpressionWithoutArgs 
   | NewExpressionWithArgs 
-  | MemberAccessOperator 
+  | MemberAccessOperator | ComputedMemberAccessOperator
   | PlusExpression 
   | MultiplyExpression 
   | ParenExpression 
@@ -23,6 +23,8 @@ export type ExpressionType =  SimpleArrowFunctionExpression
   | CallExpressionWithArgs
   | TrueLiteral
   | FalseLiteral
+  | UnaryNot | UnaryNegation | PrefixIncrement | PrefixDecrement | PrefixTypeof 
+  | PrefixVoid | PrefixDelete | PrefixAwait | UnaryBitwiseNot
 
 export type TypeDefs = SimpleTypeDefinition | ArrowFnType
   
@@ -43,6 +45,64 @@ export class Assing {
   arrow = ' = '
   value:ExpressionType
 }
+
+export class UnaryNot {
+  notExpr = ' ! '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class UnaryNegation {
+  notExpr = ' - '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class UnaryBitwiseNot {
+  notExpr = ' ~ '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class PrefixIncrement {
+  notExpr = ' ++ '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class PrefixDecrement {
+  notExpr = ' -- '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class PrefixTypeof {
+  notExpr = ' typeof '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class PrefixVoid {
+  notExpr = ' void '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class PrefixDelete {
+  notExpr = ' delete '
+  value:ExpressionType
+  precedence = 16
+}
+
+export class PrefixAwait {
+  notExpr = ' await '
+  value:ExpressionType
+  precedence = 16
+}
+
+
+
+
 
 export class ArrowFnType {
   async? = 'async'
@@ -123,7 +183,15 @@ export class NewExpressionWithArgs {
   precedence = 19
 }
 
+export class PrivateOrPublic {
+  private? = ' private '
+  public? = ' public '
+}
+
 export class ClassMethodDeclaration {
+  scope?:PrivateOrPublic 
+  isstatic? = ' static '
+  isasync? = ' async ' 
   name:Token
   generics?: Generics
   params:ParameterList
@@ -334,11 +402,17 @@ export class StringLiteral  {
 }
 
 export class MemberAccessOperator {
-  spaceBefore? = ' '
-  left: Token
+  left: ExpressionType
   op = '.'
   right: Token  
-  spaceAfter? = ' '
+  precedence = 19
+}
+
+export class ComputedMemberAccessOperator {
+  left: ExpressionType
+  leftB = ' [ '
+  right: ExpressionType  
+  rightB = ' ]'
   precedence = 19
 }
 
